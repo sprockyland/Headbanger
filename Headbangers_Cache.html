@@ -1,58 +1,109 @@
-<!doctype html>
+ <!doctype html>
+
 <html lang="de">
+
 <head>
+
 <meta charset="utf-8">
+
 <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+
 <meta name="theme-color" content="#07070a">
+
 <title>Headbangers Rock 'n' Rente</title>
+
 <link rel="preconnect" href="https://fonts.googleapis.com">
+
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
 <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Metal+Mania&family=Roboto+Slab:wght@300;400;600;700&display=swap" rel="stylesheet">
+
 <style>
+
 :root{--black:#07070a;--panel:#111116;--panel2:#171218;--gold:#d2a75a;--bronze:#7f5628;--red:#b10f20;--red2:#5d0710;--text:#eadfc9;--muted:#bbaa91;--line:rgba(210,167,90,.34);--glow:0 0 10px rgba(214,22,39,.65),0 0 28px rgba(177,15,32,.25)}
+
 *{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;background:#050507;color:var(--text);font-family:"Roboto Slab",Georgia,serif;line-height:1.72;overflow-x:hidden}
+
 body:before{content:"";position:fixed;inset:0;z-index:-4;background:radial-gradient(circle at 50% 0,rgba(116,10,20,.25),transparent 40%),linear-gradient(#050507,#0a080b 55%,#050507)}
+
 .noise{position:fixed;inset:0;z-index:-2;pointer-events:none;opacity:.13;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E")}
+
 .fog{position:fixed;left:-25vw;width:150vw;height:34vh;z-index:-1;pointer-events:none;filter:blur(28px);opacity:.22;background:radial-gradient(ellipse at center,rgba(210,210,220,.3),transparent 68%);animation:fog 22s ease-in-out infinite alternate}.fog.a{top:12vh}.fog.b{top:58vh;animation-duration:29s;animation-direction:alternate-reverse}@keyframes fog{from{transform:translateX(-12%) scale(1)}to{transform:translateX(12%) scale(1.18)}}
+
 .progress-shell{position:fixed;top:0;left:0;width:100%;height:5px;background:#16090c;z-index:100}.progress{height:100%;width:0;background:linear-gradient(90deg,#6c0912,#ff2338,#d7aa57);box-shadow:0 0 14px #ed1630;transition:width .25s ease}
+
 .wrap{width:min(1120px,calc(100% - 24px));margin:24px auto 70px;border:1px solid var(--bronze);background:rgba(8,8,11,.93);box-shadow:0 0 0 4px #080707,0 0 0 5px rgba(210,167,90,.2),0 24px 70px #000;position:relative}
+
 .wrap:before,.wrap:after{content:"☠";position:absolute;top:10px;color:var(--gold);font-size:26px;text-shadow:var(--glow)}.wrap:before{left:14px}.wrap:after{right:14px}
+
 .hero{min-height:420px;padding:78px 24px 54px;display:grid;place-items:center;text-align:center;position:relative;overflow:hidden;border-bottom:1px solid var(--line);background:radial-gradient(circle at 50% 50%,rgba(145,10,24,.2),transparent 35%),repeating-linear-gradient(115deg,rgba(255,255,255,.018) 0 1px,transparent 1px 8px),linear-gradient(145deg,#08080b,#1b1117 60%,#21080c)}
+
 .hero:after{content:"";position:absolute;inset:16px;border:1px solid rgba(210,167,90,.42);pointer-events:none}.kicker{font-family:Cinzel,serif;letter-spacing:.3em;color:var(--muted);font-size:.78rem}.title{margin:.25em 0 0;font-family:"Metal Mania",Cinzel,serif;font-size:clamp(3.2rem,10vw,7.6rem);line-height:.82;font-weight:400;color:#d7ac61;text-shadow:0 2px #3d240c,0 0 8px #e5b25c,0 0 25px rgba(177,15,32,.8)}.title span{display:block;color:#d9bd86;font-size:.64em;margin-top:.2em}.sigil{margin:26px auto;width:92px;height:2px;background:#e0162e;box-shadow:var(--glow)}
+
 main{padding:clamp(18px,4vw,44px)}.intro{font-size:1.03rem}.intro p{text-align:justify}.important{margin:28px 0;padding:22px;text-align:center;border:1px solid #9b1a26;background:linear-gradient(135deg,rgba(92,8,17,.65),rgba(24,11,15,.9));box-shadow:inset 0 0 25px rgba(177,15,32,.16),var(--glow);font-family:Cinzel,serif;font-weight:700}.important a{color:#f0c66e}.rules{margin:26px 0 34px;padding:20px 22px;border-left:4px solid var(--gold);background:#141318}
+
 .hud{position:sticky;top:5px;z-index:50;display:flex;gap:8px;align-items:center;justify-content:space-between;padding:10px 12px;margin:0 0 20px;background:rgba(8,8,11,.92);border:1px solid var(--line);backdrop-filter:blur(10px)}.hud strong{font-family:Cinzel,serif;color:var(--gold);font-size:.84rem;letter-spacing:.08em}.hud-count{color:#fff;background:#650a14;border:1px solid #b5323f;padding:4px 9px;border-radius:999px;font-size:.76rem}
+
 .station{margin:0 0 22px;border:1px solid var(--line);background:linear-gradient(145deg,rgba(20,18,23,.97),rgba(9,9,12,.97));box-shadow:0 12px 26px #000;transition:.3s ease}.station[open]{border-color:#9a6d31;box-shadow:0 0 0 1px rgba(210,167,90,.08),0 15px 34px #000,0 0 24px rgba(177,15,32,.13)}
+
 .station summary{list-style:none;cursor:pointer;display:grid;grid-template-columns:auto 1fr auto;align-items:center;gap:14px;padding:18px 20px;background:linear-gradient(90deg,rgba(81,8,17,.55),rgba(18,15,20,.82));user-select:none}.station summary::-webkit-details-marker{display:none}.number{width:47px;height:47px;display:grid;place-items:center;border:1px solid #ae7f39;color:var(--gold);font-family:Cinzel,serif;background:#0a090b;box-shadow:inset 0 0 15px rgba(210,167,90,.12)}.station-title small{display:block;color:#bb8037;letter-spacing:.2em;text-transform:uppercase;font-size:.68rem}.station-title b{font-family:Cinzel,serif;color:#e0bd78;font-size:clamp(1rem,3vw,1.35rem)}.chev{color:#e31b32;font-size:1.35rem;text-shadow:var(--glow);transition:.28s}.station[open] .chev{transform:rotate(180deg)}.content{padding:22px}.content p{text-align:justify}.quest{margin:14px 0;padding:15px 17px;border-left:4px solid var(--red);background:linear-gradient(90deg,rgba(82,9,17,.38),rgba(25,17,21,.72));color:#edc9cd;box-shadow:inset 0 0 18px rgba(177,15,32,.09)}.quest strong{color:#fff;font-family:Cinzel,serif;font-size:1.15rem}.subquest{padding:17px;margin:16px 0;border:1px solid rgba(210,167,90,.22);background:#121116}.subquest h3{margin:0;color:var(--gold);font-family:Cinzel,serif;font-size:1rem}.route{margin-top:18px;padding:16px;border:1px dashed var(--gold);background:#11100c;color:#f0dbad;font-family:ui-monospace,SFMono-Regular,Consolas,monospace}.done{margin-top:16px;display:inline-flex;align-items:center;gap:9px;color:#d9c8a7;cursor:pointer}.done input{accent-color:#b10f20;width:18px;height:18px}.final{border-color:#a67833}.final summary{background:linear-gradient(90deg,#5e0913,#211015)}.coords{margin:20px 0;padding:22px;text-align:center;border:1px solid #bd8c3f;background:#050507;color:#f2d688;font:700 clamp(1rem,3vw,1.35rem)/1.8 ui-monospace,Consolas,monospace;letter-spacing:.05em;box-shadow:inset 0 0 26px rgba(177,15,32,.22),var(--glow)}a{color:#efc46e}.footer{text-align:center;padding:22px;border-top:1px solid var(--line);font-family:Cinzel,serif;color:#a89982;letter-spacing:.14em;font-size:.75rem}
+
 @media(max-width:650px){.wrap{width:100%;margin:0;border-left:0;border-right:0}.hero{min-height:330px;padding:65px 18px 42px}.wrap:before,.wrap:after{font-size:18px}.station summary{padding:14px 12px;gap:10px}.number{width:39px;height:39px}.content{padding:16px}.content p,.intro p{text-align:left}.hud{top:5px}.hud strong{font-size:.68rem}.title{font-size:clamp(2.8rem,17vw,5rem)}}
+
 @media(prefers-reduced-motion:reduce){*{scroll-behavior:auto}.fog{animation:none}.station,.chev,.progress{transition:none}}
+
 </style>
+
 </head>
+
 <body>
+
 <div class="progress-shell"><div class="progress" id="progress"></div></div><div class="noise"></div><div class="fog a"></div><div class="fog b"></div>
+
 <div class="wrap">
+
 <header class="hero"><div><div class="kicker">Mystery-Multi · Die große Rentner-Tour</div><h1 class="title">HEADBANGERS<span>ROCK 'N' RENTE 🤘</span></h1><div class="sigil"></div></div></header>
+
 <main>
+
 <section class="intro"><p>Unser lieber Kollege geht in den wohnverdienten (Un)Ruhestand und wir wollen ihn dafür mit diesem kleinen Rätsel feiern. Da der Headbanger bereits auf ein langes und sehr intensives Leben zurückschauen kann, in dem er an vielen Orten unterwegs und so vieles dabei erlebt hat, vergaß er leider auch das ein oder andere (oder zumindest ist dies für die Zukunft zu befürchten 😉). Ob das nun an der Vielzahl der Orte und Ereignisse liegt, ob an der lauten Musik aus dröhnenden Boxen, an einer zu großen Menge aus literarischem oder cineastischem Input oder gar tatsächlich an seinem fortgeschrittenen Alter &ndash; diese Einschätzung obliegt ihm selbst und all seinen Weggefährten.</p><p>Der &quot;kleine&quot; Mystery-Multi soll dem Headbanger selbst wie ein roter Faden durch sein bisheriges Leben und uns allen gleichzeitig ein kleiner Rückblick sein. Der Cache spült vergessene Highlights und bringt längst Vergessenes zurück in die Erinnerung. Lasst Euch darauf ein.</p></section>
+
 <div class="important">Vor allem aber: Lasst dem <a href="https://www.geocaching.com/p/?guid=263e6372-cbc2-4a41-bfa7-2cdef6e36a57" target="_blank" rel="noopener noreferrer">Headbanger</a> bei diesem Cache bitte unbedingt den Vortritt!!</div>
+
 <div class="rules"><p>Beachte außerdem: Nur einige der ermittelten Lösungswerte werden von Station zu Station benötigt &ndash; alle Werte jedoch brauchst Du am Ende zur Berechnung der Final-Koordinaten!</p><p>Wie immer gilt: Nicht klettern, nichts zerstören, keine privaten Grundstücke betreten &ndash; die üblichen Cacher Rules eben!</p></div>
+
 <div class="hud"><strong>FORTSCHRITT DER TOUR</strong><span class="hud-count" id="count">0 / 6 Stationen</span></div>
+
 
 <details class="station" data-station="1" open><summary><span class="number">01</span><span class="station-title"><small>Station 01</small><b>Headbangers-Gesetz</b></span><span class="chev">⌄</span></summary><div class="content"><p>In seinem beruflichen Leben hat der Headbanger so manche Station beschritten. Der ein oder andere kennt ihn noch aus Frankfurter Zeiten, einige wenige vllt. sogar schon von vorher, die meisten aber vermutlich erst aus der Zeit, wo er die Hauptstadt (un)sicher gemacht hat. In einer seiner früheren Stationen besagte eine alte Dienstanweisung: &quot;Vor ... darf kein Alkohol ausgeschenkt werden.&quot; Die praktische Lösung bestand dann darin, den ... bei Bedarf einfach offiziell festzustellen. Leider fällt dem Headbanger das die Punkte füllende Wort auf Gedeih und Verderb nicht mehr ein. Die Start-Koordinaten führen Euch in die Nähe seiner letzten offiziellen Arbeitsstätte &ndash; dort findet Ihr einen Hinweis auf das fehlende Puzzleteil.</p><div class="quest"><strong>A</strong> = Ermittle den Wortwert</div><div class="quest"><strong>B</strong> = Zähle den häufigst vorkommenden Buchstaben</div><div class="route"><strong>Der Weg zur 2ten Station:</strong><br>Entfernung: A + B*10 + 2<br>Winkel: A + B*18,4</div><label class="done"><input type="checkbox" data-done="1"> Station abgeschlossen</label></div></details>
 
+
 <details class="station" data-station="2"><summary><span class="number">02</span><span class="station-title"><small>Station 02</small><b>Das Erwachen von Derry</b></span><span class="chev">⌄</span></summary><div class="content"><p><em>&quot;Er rennt wie der Teufel, um uns zu retten ...&quot;</em></p><p>Im Jahre 1957 erwachte das namenlose Grauen in den finsteren Kanälen von Derry aus seinem 27jährigen Schlaf. Es forderte unzählige Opfer, bevor die Sieben den legendären Club der Verlierer gründeten. Um dem Bösen auf die Spur zu kommen, musst du tief in die Chroniken eintauchen...</p><div class="quest"><strong>C</strong> = Multipliziere das Erscheinungsjahr des ersten dokumentierten Opfers in Derry im Jahre 1957 mit der Anzahl der Buchstaben des Vornamens dieses ersten kleinen Jungen. Bilde aus dem errechneten Gesamtergebnis die einfache Quersumme</div><p>Du befindest Dich an einen realen Ort in Berlin. Dort existiert ein Gefährt, das Bill Denbroughs treuem Weggefährten &quot;Einflussreich&quot; gleicht &ndash; doch es rollt nicht auf der Straße, sondern schwebt erhaben über den Köpfen der Passanten an einer Einfahrt.</p><div class="quest"><strong>D</strong> = Finde die zweistellige Hausnummer direkt an dieser Einfahrt</div><label class="done"><input type="checkbox" data-done="2"> Station abgeschlossen</label></div></details>
+
 
 <details class="station" data-station="3"><summary><span class="number">03</span><span class="station-title"><small>Station 03 · Virtuell</small><b>Ganz schön sportlich...</b></span><span class="chev">⌄</span></summary><div class="content"><p>Vor mehr als 175 Jahren suchten Menschen in Kalifornien nach Metall im Boden (der Headbanger bevorzugt Metall aus den Boxen). Gesucht wird keine Rückennummer, kein Geburtsjahr und nicht die Zahl der Super-Bowl-Siege.</p><div class="quest"><strong>E</strong> = Welche Zahl verbindet den kalifornischen Goldrausch mit Headbangers Leidenschaft?</div><p><strong><em>Die leider verstorbene Legende sprach: &quot;Klar erkennen mich viele Leute, aber mir wäre es fast lieber, wenn sie alle auch das neue <a href="https://sprockyland.github.io/Headbanger/mbox.html" target="_blank" rel="noopener noreferrer">Album</a> kaufen würden.&quot;</em></strong> 😉</p><div class="quest">Ausdauer ist oft hilfreich</div><label class="done"><input type="checkbox" data-done="3"> Station abgeschlossen</label></div></details>
 
+
 <details class="station" data-station="4"><summary><span class="number">04</span><span class="station-title"><small>Station 04</small><b>Des Anwalts drei Schriftsätze oder Die Formel der 3 Worte</b></span><span class="chev">⌄</span></summary><div class="content"><div class="subquest"><h3>Rätsel A &mdash; Der Weinbau-Paragraf</h3><p>Ein Anwalt aus der kleinsten Zunft tritt vor das Gericht, um das Erbe seiner Heimat zu verteidigen. Er verhandelt nicht über Paragrafen, sondern über das, was in Reihen hängt: hunderte kleine Kugeln voller Süße und Säure, die gemeinsam die Seele des Pfälzer Schoppens bilden. Was hängen die Winzer höher als jedes Gesetzbuch?</p><div class="quest"><strong>4a</strong> = Suche ein Substantiv im Plural (7 Buchstaben)</div></div><div class="subquest"><h3>Rätsel B &mdash; Das juristische Protokoll</h3><p>Vor den Schranken des Gerichts stand ein Mann von überschaubarem Wuchs. Nicht seine Statur sprang den Anwesenden ins Auge, sondern seine messerscharfe Logik, die sich unverzüglich Gehör verschaffte. Welches Verb im Präteritum (3. Person Singular) beschreibt, was der Verstand des kleinen Anwalts dem Richter in diesem Moment tat, als seine Brillanz unübersehbar wurde?</p><div class="quest"><strong>4b</strong> = Synonym für: wurde bemerkt (7 Buchstaben)</div></div><div class="subquest"><h3>Rätsel C &mdash; Die Herkunft aus Bellheim</h3><p>In Bellheim das Licht der Welt erblickt, im Paragraphendschungel gereift. Am Ende entscheidet in jedem Prozess nicht der Kläger und nicht der Beklagte. Gesucht ist die hoheitliche Person auf der Bank, die das Urteil spricht und das letzte Wort behält.</p><div class="quest"><strong>4c</strong> = Suche ein berufsbezogenes Substantiv (7 Buchstaben)</div></div><p>Du hast diese 3 Worte ermittelt? Wo führen sie dich hin? 👍Du stehst im Hinterhof bei passender Stube. 😉</p><div class="quest"><strong>H</strong> = Hausnummer</div><label class="done"><input type="checkbox" data-done="4"> Station abgeschlossen</label></div></details>
+
 
 <details class="station" data-station="5"><summary><span class="number">05</span><span class="station-title"><small>Station 05 · Virtuell</small><b>Zurück zu den Wurzeln!</b></span><span class="chev">⌄</span></summary><div class="content"><p>Nicht jede wichtige Reise endet dort, wo sie begonnen hat. Der Headbanger studierte in einer Stadt an drei Flüssen. Dort lernte er seine große Liebe kennen. Berlin hat dieser Stadt eine Straße gewidmet. Um welche Stadt handelt es sich?</p><div class="quest"><strong>I</strong> = Name der Stadt → Ermittle den Wortwert und bilde die iterative Quersumme</div><label class="done"><input type="checkbox" data-done="5"> Station abgeschlossen</label></div></details>
 
-<details class="station final" data-station="6"><summary><span class="number">☠</span><span class="station-title"><small>Das Final</small><b><a href="https://www.youtube.com/watch?v=8fPf6L0XNvM&amp;list=RD8fPf6L0XNvM&amp;start_radio=1" target="_blank" rel="noopener noreferrer">Für diejenigen, die kurz davor sind (wir salutieren euch)</a> oder The final Headbang</b></span><span class="chev">⌄</span></summary><div class="content"><p>Du hast alle Rätsel gelöst. Jetzt wendest Du alles Erlernte an und berechnest nur noch die Final-Koordinaten im Format <strong>N 52 XX.XXX</strong> und <strong>E 13 XX.XXX</strong>:</p><div class="coords">N 52 C*2.A-H-(D-C/B-F)<br>E 13 (E-D)*F/2.A+B+D+2*E-F+G+H+I</div><p>An diesem Ort findest du nicht nur das LogBuch, sondern dort erhältst du auch einen VIP-Zugang zu deiner persönlichen Erfolgs-Urkunde und eine Möglichkeit, dem frischen Rentner einen digitalen Metal-Gruß zukommen zu lassen.</p><label class="done"><input type="checkbox" data-done="6"> Final erreicht</label></div></details>
+
+<details class="station final" data-station="6"><summary><span class="number">☠</span><span class="station-title"><small>Das Final</small><b><a href="https://www.youtube.com/watch?v=8fPf6L0XNvM&amp;list=RD8fPf6L0XNvM&amp;start_radio=1" target="_blank" rel="noopener noreferrer">Für diejenigen, die kurz davor sind (wir salutieren euch)</a> oder The final Headbang</b></span><span class="chev">⌄</span></summary><div class="content"><p>Du hast alle Rätsel gelöst. Jetzt wendest Du alles Erlernte an und berechnest nur noch die Final-Koordinaten...</p><div class="coords">N 52 C*2.B*I-B<br>E 13 (E-D)*F/2.A+B+D+E+G+H+I</div><p>An diesem Ort findest du nicht nur das LogBuch, sondern dort erhältst du auch einen VIP-Zugang zu deiner persönlichen Erfolgs-Urkunde und eine Möglichkeit, dem frischen Rentner einen digitalen Metal-Gruß zukommen zu lassen.</p><label class="done"><input type="checkbox" data-done="6"> Final erreicht</label></div></details>
+
 </main><footer class="footer">GCBY17R · HEADBANGERS ROCK 'N' RENTE · 🤘</footer></div>
+
 <script>
+
 const boxes=[...document.querySelectorAll('[data-done]')], bar=document.getElementById('progress'), count=document.getElementById('count');
+
 function update(){const n=boxes.filter(b=>b.checked).length;bar.style.width=(n/boxes.length*100)+'%';count.textContent=n+' / '+boxes.length+' Stationen';boxes.forEach(b=>localStorage.setItem('headbanger-'+b.dataset.done,b.checked?'1':'0'));}
+
 boxes.forEach(b=>{b.checked=localStorage.getItem('headbanger-'+b.dataset.done)==='1';b.addEventListener('change',update)});update();
+
 </script>
+
 </body>
-</html>
+
+</html> 
