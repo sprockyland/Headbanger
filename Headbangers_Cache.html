@@ -388,6 +388,34 @@
       box-shadow: inset 0 0 26px rgba(177, 15, 32, .22), var(--glow);
     }
 
+    .geochecker-box {
+      margin: 20px 0;
+      padding: 18px;
+      text-align: center;
+      border: 1px solid rgba(210, 167, 90, 0.3);
+      background: #141318;
+      border-radius: 6px;
+    }
+
+    .geochecker-box a {
+      display: inline-block;
+      margin-top: 8px;
+      padding: 10px 20px;
+      background: linear-gradient(135deg, #8b0000, #5d0710);
+      color: #ffffff;
+      font-family: Cinzel, serif;
+      font-weight: 700;
+      text-decoration: none;
+      border: 1px solid var(--gold);
+      border-radius: 6px;
+      box-shadow: var(--glow);
+      transition: transform 0.2s ease;
+    }
+
+    .geochecker-box a:hover {
+      transform: scale(1.03);
+    }
+
     a {
       color: #efc46e;
     }
@@ -612,6 +640,12 @@
             N 52 C*2.A-H-(D-C/B-F)<br>
             E 13 (E-D)*F/2.A+B+D+2*E-F+G+H+I
           </div>
+
+          <div class="geochecker-box">
+            <p style="margin:0 0 8px 0;">Du kannst Dein Ergebnis der Final-Koordinaten vorab überprüfen:</p>
+            <a href="https://www.geochecker.com/index.php?code=5f69bc9b48c14297edaa970d7aea00fd&amp;action=check&amp;wp=47434259" target="_blank" rel="noopener noreferrer">🔍 LÖSUNG AUF GEOCHECKER PRÜFEN</a>
+          </div>
+
           <p>An diesem Ort findest du nicht nur das LogBuch, sondern dort erhältst du auch einen VIP-Zugang zu deiner persönlichen Erfolgs-Urkunde und eine Möglichkeit, dem frischen Rentner einen digitalen Metal-Gruß zukommen zu lassen.</p>
           <label class="done"><input type="checkbox" data-done="6"> Final erreicht</label>
         </div>
