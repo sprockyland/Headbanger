@@ -1,90 +1,2117 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#08070a">
-<title>Headbanger-Diplom</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Metal+Mania&family=Roboto+Slab:wght@300;400;600;700&display=swap" rel="stylesheet">
-<script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
-<script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-<script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
-<style>
-:root{--black:#07070a;--panel:#111014;--panel2:#19141a;--gold:#d5aa5e;--gold2:#8a5e2b;--red:#b20e21;--red2:#540710;--ivory:#eee2cb;--muted:#b5a58c;--line:rgba(213,170,94,.34);--glow:0 0 12px rgba(213,20,41,.55),0 0 30px rgba(178,14,33,.22)}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;overflow-x:hidden;background:#050507;color:var(--ivory);font-family:"Roboto Slab",Georgia,serif;line-height:1.65}
-body:before{content:"";position:fixed;inset:0;z-index:-5;background:radial-gradient(circle at 50% 0,rgba(124,10,22,.28),transparent 42%),linear-gradient(#050507,#0c090d 58%,#050507)}
-.noise{position:fixed;inset:0;z-index:-3;pointer-events:none;opacity:.12;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E")}
-.fog{position:fixed;left:-30vw;width:160vw;height:36vh;z-index:-2;pointer-events:none;filter:blur(32px);opacity:.16;background:radial-gradient(ellipse,rgba(225,225,235,.36),transparent 68%);animation:fog 25s ease-in-out infinite alternate}.fog.one{top:7vh}.fog.two{top:62vh;animation-duration:33s;animation-direction:alternate-reverse}@keyframes fog{from{transform:translateX(-12%) scale(1)}to{transform:translateX(12%) scale(1.16)}}
-.page{width:min(1040px,calc(100% - 24px));margin:26px auto 70px;border:1px solid var(--gold2);background:rgba(7,7,10,.94);box-shadow:0 0 0 5px #080708,0 0 0 6px rgba(213,170,94,.18),0 30px 80px #000;position:relative}.page:before,.page:after{content:"☠";position:absolute;top:14px;color:var(--gold);font-size:28px;text-shadow:var(--glow);z-index:5}.page:before{left:16px}.page:after{right:16px}
-.hero{position:relative;overflow:hidden;min-height:470px;padding:84px 22px 56px;display:grid;place-items:center;text-align:center;border-bottom:1px solid var(--line);background:radial-gradient(circle at 50% 46%,rgba(174,12,31,.2),transparent 34%),repeating-linear-gradient(115deg,rgba(255,255,255,.015) 0 1px,transparent 1px 8px),linear-gradient(145deg,#08080b,#1b1117 61%,#25080d)}.hero:after{content:"";position:absolute;inset:18px;border:1px solid rgba(213,170,94,.4);pointer-events:none}.mission{display:inline-block;padding:7px 16px;border:1px solid #9d762f;color:#e5c77f;font-family:Cinzel,serif;font-size:.72rem;letter-spacing:.2em;text-transform:uppercase;background:#110d0e;box-shadow:var(--glow)}.title{margin:.28em 0 0;font-family:"Metal Mania",Cinzel,serif;font-size:clamp(3.1rem,9vw,7.2rem);line-height:.88;font-weight:400;color:#d9ad63;text-shadow:0 2px #392109,0 0 9px #e3af58,0 0 30px rgba(177,15,32,.78)}.subtitle{margin:20px auto 0;max-width:720px;color:#d4c5ad;font-family:Cinzel,serif;font-size:clamp(.9rem,2.4vw,1.22rem);letter-spacing:.04em}.sigil{width:120px;height:2px;margin:28px auto;background:#e01931;box-shadow:var(--glow)}
-main{padding:clamp(18px,5vw,50px)}.section{margin-bottom:42px}.eyebrow{color:#b97e37;font:700 .72rem/1 Cinzel,serif;letter-spacing:.22em;text-transform:uppercase}.heading{margin:8px 0 16px;color:#e0b86e;font-family:Cinzel,serif;font-size:clamp(1.6rem,4vw,2.5rem);line-height:1.15}.lead{max-width:760px;margin:0 auto;color:#d6c8b2;text-align:center;font-size:1.06rem}
-.diploma{position:relative;padding:38px clamp(18px,4vw,42px);border:1px solid #a77a37;background:linear-gradient(145deg,rgba(31,21,22,.96),rgba(12,11,14,.98));box-shadow:inset 0 0 45px rgba(177,15,32,.12),0 18px 40px #000;text-align:center}.diploma:before{content:"OFFIZIELL BESTÄTIGT";position:absolute;top:-15px;left:50%;transform:translateX(-50%);padding:6px 18px;white-space:nowrap;background:#8f0b19;border:1px solid #dda75a;color:#fff;font:700 .72rem Cinzel,serif;letter-spacing:.12em;box-shadow:var(--glow)}.diploma p{max-width:720px;margin:0 auto}.checklist{list-style:none;max-width:660px;margin:28px auto;padding:0;display:grid;gap:10px;text-align:left}.checklist li{padding:12px 15px;border-left:3px solid var(--gold);background:rgba(255,255,255,.035)}.status{margin-top:26px;color:#e02a3d;font-family:"Metal Mania",Cinzel,serif;font-size:clamp(1.8rem,5vw,2.7rem);line-height:1.1;text-shadow:var(--glow)}
-.certificate{display:grid;grid-template-columns:1fr auto;gap:24px;align-items:center;padding:26px;border:1px solid var(--line);background:linear-gradient(90deg,#141116,#25090e)}.certificate p{margin:5px 0 0;color:#cdbfa8}.cta{display:inline-flex;align-items:center;justify-content:center;gap:10px;min-height:54px;padding:14px 22px;border:1px solid #e0aa53;background:linear-gradient(135deg,#820b17,#c01429);color:#fff;text-decoration:none;font:700 .84rem Cinzel,serif;letter-spacing:.06em;box-shadow:var(--glow);transition:.25s}.cta:hover,.cta:focus-visible{transform:translateY(-2px);filter:brightness(1.15);outline:2px solid #f0c46d;outline-offset:3px}
-.kit{display:grid;grid-template-columns:repeat(5,1fr);gap:12px}.kit-link,.kit-static{min-height:122px;padding:16px 10px;display:flex;flex-direction:column;align-items:center;justify-content:center;gap:9px;border:1px solid rgba(213,170,94,.23);background:linear-gradient(145deg,#171319,#0d0c0f);color:#eadfc9;text-align:center;text-decoration:none;transition:.25s}.kit-link:hover,.kit-link:focus-visible{border-color:#d2a75a;transform:translateY(-4px);box-shadow:var(--glow);outline:none}.kit-icon{font-size:1.9rem}.kit-name{font-family:Cinzel,serif;font-weight:700;font-size:.78rem}.kit-note{color:#9c8e79;font-size:.72rem}.tooltip{position:relative}.tooltip:after{content:attr(data-tip);position:absolute;left:50%;bottom:calc(100% + 10px);transform:translate(-50%,6px);padding:7px 10px;background:#e2b35e;color:#130d08;font-weight:700;font-size:.76rem;white-space:nowrap;opacity:0;pointer-events:none;transition:.2s}.tooltip:hover:after,.tooltip:focus-visible:after{opacity:1;transform:translate(-50%,0)}
-.formcard{padding:30px;border:1px solid #8c5c2b;background:linear-gradient(145deg,rgba(26,18,24,.97),rgba(10,9,12,.98));box-shadow:0 18px 40px #000}.formcard .heading{text-align:center}.formcard>p{text-align:center;color:var(--muted)}.field{margin:18px 0}.field label{display:block;margin-bottom:7px;color:#e2d3bd;font-weight:700}.field input,.field textarea{width:100%;padding:15px 16px;border:1px solid #4b3a31;background:#09090c;color:#fff;font:inherit;border-radius:0;transition:.2s}.field input:focus,.field textarea:focus{outline:none;border-color:#e0aa53;box-shadow:0 0 0 3px rgba(224,170,83,.12),var(--glow)}.field textarea{min-height:140px;resize:vertical}.send{width:100%;min-height:58px;border:1px solid #e2ae59;background:linear-gradient(135deg,#760a16,#cf142d);color:#fff;cursor:pointer;font:700 .92rem Cinzel,serif;letter-spacing:.07em;box-shadow:var(--glow);transition:.22s}.send:hover:not(:disabled){filter:brightness(1.15);transform:translateY(-2px)}.send:disabled{opacity:.58;cursor:wait}.feedback{min-height:24px;margin-top:12px;text-align:center;font-weight:700}.feedback.ok{color:#79d68a}.feedback.error{color:#ff7180}
-.wall{display:grid;gap:16px}.ticket{padding:20px 22px;border:1px solid var(--line);border-top:3px solid var(--gold);background:linear-gradient(145deg,#18141b,#0d0c0f);box-shadow:0 10px 28px #000;animation:pop .38s ease both}@keyframes pop{from{opacity:0;transform:translateY(12px)}to{opacity:1;transform:none}}.ticket-head{display:flex;justify-content:space-between;gap:16px;padding-bottom:10px;margin-bottom:10px;border-bottom:1px solid rgba(255,255,255,.08)}.ticket h3{margin:0;color:#e0b76c;font-family:Cinzel,serif;font-size:1rem}.date{color:#8f826f;font-size:.78rem}.ticket p{margin:0;white-space:pre-wrap;overflow-wrap:anywhere}.empty{padding:28px;text-align:center;border:1px dashed #554430;color:#8f8371;background:#0d0c0f}.footer{padding:24px;text-align:center;border-top:1px solid var(--line);color:#887b68;font:600 .72rem Cinzel,serif;letter-spacing:.14em}
-@media(max-width:820px){.kit{grid-template-columns:repeat(2,1fr)}.kit>*:last-child{grid-column:1/-1}.certificate{grid-template-columns:1fr;text-align:center}.cta{width:100%}}
-@media(max-width:560px){.page{width:100%;margin:0;border-left:0;border-right:0}.hero{min-height:400px;padding:72px 16px 45px}.page:before,.page:after{font-size:19px}.kit{grid-template-columns:1fr}.kit>*:last-child{grid-column:auto}.ticket-head{display:block}.date{display:block;margin-top:5px}.formcard{padding:22px 16px}.title{font-size:clamp(3rem,17vw,4.9rem)}}
-@media(prefers-reduced-motion:reduce){*{scroll-behavior:auto!important;animation:none!important;transition:none!important}.fog{display:none}}
-</style>
+
+    <!-- =========================================================
+         GRUNDEINSTELLUNGEN DER WEBSEITE
+         Zeichensatz, Darstellung auf Mobilgeräten und Browserfarbe.
+         ========================================================= -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#08070a">
+
+    <!-- Titel, der im Browser-Tab angezeigt wird -->
+    <title>Headbanger-Diplom</title>
+
+
+    <!-- =========================================================
+         SCHRIFTARTEN
+         Verbindung zu Google Fonts wird vorbereitet.
+         Verwendet werden:
+         - Cinzel
+         - Metal Mania
+         - Roboto Slab
+         ========================================================= -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Metal+Mania&family=Roboto+Slab:wght@300;400;600;700&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <!-- =========================================================
+         FIREBASE
+         Firebase wird für das digitale Gästebuch verwendet.
+
+         firebase-app:
+         Stellt die grundlegende Firebase-Funktionalität bereit.
+
+         firebase-database:
+         Ermöglicht den Zugriff auf die Firebase Realtime Database.
+
+         "defer" sorgt dafür, dass die JavaScript-Dateien erst
+         ausgeführt werden, nachdem das HTML eingelesen wurde.
+         ========================================================= -->
+
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+
+    <!-- =========================================================
+         EMAILJS
+         Wird verwendet, um nach einem neuen Gästebucheintrag
+         eine E-Mail-Benachrichtigung zu verschicken.
+         ========================================================= -->
+
+    <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
+
+
+    <style>
+
+        /* =========================================================
+           ZENTRALE FARBEN UND EFFEKTE
+
+           CSS-Variablen für Farben und Effekte, die auf der
+           gesamten Webseite verwendet werden.
+           ========================================================= */
+
+        :root {
+            --black:#07070a;
+            --panel:#111014;
+            --panel2:#19141a;
+            --gold:#d5aa5e;
+            --gold2:#8a5e2b;
+            --red:#b20e21;
+            --red2:#540710;
+            --ivory:#eee2cb;
+            --muted:#b5a58c;
+            --line:rgba(213,170,94,.34);
+
+            /* Rötlicher Leuchteffekt */
+            --glow:
+                0 0 12px rgba(213,20,41,.55),
+                0 0 30px rgba(178,14,33,.22);
+        }
+
+
+        /* =========================================================
+           ALLGEMEINE SEITENEINSTELLUNGEN
+           ========================================================= */
+
+        /* Sorgt dafür, dass Innenabstände und Rahmen in der
+           angegebenen Breite eines Elements enthalten sind. */
+        * {
+            box-sizing:border-box;
+        }
+
+        /* Weiches Scrollen bei Sprüngen innerhalb der Seite */
+        html {
+            scroll-behavior:smooth;
+        }
+
+        /* Grundgestaltung der gesamten Webseite */
+        body {
+            margin:0;
+            min-height:100vh;
+            overflow-x:hidden;
+            background:#050507;
+            color:var(--ivory);
+            font-family:"Roboto Slab",Georgia,serif;
+            line-height:1.65;
+        }
+
+
+        /* =========================================================
+           HINTERGRUND
+           Dunkler Verlauf mit rotem Lichtschein.
+           ========================================================= */
+
+        body:before {
+            content:"";
+            position:fixed;
+            inset:0;
+            z-index:-5;
+
+            background:
+                radial-gradient(
+                    circle at 50% 0,
+                    rgba(124,10,22,.28),
+                    transparent 42%
+                ),
+                linear-gradient(
+                    #050507,
+                    #0c090d 58%,
+                    #050507
+                );
+        }
+
+
+        /* =========================================================
+           RAUSCHTEXTUR
+           Legt eine dezente Struktur über den Hintergrund.
+           Die Grafik wird direkt als SVG im CSS erzeugt.
+           ========================================================= */
+
+        .noise {
+            position:fixed;
+            inset:0;
+            z-index:-3;
+            pointer-events:none;
+            opacity:.12;
+
+            background-image:url(
+                "data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E"
+            );
+        }
+
+
+        /* =========================================================
+           NEBEL-EFFEKT IM HINTERGRUND
+           Zwei halbtransparente Flächen bewegen sich langsam
+           horizontal über die Seite.
+           ========================================================= */
+
+        .fog {
+            position:fixed;
+            left:-30vw;
+            width:160vw;
+            height:36vh;
+            z-index:-2;
+            pointer-events:none;
+            filter:blur(32px);
+            opacity:.16;
+
+            background:
+                radial-gradient(
+                    ellipse,
+                    rgba(225,225,235,.36),
+                    transparent 68%
+                );
+
+            animation:fog 25s ease-in-out infinite alternate;
+        }
+
+        /* Position des ersten Nebelfeldes */
+        .fog.one {
+            top:7vh;
+        }
+
+        /* Zweites Nebelfeld mit anderer Geschwindigkeit */
+        .fog.two {
+            top:62vh;
+            animation-duration:33s;
+            animation-direction:alternate-reverse;
+        }
+
+        /* Bewegung des Nebels */
+        @keyframes fog {
+            from {
+                transform:translateX(-12%) scale(1);
+            }
+
+            to {
+                transform:translateX(12%) scale(1.16);
+            }
+        }
+
+
+        /* =========================================================
+           HAUPTSEITE / RAHMEN
+           Der gesamte Inhalt liegt innerhalb dieses Containers.
+           ========================================================= */
+
+        .page {
+            width:min(1040px,calc(100% - 24px));
+            margin:26px auto 70px;
+            border:1px solid var(--gold2);
+            background:rgba(7,7,10,.94);
+
+            box-shadow:
+                0 0 0 5px #080708,
+                0 0 0 6px rgba(213,170,94,.18),
+                0 30px 80px #000;
+
+            position:relative;
+        }
+
+
+        /* Totenkopf-Symbole links und rechts oben */
+        .page:before,
+        .page:after {
+            content:"☠";
+            position:absolute;
+            top:14px;
+            color:var(--gold);
+            font-size:28px;
+            text-shadow:var(--glow);
+            z-index:5;
+        }
+
+        .page:before {
+            left:16px;
+        }
+
+        .page:after {
+            right:16px;
+        }
+
+
+        /* =========================================================
+           KOPFBEREICH / HERO
+           Großer Titelbereich des Headbanger-Diploms.
+           ========================================================= */
+
+        .hero {
+            position:relative;
+            overflow:hidden;
+            min-height:470px;
+            padding:84px 22px 56px;
+
+            display:grid;
+            place-items:center;
+
+            text-align:center;
+            border-bottom:1px solid var(--line);
+
+            background:
+                radial-gradient(
+                    circle at 50% 46%,
+                    rgba(174,12,31,.2),
+                    transparent 34%
+                ),
+                repeating-linear-gradient(
+                    115deg,
+                    rgba(255,255,255,.015) 0 1px,
+                    transparent 1px 8px
+                ),
+                linear-gradient(
+                    145deg,
+                    #08080b,
+                    #1b1117 61%,
+                    #25080d
+                );
+        }
+
+
+        /* Innerer Rahmen im Hero-Bereich */
+        .hero:after {
+            content:"";
+            position:absolute;
+            inset:18px;
+            border:1px solid rgba(213,170,94,.4);
+            pointer-events:none;
+        }
+
+
+        /* Kleine Überschrift "Mission Ruhestand" */
+        .mission {
+            display:inline-block;
+            padding:7px 16px;
+            border:1px solid #9d762f;
+            color:#e5c77f;
+
+            font-family:Cinzel,serif;
+            font-size:.72rem;
+            letter-spacing:.2em;
+            text-transform:uppercase;
+
+            background:#110d0e;
+            box-shadow:var(--glow);
+        }
+
+
+        /* Hauptüberschrift HEADBANGER DIPLOM */
+        .title {
+            margin:.28em 0 0;
+
+            font-family:"Metal Mania",Cinzel,serif;
+            font-size:clamp(3.1rem,9vw,7.2rem);
+            line-height:.88;
+            font-weight:400;
+
+            color:#d9ad63;
+
+            text-shadow:
+                0 2px #392109,
+                0 0 9px #e3af58,
+                0 0 30px rgba(177,15,32,.78);
+        }
+
+
+        /* Text direkt unter dem Haupttitel */
+        .subtitle {
+            margin:20px auto 0;
+            max-width:720px;
+            color:#d4c5ad;
+
+            font-family:Cinzel,serif;
+            font-size:clamp(.9rem,2.4vw,1.22rem);
+            letter-spacing:.04em;
+        }
+
+
+        /* Rote Linie unter dem Titel */
+        .sigil {
+            width:120px;
+            height:2px;
+            margin:28px auto;
+
+            background:#e01931;
+            box-shadow:var(--glow);
+        }
+
+
+        /* =========================================================
+           HAUPTINHALT
+           ========================================================= */
+
+        main {
+            padding:clamp(18px,5vw,50px);
+        }
+
+        /* Abstand zwischen den einzelnen Bereichen */
+        .section {
+            margin-bottom:42px;
+        }
+
+
+        /* Kleine Überschriften oberhalb der Hauptüberschriften */
+        .eyebrow {
+            color:#b97e37;
+            font:700 .72rem/1 Cinzel,serif;
+            letter-spacing:.22em;
+            text-transform:uppercase;
+        }
+
+
+        /* Hauptüberschriften der einzelnen Bereiche */
+        .heading {
+            margin:8px 0 16px;
+            color:#e0b86e;
+            font-family:Cinzel,serif;
+            font-size:clamp(1.6rem,4vw,2.5rem);
+            line-height:1.15;
+        }
+
+
+        /* Einleitungstexte */
+        .lead {
+            max-width:760px;
+            margin:0 auto;
+            color:#d6c8b2;
+            text-align:center;
+            font-size:1.06rem;
+        }
+
+
+        /* =========================================================
+           DIPLOM-BEREICH
+           Gestaltung der bestandenen Multi-Cache-Prüfung.
+           ========================================================= */
+
+        .diploma {
+            position:relative;
+            padding:38px clamp(18px,4vw,42px);
+
+            border:1px solid #a77a37;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(31,21,22,.96),
+                    rgba(12,11,14,.98)
+                );
+
+            box-shadow:
+                inset 0 0 45px rgba(177,15,32,.12),
+                0 18px 40px #000;
+
+            text-align:center;
+        }
+
+
+        /* Rotes Schild "OFFIZIELL BESTÄTIGT" */
+        .diploma:before {
+            content:"OFFIZIELL BESTÄTIGT";
+
+            position:absolute;
+            top:-15px;
+            left:50%;
+            transform:translateX(-50%);
+
+            padding:6px 18px;
+            white-space:nowrap;
+
+            background:#8f0b19;
+            border:1px solid #dda75a;
+            color:#fff;
+
+            font:700 .72rem Cinzel,serif;
+            letter-spacing:.12em;
+
+            box-shadow:var(--glow);
+        }
+
+
+        .diploma p {
+            max-width:720px;
+            margin:0 auto;
+        }
+
+
+        /* Liste der bestandenen Aufgaben */
+        .checklist {
+            list-style:none;
+            max-width:660px;
+            margin:28px auto;
+            padding:0;
+
+            display:grid;
+            gap:10px;
+
+            text-align:left;
+        }
+
+
+        /* Einzelne bestandene Aufgabe */
+        .checklist li {
+            padding:12px 15px;
+            border-left:3px solid var(--gold);
+            background:rgba(255,255,255,.035);
+        }
+
+
+        /* Abschlussmeldung des Diploms */
+        .status {
+            margin-top:26px;
+            color:#e02a3d;
+
+            font-family:"Metal Mania",Cinzel,serif;
+            font-size:clamp(1.8rem,5vw,2.7rem);
+            line-height:1.1;
+
+            text-shadow:var(--glow);
+        }
+
+
+        /* =========================================================
+           URKUNDEN-BEREICH
+           Link zur separaten PNG-Datei der Urkunde.
+           ========================================================= */
+
+        .certificate {
+            display:grid;
+            grid-template-columns:1fr auto;
+            gap:24px;
+            align-items:center;
+
+            padding:26px;
+
+            border:1px solid var(--line);
+            background:linear-gradient(90deg,#141116,#25090e);
+        }
+
+
+        .certificate p {
+            margin:5px 0 0;
+            color:#cdbfa8;
+        }
+
+
+        /* Button zum Öffnen der Urkunde */
+        .cta {
+            display:inline-flex;
+            align-items:center;
+            justify-content:center;
+            gap:10px;
+
+            min-height:54px;
+            padding:14px 22px;
+
+            border:1px solid #e0aa53;
+            background:linear-gradient(135deg,#820b17,#c01429);
+
+            color:#fff;
+            text-decoration:none;
+
+            font:700 .84rem Cinzel,serif;
+            letter-spacing:.06em;
+
+            box-shadow:var(--glow);
+            transition:.25s;
+        }
+
+
+        /* Effekt beim Überfahren oder Fokussieren des Buttons */
+        .cta:hover,
+        .cta:focus-visible {
+            transform:translateY(-2px);
+            filter:brightness(1.15);
+            outline:2px solid #f0c46d;
+            outline-offset:3px;
+        }
+
+
+        /* =========================================================
+           SURVIVAL-KIT
+           Fünf Kacheln mit Links für den Ruhestand.
+           ========================================================= */
+
+        .kit {
+            display:grid;
+            grid-template-columns:repeat(5,1fr);
+            gap:12px;
+        }
+
+
+        /* Gestaltung anklickbarer und statischer Kacheln */
+        .kit-link,
+        .kit-static {
+            min-height:122px;
+            padding:16px 10px;
+
+            display:flex;
+            flex-direction:column;
+            align-items:center;
+            justify-content:center;
+            gap:9px;
+
+            border:1px solid rgba(213,170,94,.23);
+            background:linear-gradient(145deg,#171319,#0d0c0f);
+
+            color:#eadfc9;
+            text-align:center;
+            text-decoration:none;
+
+            transition:.25s;
+        }
+
+
+        /* Hover- und Tastatur-Effekt einer Kachel */
+        .kit-link:hover,
+        .kit-link:focus-visible {
+            border-color:#d2a75a;
+            transform:translateY(-4px);
+            box-shadow:var(--glow);
+            outline:none;
+        }
+
+
+        /* Emoji beziehungsweise Symbol der Kachel */
+        .kit-icon {
+            font-size:1.9rem;
+        }
+
+
+        /* Überschrift der Kachel */
+        .kit-name {
+            font-family:Cinzel,serif;
+            font-weight:700;
+            font-size:.78rem;
+        }
+
+
+        /* Zusatztext unter der Überschrift */
+        .kit-note {
+            color:#9c8e79;
+            font-size:.72rem;
+        }
+
+
+        /* =========================================================
+           TOOLTIPS
+           Zusätzlicher Hinweis bei bestimmten Survival-Kit-Links.
+           Der Text kommt aus dem HTML-Attribut "data-tip".
+           ========================================================= */
+
+        .tooltip {
+            position:relative;
+        }
+
+
+        .tooltip:after {
+            content:attr(data-tip);
+
+            position:absolute;
+            left:50%;
+            bottom:calc(100% + 10px);
+
+            transform:translate(-50%,6px);
+
+            padding:7px 10px;
+
+            background:#e2b35e;
+            color:#130d08;
+
+            font-weight:700;
+            font-size:.76rem;
+
+            white-space:nowrap;
+            opacity:0;
+            pointer-events:none;
+
+            transition:.2s;
+        }
+
+
+        /* Tooltip bei Maus oder Tastatur anzeigen */
+        .tooltip:hover:after,
+        .tooltip:focus-visible:after {
+            opacity:1;
+            transform:translate(-50%,0);
+        }
+
+
+        /* =========================================================
+           GÄSTEBUCH-FORMULAR
+           Eingabe von Name und persönlichem Gruß.
+           ========================================================= */
+
+        .formcard {
+            padding:30px;
+            border:1px solid #8c5c2b;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(26,18,24,.97),
+                    rgba(10,9,12,.98)
+                );
+
+            box-shadow:0 18px 40px #000;
+        }
+
+
+        .formcard .heading {
+            text-align:center;
+        }
+
+
+        .formcard > p {
+            text-align:center;
+            color:var(--muted);
+        }
+
+
+        /* Container eines Formularfeldes */
+        .field {
+            margin:18px 0;
+        }
+
+
+        /* Beschriftung eines Eingabefeldes */
+        .field label {
+            display:block;
+            margin-bottom:7px;
+            color:#e2d3bd;
+            font-weight:700;
+        }
+
+
+        /* Eingabefelder und Textbereich */
+        .field input,
+        .field textarea {
+            width:100%;
+            padding:15px 16px;
+
+            border:1px solid #4b3a31;
+            background:#09090c;
+            color:#fff;
+
+            font:inherit;
+            border-radius:0;
+
+            transition:.2s;
+        }
+
+
+        /* Hervorhebung des aktuell verwendeten Eingabefeldes */
+        .field input:focus,
+        .field textarea:focus {
+            outline:none;
+            border-color:#e0aa53;
+
+            box-shadow:
+                0 0 0 3px rgba(224,170,83,.12),
+                var(--glow);
+        }
+
+
+        /* Textfeld für den eigentlichen Gruß */
+        .field textarea {
+            min-height:140px;
+            resize:vertical;
+        }
+
+
+        /* =========================================================
+           ABSENDE-BUTTON DES GÄSTEBUCHS
+           ========================================================= */
+
+        .send {
+            width:100%;
+            min-height:58px;
+
+            border:1px solid #e2ae59;
+            background:linear-gradient(135deg,#760a16,#cf142d);
+
+            color:#fff;
+            cursor:pointer;
+
+            font:700 .92rem Cinzel,serif;
+            letter-spacing:.07em;
+
+            box-shadow:var(--glow);
+            transition:.22s;
+        }
+
+
+        /* Effekt beim Überfahren des Buttons */
+        .send:hover:not(:disabled) {
+            filter:brightness(1.15);
+            transform:translateY(-2px);
+        }
+
+
+        /* Darstellung während eines Speichervorgangs */
+        .send:disabled {
+            opacity:.58;
+            cursor:wait;
+        }
+
+
+        /* =========================================================
+           STATUSMELDUNGEN DES GÄSTEBUCHS
+           Hier erscheinen Erfolg oder Fehlermeldungen.
+           ========================================================= */
+
+        .feedback {
+            min-height:24px;
+            margin-top:12px;
+            text-align:center;
+            font-weight:700;
+        }
+
+
+        /* Erfolgreiche Aktion */
+        .feedback.ok {
+            color:#79d68a;
+        }
+
+
+        /* Fehler */
+        .feedback.error {
+            color:#ff7180;
+        }
+
+
+        /* =========================================================
+           LOGBUCH-WALL
+           Bereich mit allen bereits gespeicherten Einträgen.
+           ========================================================= */
+
+        .wall {
+            display:grid;
+            gap:16px;
+        }
+
+
+        /* Einzelner Gästebucheintrag */
+        .ticket {
+            padding:20px 22px;
+
+            border:1px solid var(--line);
+            border-top:3px solid var(--gold);
+
+            background:linear-gradient(145deg,#18141b,#0d0c0f);
+
+            box-shadow:0 10px 28px #000;
+
+            animation:pop .38s ease both;
+        }
+
+
+        /* Einblendanimation eines neuen Gästebucheintrags */
+        @keyframes pop {
+            from {
+                opacity:0;
+                transform:translateY(12px);
+            }
+
+            to {
+                opacity:1;
+                transform:none;
+            }
+        }
+
+
+        /* Kopf des Eintrags mit Name und Datum */
+        .ticket-head {
+            display:flex;
+            justify-content:space-between;
+            gap:16px;
+
+            padding-bottom:10px;
+            margin-bottom:10px;
+
+            border-bottom:1px solid rgba(255,255,255,.08);
+        }
+
+
+        /* Name des Verfassers */
+        .ticket h3 {
+            margin:0;
+            color:#e0b76c;
+            font-family:Cinzel,serif;
+            font-size:1rem;
+        }
+
+
+        /* Datum des Eintrags */
+        .date {
+            color:#8f826f;
+            font-size:.78rem;
+        }
+
+
+        /* Nachricht des Eintrags */
+        .ticket p {
+            margin:0;
+
+            /* Zeilenumbrüche aus der Eingabe bleiben erhalten */
+            white-space:pre-wrap;
+
+            /* Sehr lange Wörter oder URLs dürfen umgebrochen werden */
+            overflow-wrap:anywhere;
+        }
+
+
+        /* Hinweis, wenn noch keine Einträge vorhanden sind */
+        .empty {
+            padding:28px;
+
+            text-align:center;
+
+            border:1px dashed #554430;
+            color:#8f8371;
+            background:#0d0c0f;
+        }
+
+
+        /* =========================================================
+           FUSSZEILE
+           ========================================================= */
+
+        .footer {
+            padding:24px;
+
+            text-align:center;
+            border-top:1px solid var(--line);
+            color:#887b68;
+
+            font:600 .72rem Cinzel,serif;
+            letter-spacing:.14em;
+        }
+
+
+        /* =========================================================
+           RESPONSIVE DARSTELLUNG
+           Anpassungen für Tablets und kleinere Bildschirme.
+           ========================================================= */
+
+        @media(max-width:820px) {
+
+            /* Survival-Kit wird zweispaltig */
+            .kit {
+                grid-template-columns:repeat(2,1fr);
+            }
+
+            /* Letzte Kachel nutzt die gesamte Breite */
+            .kit > *:last-child {
+                grid-column:1/-1;
+            }
+
+            /* Urkundenbereich wird einspaltig */
+            .certificate {
+                grid-template-columns:1fr;
+                text-align:center;
+            }
+
+            /* Urkunden-Button nutzt komplette Breite */
+            .cta {
+                width:100%;
+            }
+        }
+
+
+        /* =========================================================
+           SMARTPHONE-DARSTELLUNG
+           ========================================================= */
+
+        @media(max-width:560px) {
+
+            /* Seite nutzt auf kleinen Displays die volle Breite */
+            .page {
+                width:100%;
+                margin:0;
+                border-left:0;
+                border-right:0;
+            }
+
+            /* Hero-Bereich kompakter darstellen */
+            .hero {
+                min-height:400px;
+                padding:72px 16px 45px;
+            }
+
+            /* Totenköpfe verkleinern */
+            .page:before,
+            .page:after {
+                font-size:19px;
+            }
+
+            /* Survival-Kit wird einspaltig */
+            .kit {
+                grid-template-columns:1fr;
+            }
+
+            .kit > *:last-child {
+                grid-column:auto;
+            }
+
+            /* Name und Datum eines Logbucheintrags untereinander */
+            .ticket-head {
+                display:block;
+            }
+
+            .date {
+                display:block;
+                margin-top:5px;
+            }
+
+            /* Gästebuch erhält kleinere Seitenabstände */
+            .formcard {
+                padding:22px 16px;
+            }
+
+            /* Haupttitel an schmale Displays anpassen */
+            .title {
+                font-size:clamp(3rem,17vw,4.9rem);
+            }
+        }
+
+
+        /* =========================================================
+           BARRIEREARME DARSTELLUNG
+
+           Wenn ein Benutzer in seinem Betriebssystem reduzierte
+           Bewegung aktiviert hat, werden Animationen abgeschaltet.
+           ========================================================= */
+
+        @media(prefers-reduced-motion:reduce) {
+
+            * {
+                scroll-behavior:auto !important;
+                animation:none !important;
+                transition:none !important;
+            }
+
+            .fog {
+                display:none;
+            }
+        }
+
+    </style>
+
 </head>
+
+
 <body>
-<div class="noise"></div><div class="fog one"></div><div class="fog two"></div>
-<div class="page">
-<header class="hero"><div><span class="mission">Mission Ruhestand · abgeschlossen</span><h1 class="title">HEADBANGER<br>DIPLOM</h1><div class="sigil"></div><p class="subtitle">Headbanger macht den dienstlichen Abgang. Der Rock bleibt ewig.</p></div></header>
-<main>
-<section class="section diploma"><div class="eyebrow">Offizielles Geocache-Diplom</div><h2 class="heading">Die Prüfung ist bestanden</h2><p>Hiermit wird feierlich beurkundet: <strong>Headbanger-Berlin</strong> hat die legendäre Multi-Cache-Prüfung zum Ruhestand mit Bravour gemeistert!</p><ul class="checklist"><li>🌅 Perfekten Sonnenuntergang gesichert!</li><li>🚲 Er ist erwacht!</li><li>📻 Sportliche Jukebox geknackt!</li><li>🍷 Alle Wörter exakt gezählt!</li><li>❤️‍🔥 Er hat wo alles begann, gefunden!</li></ul><div class="status">Rentner auf freiem Fuß.<br>Eine Legende bleibt.</div></section>
 
-<section class="section certificate"><div><div class="eyebrow">Auszeichnung freigeschaltet</div><h2 class="heading">Auch du hast es geschafft</h2><p>Du hast dir nicht nur das Diplom verdient, sondern auch eine persönliche Urkunde. Öffne die Urkunde in voller Größe und speichere sie für deine Ruhmeshalle.</p></div><a class="cta" href="https://sprockyland.github.io/Headbanger/URKUNDE.png" target="_blank" rel="noopener noreferrer">🏅 URKUNDE ÖFFNEN</a></section>
+    <!-- =========================================================
+         HINTERGRUNDEFFEKTE
 
-<section class="section"><div class="eyebrow">Für das Leben nach dem Final</div><h2 class="heading">Headbanger Survival-Kit für die Rente</h2><div class="kit"><a class="kit-link" href="https://www.metal-hammer.de/" target="_blank" rel="noopener noreferrer"><span class="kit-icon">🎸</span><span class="kit-name">Heavy Metal</span><span class="kit-note">Metal Hammer öffnen</span></a><a class="kit-link" href="https://www.radroutenplaner-deutschland.de/" target="_blank" rel="noopener noreferrer"><span class="kit-icon">🚴</span><span class="kit-name">Fahrrad-Touren</span><span class="kit-note">Route planen</span></a><a class="kit-link" href="https://www.kingwiki.de/index.php/Hauptseite" target="_blank" rel="noopener noreferrer"><span class="kit-icon">📚</span><span class="kit-name">Stephen King</span><span class="kit-note">Zeit für den nächsten Wälzer</span></a><a class="kit-link tooltip" data-tip="Magst du spielen?" title="Magst du spielen?" href="https://snookersim.com/" target="_blank" rel="noopener noreferrer"><span class="kit-icon">🎱</span><span class="kit-name">Snooker-Champ</span><span class="kit-note">Eine Partie starten</span></a><a class="kit-link tooltip" data-tip="...wo es auch Saumagen gibt..." title="...wo es auch Saumagen gibt..." href="https://de.restaurantguru.com/saumagen-Berlin-m11960" target="_blank" rel="noopener noreferrer"><span class="kit-icon">🍷</span><span class="kit-name">Pfalz &amp; Dubbeglas</span><span class="kit-note">Für den wohlverdienten Schoppen</span></a></div></section>
+         Diese Elemente besitzen keinen eigenen Inhalt.
+         Die Darstellung erfolgt vollständig über CSS.
+         ========================================================= -->
 
-<section class="section formcard"><div class="eyebrow" style="text-align:center">Digitales Gästebuch</div><h2 class="heading">Eintrag ins Logbuch und Wunsch senden</h2><p>Hinterlasse Headbanger-Berlin deine besten Wünsche, Insider-Sprüche oder Rock-'n'-Roll-Grüße.</p><div class="field"><label for="username">Dein Name oder Geocaching-Name</label><input type="text" id="username" maxlength="60" autocomplete="name" placeholder="z. B. CacheHunter77 oder MetalGitti"></div><div class="field"><label for="message">Deine Nachricht oder deine Wünsche</label><textarea id="message" maxlength="1200" placeholder="Mögen die Gitarren laut und die Biere kalt sein. Alles Gute für den Ruhestand..."></textarea></div><button class="send" id="sendButton" type="button">🤘 ROCK-'N'-ROLL-GRUSS ABFEUERN</button><div class="feedback" id="feedback" role="status" aria-live="polite"></div></section>
+    <div class="noise"></div>
+    <div class="fog one"></div>
+    <div class="fog two"></div>
 
-<section class="section"><div class="eyebrow">Stimmen aus der Ruhmeshalle</div><h2 class="heading">Die Logbuch-Wall</h2><div class="wall" id="guestbookWall"><div class="empty" id="loadingText">Lade Logbucheinträge aus der Datenbank...</div></div></section>
-</main><footer class="footer">HEADBANGER-DIPLOM · GEOCACHE-EHRENURKUNDE ZUR VERABSCHIEDUNG · 🤘</footer>
-</div>
-<script>
-window.addEventListener('DOMContentLoaded',function(){
-  const feedback=document.getElementById('feedback');
-  const button=document.getElementById('sendButton');
-  const wall=document.getElementById('guestbookWall');
-  const firebaseConfig={databaseURL:'https://headbangerdiplom-default-rtdb.europe-west1.firebasedatabase.app/'};
-  let database=null;
-  function say(text,type){feedback.textContent=text;feedback.className='feedback '+(type||'');}
-  try{
-    if(typeof firebase==='undefined') throw new Error('Firebase wurde nicht geladen.');
-    firebase.initializeApp(firebaseConfig); database=firebase.database();
-    if(typeof emailjs!=='undefined') emailjs.init('E6LEpoaoVu-T4BEL6');
-  }catch(e){say('Das digitale Logbuch konnte nicht geladen werden. Bitte später erneut öffnen.','error');button.disabled=true;console.error(e);return;}
 
-  button.addEventListener('click',async function(){
-    const name=document.getElementById('username').value.trim();
-    const message=document.getElementById('message').value.trim();
-    if(!name||!message){say('Bitte trage deinen Namen und einen Gruß ein.','error');return;}
-    button.disabled=true;say('Der Gruß wird ins Logbuch eingetragen...','');
-    try{
-      await database.ref('eintraege').push({name:name,message:message,timestamp:firebase.database.ServerValue.TIMESTAMP});
-      if(typeof emailjs!=='undefined'){
-        emailjs.send('service_pb2v75a','template_mn1nu3o',{to_email:'j.toepfer@gmx.de',cacher_name:name,cacher_message:message,site_link:'https://sprockyland.github.io/Headbanger/hd-diplom.html'}).catch(function(err){console.warn('E-Mail-Benachrichtigung fehlgeschlagen:',err);});
-      }
-      document.getElementById('username').value='';document.getElementById('message').value='';say('Dein Gruß ist im Logbuch. Rock on! 🤘','ok');
-    }catch(e){say('Der Eintrag konnte nicht gespeichert werden. Bitte versuche es erneut.','error');console.error(e);}finally{button.disabled=false;}
-  });
+    <!-- =========================================================
+         GESAMTER SEITENINHALT
+         ========================================================= -->
 
-  let first=true;
-  database.ref('eintraege').orderByChild('timestamp').limitToLast(100).on('child_added',function(snapshot){
-    if(first){wall.textContent='';first=false;}
-    const data=snapshot.val()||{};const ticket=document.createElement('article');ticket.className='ticket';
-    const head=document.createElement('div');head.className='ticket-head';
-    const h3=document.createElement('h3');h3.textContent=data.name||'Unbekannter Headbanger';
-    const date=document.createElement('span');date.className='date';date.textContent=data.timestamp?new Date(data.timestamp).toLocaleString('de-DE',{dateStyle:'medium',timeStyle:'short'}):'';
-    const p=document.createElement('p');p.textContent=data.message||'';head.append(h3,date);ticket.append(head,p);wall.prepend(ticket);
-  });
-  database.ref('eintraege').once('value').then(function(s){if(!s.exists()){wall.innerHTML='<div class="empty">Noch keine Einträge. Feuere den ersten Gruß ab. 🤘</div>';}}).catch(function(){wall.innerHTML='<div class="empty">Die Logbuch-Wall konnte nicht geladen werden.</div>';});
-});
-</script>
+    <div class="page">
+
+
+        <!-- =====================================================
+             KOPFBEREICH / HERO
+             Haupttitel des Headbanger-Diploms.
+             ===================================================== -->
+
+        <header class="hero">
+
+            <div>
+
+                <span class="mission">
+                    Mission Ruhestand · abgeschlossen
+                </span>
+
+                <h1 class="title">
+                    HEADBANGER<br>
+                    DIPLOM
+                </h1>
+
+                <!-- Dekorative rote Linie -->
+                <div class="sigil"></div>
+
+                <p class="subtitle">
+                    Headbanger macht den dienstlichen Abgang.
+                    Der Rock bleibt ewig.
+                </p>
+
+            </div>
+
+        </header>
+
+
+        <!-- =====================================================
+             HAUPTINHALT
+             ===================================================== -->
+
+        <main>
+
+
+            <!-- =================================================
+                 DIPLOM
+                 Bestätigung der erfolgreich bestandenen Aufgaben.
+                 ================================================= -->
+
+            <section class="section diploma">
+
+                <div class="eyebrow">
+                    Offizielles Geocache-Diplom
+                </div>
+
+                <h2 class="heading">
+                    Die Prüfung ist bestanden
+                </h2>
+
+                <p>
+                    Hiermit wird feierlich beurkundet:
+                    <strong>Headbanger-Berlin</strong> hat die
+                    legendäre Multi-Cache-Prüfung zum Ruhestand
+                    mit Bravour gemeistert!
+                </p>
+
+
+                <!-- Liste der bestandenen Prüfungen -->
+                <ul class="checklist">
+
+                    <li>
+                        🌅 Perfekten Sonnenuntergang gesichert!
+                    </li>
+
+                    <li>
+                        🚲 Er ist erwacht!
+                    </li>
+
+                    <li>
+                        📻 Sportliche Jukebox geknackt!
+                    </li>
+
+                    <li>
+                        🍷 Alle Wörter exakt gezählt!
+                    </li>
+
+                    <li>
+                        ❤️‍🔥 Er hat wo alles begann, gefunden!
+                    </li>
+
+                </ul>
+
+
+                <!-- Abschlussstatus -->
+                <div class="status">
+                    Rentner auf freiem Fuß.<br>
+                    Eine Legende bleibt.
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 URKUNDE
+
+                 Öffnet die separate Bilddatei URKUNDE.png
+                 in einem neuen Browser-Tab.
+                 ================================================= -->
+
+            <section class="section certificate">
+
+                <div>
+
+                    <div class="eyebrow">
+                        Auszeichnung freigeschaltet
+                    </div>
+
+                    <h2 class="heading">
+                        Auch du hast es geschafft
+                    </h2>
+
+                    <p>
+                        Du hast dir nicht nur das Diplom verdient,
+                        sondern auch eine persönliche Urkunde.
+                        Öffne die Urkunde in voller Größe und
+                        speichere sie für deine Ruhmeshalle.
+                    </p>
+
+                </div>
+
+
+                <!-- Link zur Urkunde -->
+                <a
+                    class="cta"
+                    href="https://sprockyland.github.io/Headbanger/URKUNDE.png"
+                    target="_blank"
+                    rel="noopener noreferrer"
+                >
+                    🏅 URKUNDE ÖFFNEN
+                </a>
+
+            </section>
+
+
+            <!-- =================================================
+                 SURVIVAL-KIT
+
+                 Sammlung verschiedener Links für Headbangers
+                 Ruhestand.
+                 ================================================= -->
+
+            <section class="section">
+
+                <div class="eyebrow">
+                    Für das Leben nach dem Final
+                </div>
+
+                <h2 class="heading">
+                    Headbanger Survival-Kit für die Rente
+                </h2>
+
+
+                <div class="kit">
+
+
+                    <!-- -----------------------------------------
+                         HEAVY METAL
+                         Öffnet Metal Hammer.
+                         ----------------------------------------- -->
+
+                    <a
+                        class="kit-link"
+                        href="https://www.metal-hammer.de/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        <span class="kit-icon">🎸</span>
+
+                        <span class="kit-name">
+                            Heavy Metal
+                        </span>
+
+                        <span class="kit-note">
+                            Metal Hammer öffnen
+                        </span>
+
+                    </a>
+
+
+                    <!-- -----------------------------------------
+                         FAHRRAD-TOUREN
+                         Öffnet den Radroutenplaner Deutschland.
+                         ----------------------------------------- -->
+
+                    <a
+                        class="kit-link"
+                        href="https://www.radroutenplaner-deutschland.de/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        <span class="kit-icon">🚴</span>
+
+                        <span class="kit-name">
+                            Fahrrad-Touren
+                        </span>
+
+                        <span class="kit-note">
+                            Route planen
+                        </span>
+
+                    </a>
+
+
+                    <!-- -----------------------------------------
+                         STEPHEN KING
+                         Öffnet das KingWiki.
+                         ----------------------------------------- -->
+
+                    <a
+                        class="kit-link"
+                        href="https://www.kingwiki.de/index.php/Hauptseite"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        <span class="kit-icon">📚</span>
+
+                        <span class="kit-name">
+                            Stephen King
+                        </span>
+
+                        <span class="kit-note">
+                            Zeit für den nächsten Wälzer
+                        </span>
+
+                    </a>
+
+
+                    <!-- -----------------------------------------
+                         SNOOKER
+
+                         Das Attribut "data-tip" liefert den Text
+                         für den selbst gestalteten Tooltip.
+
+                         Das "title"-Attribut stellt zusätzlich
+                         den normalen Browser-Hinweis bereit.
+                         ----------------------------------------- -->
+
+                    <a
+                        class="kit-link tooltip"
+                        data-tip="Magst du spielen?"
+                        title="Magst du spielen?"
+                        href="https://snookersim.com/"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        <span class="kit-icon">🎱</span>
+
+                        <span class="kit-name">
+                            Snooker-Champ
+                        </span>
+
+                        <span class="kit-note">
+                            Eine Partie starten
+                        </span>
+
+                    </a>
+
+
+                    <!-- -----------------------------------------
+                         PFALZ UND DUBBEGLAS
+
+                         Link zur Suche nach Saumagen in Berlin.
+                         ----------------------------------------- -->
+
+                    <a
+                        class="kit-link tooltip"
+                        data-tip="...wo es auch Saumagen gibt..."
+                        title="...wo es auch Saumagen gibt..."
+                        href="https://de.restaurantguru.com/saumagen-Berlin-m11960"
+                        target="_blank"
+                        rel="noopener noreferrer"
+                    >
+
+                        <span class="kit-icon">🍷</span>
+
+                        <span class="kit-name">
+                            Pfalz &amp; Dubbeglas
+                        </span>
+
+                        <span class="kit-note">
+                            Für den wohlverdienten Schoppen
+                        </span>
+
+                    </a>
+
+                </div>
+
+            </section>
+
+
+            <!-- =================================================
+                 DIGITALES GÄSTEBUCH
+
+                 Benutzer können hier ihren Namen und einen
+                 persönlichen Gruß eingeben.
+
+                 Der Eintrag wird später per JavaScript in
+                 Firebase gespeichert.
+                 ================================================= -->
+
+            <section class="section formcard">
+
+                <div
+                    class="eyebrow"
+                    style="text-align:center"
+                >
+                    Digitales Gästebuch
+                </div>
+
+
+                <h2 class="heading">
+                    Eintrag ins Logbuch und Wunsch senden
+                </h2>
+
+
+                <p>
+                    Hinterlasse Headbanger-Berlin deine besten
+                    Wünsche, Insider-Sprüche oder
+                    Rock-'n'-Roll-Grüße.
+                </p>
+
+
+                <!-- Eingabe des Namens -->
+                <div class="field">
+
+                    <label for="username">
+                        Dein Name oder Geocaching-Name
+                    </label>
+
+                    <input
+                        type="text"
+                        id="username"
+                        maxlength="60"
+                        autocomplete="name"
+                        placeholder="z. B. CacheHunter77 oder MetalGitti"
+                    >
+
+                </div>
+
+
+                <!-- Eingabe des persönlichen Grußes -->
+                <div class="field">
+
+                    <label for="message">
+                        Deine Nachricht oder deine Wünsche
+                    </label>
+
+                    <textarea
+                        id="message"
+                        maxlength="1200"
+                        placeholder="Mögen die Gitarren laut und die Biere kalt sein. Alles Gute für den Ruhestand..."
+                    ></textarea>
+
+                </div>
+
+
+                <!--
+                    Dieser Button löst weiter unten im JavaScript
+                    das Speichern des Gästebucheintrags aus.
+                -->
+
+                <button
+                    class="send"
+                    id="sendButton"
+                    type="button"
+                >
+                    🤘 ROCK-'N'-ROLL-GRUSS ABFEUERN
+                </button>
+
+
+                <!--
+                    Hier zeigt JavaScript Statusmeldungen an,
+                    beispielsweise:
+
+                    - Eintrag wird gespeichert
+                    - Eintrag erfolgreich
+                    - Fehler beim Speichern
+
+                    role="status" und aria-live helfen dabei,
+                    die Meldung auch für unterstützende
+                    Technologien zugänglich zu machen.
+                -->
+
+                <div
+                    class="feedback"
+                    id="feedback"
+                    role="status"
+                    aria-live="polite"
+                ></div>
+
+            </section>
+
+
+            <!-- =================================================
+                 LOGBUCH-WALL
+
+                 Hier werden die vorhandenen Gästebucheinträge
+                 aus Firebase angezeigt.
+
+                 Der Inhalt wird dynamisch durch JavaScript
+                 erzeugt.
+                 ================================================= -->
+
+            <section class="section">
+
+                <div class="eyebrow">
+                    Stimmen aus der Ruhmeshalle
+                </div>
+
+                <h2 class="heading">
+                    Die Logbuch-Wall
+                </h2>
+
+
+                <!--
+                    Container für die Gästebucheinträge.
+
+                    Beim Start erscheint zunächst die Meldung,
+                    dass die Daten geladen werden.
+                -->
+
+                <div
+                    class="wall"
+                    id="guestbookWall"
+                >
+
+                    <div
+                        class="empty"
+                        id="loadingText"
+                    >
+                        Lade Logbucheinträge aus der Datenbank...
+                    </div>
+
+                </div>
+
+            </section>
+
+        </main>
+
+
+        <!-- =====================================================
+             FUSSZEILE
+             ===================================================== -->
+
+        <footer class="footer">
+            HEADBANGER-DIPLOM · GEOCACHE-EHRENURKUNDE ZUR VERABSCHIEDUNG · 🤘
+        </footer>
+
+    </div>
+
+
+    <script>
+
+        /* =========================================================
+           JAVASCRIPT DES DIGITALEN GÄSTEBUCHS
+
+           Der gesamte Code wird erst gestartet, wenn der Browser
+           die HTML-Seite vollständig eingelesen hat.
+           ========================================================= */
+
+        window.addEventListener('DOMContentLoaded', function() {
+
+
+            /* =====================================================
+               BENÖTIGTE HTML-ELEMENTE HOLEN
+
+               Diese Elemente werden später über JavaScript
+               verändert.
+               ===================================================== */
+
+            const feedback =
+                document.getElementById('feedback');
+
+            const button =
+                document.getElementById('sendButton');
+
+            const wall =
+                document.getElementById('guestbookWall');
+
+
+            /* =====================================================
+               FIREBASE-KONFIGURATION
+
+               Hier wird angegeben, welche Firebase Realtime
+               Database für das Gästebuch verwendet wird.
+               ===================================================== */
+
+            const firebaseConfig = {
+                databaseURL:
+                    'https://headbangerdiplom-default-rtdb.europe-west1.firebasedatabase.app/'
+            };
+
+
+            /*
+                Variable für die spätere Datenbankverbindung.
+
+                Sie ist zunächst leer und wird nach erfolgreicher
+                Firebase-Initialisierung gesetzt.
+            */
+
+            let database = null;
+
+
+            /* =====================================================
+               FUNKTION FÜR STATUSMELDUNGEN
+
+               Diese Hilfsfunktion schreibt eine Meldung in den
+               dafür vorgesehenen Bereich der Webseite.
+
+               "type" kann beispielsweise sein:
+               - ok
+               - error
+
+               Dadurch wird gleichzeitig die passende CSS-Klasse
+               gesetzt.
+               ===================================================== */
+
+            function say(text, type) {
+
+                feedback.textContent = text;
+
+                feedback.className =
+                    'feedback ' + (type || '');
+            }
+
+
+            /* =====================================================
+               FIREBASE UND EMAILJS INITIALISIEREN
+               ===================================================== */
+
+            try {
+
+
+                /*
+                    Prüfen, ob die Firebase-Bibliothek tatsächlich
+                    geladen wurde.
+
+                    Falls nicht, wird absichtlich ein Fehler erzeugt,
+                    der weiter unten abgefangen wird.
+                */
+
+                if (typeof firebase === 'undefined') {
+                    throw new Error(
+                        'Firebase wurde nicht geladen.'
+                    );
+                }
+
+
+                /*
+                    Firebase mit der oben angegebenen
+                    Konfiguration starten.
+                */
+
+                firebase.initializeApp(firebaseConfig);
+
+
+                /*
+                    Verbindung zur Firebase Realtime Database
+                    herstellen.
+                */
+
+                database = firebase.database();
+
+
+                /*
+                    EmailJS nur starten, wenn die Bibliothek
+                    erfolgreich geladen wurde.
+
+                    EmailJS wird ausschließlich für die
+                    E-Mail-Benachrichtigung verwendet.
+                */
+
+                if (typeof emailjs !== 'undefined') {
+
+                    emailjs.init(
+                        'E6LEpoaoVu-T4BEL6'
+                    );
+
+                }
+
+
+            } catch(e) {
+
+
+                /*
+                    Wenn Firebase nicht gestartet werden konnte,
+                    erhält der Benutzer eine verständliche
+                    Fehlermeldung.
+                */
+
+                say(
+                    'Das digitale Logbuch konnte nicht geladen werden. Bitte später erneut öffnen.',
+                    'error'
+                );
+
+
+                /*
+                    Absenden deaktivieren, da ohne Firebase kein
+                    Gästebucheintrag gespeichert werden kann.
+                */
+
+                button.disabled = true;
+
+
+                /*
+                    Die technische Fehlermeldung zusätzlich in
+                    der Entwicklerkonsole des Browsers anzeigen.
+                */
+
+                console.error(e);
+
+
+                /*
+                    Weitere Ausführung des JavaScripts abbrechen.
+                */
+
+                return;
+            }
+
+
+            /* =====================================================
+               KLICK AUF DEN ABSENDE-BUTTON
+
+               Diese Funktion wird ausgeführt, sobald jemand
+               seinen Gruß absendet.
+               ===================================================== */
+
+            button.addEventListener(
+                'click',
+                async function() {
+
+
+                    /* ---------------------------------------------
+                       EINGABEN AUS DEM FORMULAR LESEN
+
+                       trim() entfernt versehentlich eingegebene
+                       Leerzeichen am Anfang und Ende.
+                       --------------------------------------------- */
+
+                    const name =
+                        document
+                            .getElementById('username')
+                            .value
+                            .trim();
+
+
+                    const message =
+                        document
+                            .getElementById('message')
+                            .value
+                            .trim();
+
+
+                    /* ---------------------------------------------
+                       PRÜFEN, OB BEIDE FELDER AUSGEFÜLLT SIND
+                       --------------------------------------------- */
+
+                    if (!name || !message) {
+
+                        say(
+                            'Bitte trage deinen Namen und einen Gruß ein.',
+                            'error'
+                        );
+
+                        return;
+                    }
+
+
+                    /*
+                        Button während des Speicherns deaktivieren.
+
+                        Dadurch wird verhindert, dass derselbe
+                        Eintrag versehentlich mehrfach abgeschickt
+                        wird.
+                    */
+
+                    button.disabled = true;
+
+
+                    /* Benutzer über den aktuellen Vorgang informieren */
+                    say(
+                        'Der Gruß wird ins Logbuch eingetragen...',
+                        ''
+                    );
+
+
+                    try {
+
+
+                        /* =========================================
+                           EINTRAG IN FIREBASE SPEICHERN
+
+                           Der Datensatz wird unter dem Knoten
+                           "eintraege" gespeichert.
+
+                           Gespeichert werden:
+                           - Name
+                           - Nachricht
+                           - Zeitstempel
+                           ========================================= */
+
+                        await database
+                            .ref('eintraege')
+                            .push({
+
+                                name:name,
+
+                                message:message,
+
+                                /*
+                                    Der Zeitstempel kommt direkt vom
+                                    Firebase-Server und nicht vom
+                                    Computer des Besuchers.
+                                */
+
+                                timestamp:
+                                    firebase.database
+                                        .ServerValue
+                                        .TIMESTAMP
+
+                            });
+
+
+                        /* =========================================
+                           E-MAIL-BENACHRICHTIGUNG
+
+                           Falls EmailJS verfügbar ist, wird nach
+                           einem erfolgreichen Gästebucheintrag
+                           zusätzlich eine E-Mail verschickt.
+                           ========================================= */
+
+                        if (typeof emailjs !== 'undefined') {
+
+
+                            emailjs.send(
+
+                                /*
+                                    EmailJS Service-ID
+                                */
+                                'service_pb2v75a',
+
+
+                                /*
+                                    EmailJS Template-ID
+                                */
+                                'template_mn1nu3o',
+
+
+ /*
+    Werte, die an das
+    EmailJS-Template übergeben werden.
+ */
+                                {
+                                /* hier muss dann christians eMail-Adresse rein! */
+                                    to_email:
+                                        'j.toepfer@gmx.de',
+
+                                    cacher_name:
+                                        name,
+
+                                    cacher_message:
+                                        message,
+
+                                    site_link:
+                                        'https://sprockyland.github.io/Headbanger/hd-diplom.html'
+
+                                }
+
+                            ).catch(function(err) {
+
+
+                                /*
+                                    Ein Fehler beim E-Mail-Versand
+                                    verhindert NICHT den bereits
+                                    erfolgreichen Gästebucheintrag.
+
+                                    Der Fehler wird deshalb lediglich
+                                    in der Browser-Konsole protokolliert.
+                                */
+
+                                console.warn(
+                                    'E-Mail-Benachrichtigung fehlgeschlagen:',
+                                    err
+                                );
+
+                            });
+
+                        }
+
+
+                        /* =========================================
+                           FORMULAR NACH ERFOLGREICHEM SPEICHERN LEEREN
+                           ========================================= */
+
+                        document
+                            .getElementById('username')
+                            .value = '';
+
+
+                        document
+                            .getElementById('message')
+                            .value = '';
+
+
+                        /* Erfolgreichen Eintrag bestätigen */
+                        say(
+                            'Dein Gruß ist im Logbuch. Rock on! 🤘',
+                            'ok'
+                        );
+
+
+                    } catch(e) {
+
+
+                        /* =========================================
+                           FEHLER BEIM SPEICHERN IN FIREBASE
+                           ========================================= */
+
+                        say(
+                            'Der Eintrag konnte nicht gespeichert werden. Bitte versuche es erneut.',
+                            'error'
+                        );
+
+
+                        /*
+                            Technische Fehlermeldung zusätzlich
+                            in der Browser-Konsole protokollieren.
+                        */
+
+                        console.error(e);
+
+
+                    } finally {
+
+
+                        /*
+                            Der Absende-Button wird unabhängig
+                            von Erfolg oder Fehler wieder aktiviert.
+                        */
+
+                        button.disabled = false;
+
+                    }
+
+                }
+            );
+
+
+            /* =====================================================
+               VORHANDENE GÄSTEBUCHEINTRÄGE LADEN
+
+               "first" sorgt dafür, dass die anfängliche Meldung
+               "Lade Logbucheinträge..." beim ersten gefundenen
+               Datensatz entfernt wird.
+               ===================================================== */
+
+            let first = true;
+
+
+            /*
+                Firebase-Abfrage:
+
+                - Bereich: eintraege
+                - Sortierung: timestamp
+                - maximal die letzten 100 Einträge
+
+                "child_added" wird für jeden gefundenen Datensatz
+                ausgelöst und später auch für neu hinzukommende
+                Einträge.
+            */
+
+            database
+                .ref('eintraege')
+                .orderByChild('timestamp')
+                .limitToLast(100)
+                .on(
+                    'child_added',
+                    function(snapshot) {
+
+
+                        /* -----------------------------------------
+                           LADETEXT BEIM ERSTEN EINTRAG ENTFERNEN
+                           ----------------------------------------- */
+
+                        if (first) {
+
+                            wall.textContent = '';
+                            first = false;
+
+                        }
+
+
+                        /*
+                            Daten des aktuellen Firebase-Eintrags
+                            auslesen.
+
+                            Falls kein Wert vorhanden ist, wird ein
+                            leeres Objekt verwendet.
+                        */
+
+                        const data =
+                            snapshot.val() || {};
+
+
+                        /* =========================================
+                           HTML FÜR EINEN LOGBUCH-EINTRAG ERZEUGEN
+                           ========================================= */
+
+
+                        /* Äußerer Container des Eintrags */
+                        const ticket =
+                            document.createElement('article');
+
+                        ticket.className = 'ticket';
+
+
+                        /* Kopfbereich für Name und Datum */
+                        const head =
+                            document.createElement('div');
+
+                        head.className = 'ticket-head';
+
+
+                        /* Name des Verfassers */
+                        const h3 =
+                            document.createElement('h3');
+
+
+                        /*
+                            Falls kein Name vorhanden sein sollte,
+                            wird ein Ersatztext ausgegeben.
+                        */
+
+                        h3.textContent =
+                            data.name ||
+                            'Unbekannter Headbanger';
+
+
+                        /* Datum des Gästebucheintrags */
+                        const date =
+                            document.createElement('span');
+
+                        date.className = 'date';
+
+
+                        /*
+                            Firebase speichert den Zeitpunkt als
+                            numerischen Zeitstempel.
+
+                            Dieser wird für die deutsche Darstellung
+                            in Datum und Uhrzeit umgewandelt.
+                        */
+
+                        date.textContent =
+                            data.timestamp
+
+                                ? new Date(
+                                    data.timestamp
+                                  ).toLocaleString(
+                                      'de-DE',
+                                      {
+                                          dateStyle:'medium',
+                                          timeStyle:'short'
+                                      }
+                                  )
+
+                                : '';
+
+
+                        /* Eigentliche Nachricht des Besuchers */
+                        const p =
+                            document.createElement('p');
+
+
+                        /*
+                            textContent wird bewusst verwendet.
+
+                            Dadurch wird die Nachricht als normaler
+                            Text behandelt und nicht als HTML-Code
+                            interpretiert.
+                        */
+
+                        p.textContent =
+                            data.message || '';
+
+
+                        /* Name und Datum in den Kopf einfügen */
+                        head.append(
+                            h3,
+                            date
+                        );
+
+
+                        /* Kopf und Nachricht zum Eintrag hinzufügen */
+                        ticket.append(
+                            head,
+                            p
+                        );
+
+
+                        /*
+                            Neuen Eintrag ganz oben auf der
+                            Logbuch-Wall anzeigen.
+                        */
+
+                        wall.prepend(ticket);
+
+                    }
+                );
+
+
+            /* =====================================================
+               PRÜFEN, OB ÜBERHAUPT EINTRÄGE VORHANDEN SIND
+
+               Diese zusätzliche Abfrage wird einmal ausgeführt.
+               Sie ermöglicht eine entsprechende Meldung, wenn
+               das Gästebuch noch leer ist.
+               ===================================================== */
+
+            database
+                .ref('eintraege')
+                .once('value')
+
+                .then(function(s) {
+
+
+                    /*
+                        Wenn Firebase keine Einträge enthält,
+                        wird ein entsprechender Hinweis angezeigt.
+                    */
+
+                    if (!s.exists()) {
+
+                        wall.innerHTML =
+                            '<div class="empty">' +
+                            'Noch keine Einträge. ' +
+                            'Feuere den ersten Gruß ab. 🤘' +
+                            '</div>';
+
+                    }
+
+                })
+
+                .catch(function() {
+
+
+                    /*
+                        Bei einem Fehler beim Lesen der Datenbank
+                        erhält der Besucher ebenfalls eine Meldung.
+                    */
+
+                    wall.innerHTML =
+                        '<div class="empty">' +
+                        'Die Logbuch-Wall konnte nicht geladen werden.' +
+                        '</div>';
+
+                });
+
+        });
+
+    </script>
+
 </body>
+
 </html>
