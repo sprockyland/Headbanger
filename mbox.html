@@ -1,49 +1,2225 @@
 <!DOCTYPE html>
 <html lang="de">
+
 <head>
-<meta charset="UTF-8">
-<meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
-<meta name="theme-color" content="#08070a">
-<title>Headbangers Rock 'n' Roll MusicBox</title>
-<link rel="preconnect" href="https://fonts.googleapis.com">
-<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-<link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Metal+Mania&family=Roboto+Slab:wght@400;600&display=swap" rel="stylesheet">
-<style>
-:root{--black:#060608;--wood1:#210b08;--wood2:#6e2314;--chrome1:#f7eed3;--chrome2:#736b62;--gold:#d7aa59;--amber:#ffb323;--red:#bd1224;--red2:#5a0710;--cream:#f2e5cb;--cyan:#5ee7e1;--green:#77e69a}
-*{box-sizing:border-box}html{scroll-behavior:smooth}body{margin:0;min-height:100vh;padding:30px 14px 70px;overflow-x:hidden;color:var(--cream);font-family:"Roboto Slab",Georgia,serif;background:radial-gradient(circle at 50% 10%,rgba(118,9,21,.28),transparent 34%),linear-gradient(#050507,#0c090d 55%,#040406)}
-body:before{content:"";position:fixed;inset:0;z-index:-2;opacity:.11;background-image:url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E")}.page{width:min(690px,100%);margin:auto}.cache-title{text-align:center;margin-bottom:24px}.cache-title small{display:block;color:#ad8040;letter-spacing:.22em;font:700 .7rem Cinzel,serif}.cache-title h1{margin:6px 0;color:#d9ae63;font:400 clamp(2.5rem,8vw,4.7rem)/.9 "Metal Mania",Cinzel,serif;text-shadow:0 2px #3a2109,0 0 10px #bd1224,0 0 28px rgba(189,18,36,.55)}
-/* Wurlitzer-inspired cabinet */
-.jukebox{position:relative;padding:18px 18px 24px;border-radius:48% 48% 42px 42px/27% 27% 42px 42px;background:linear-gradient(90deg,#150400,#7b2c19 4%,#d6aa5a 7%,#3e130c 11%,#8d341e 18%,#2b0b08 50%,#8d341e 82%,#3e130c 89%,#d6aa5a 93%,#7b2c19 96%,#150400);border:3px solid #b8863d;box-shadow:0 0 0 4px #21120c,0 0 0 6px #8c652f,0 26px 70px #000,0 0 34px rgba(189,18,36,.4)}
-.jukebox:before,.jukebox:after{content:"";position:absolute;top:85px;bottom:58px;width:18px;z-index:5;border:3px solid #efe0be;border-radius:50px;background:linear-gradient(#ffdf62,#f13024,#ffb62e,#57d7d7,#ffdf62);background-size:100% 300%;box-shadow:inset 0 0 5px #fff,0 0 11px #f0292b,0 0 24px #ff9b22;animation:bubble 4s linear infinite}.jukebox:before{left:12px}.jukebox:after{right:12px;animation-direction:reverse}
-.arch{position:relative;overflow:hidden;min-height:790px;padding:38px 50px 30px;border:5px solid #d8c8a4;border-radius:48% 48% 28px 28px/25% 25% 28px 28px;background:radial-gradient(ellipse at 50% 16%,rgba(255,185,45,.28),transparent 28%),linear-gradient(#27110d,#090909 42%,#160e0b);box-shadow:inset 0 0 55px #000,0 0 0 5px #6e2315,0 0 0 8px #d0a353}.arch:before{content:"";position:absolute;inset:13px;border:5px double #bb842f;border-radius:48% 48% 18px 18px/24% 24% 18px 18px;box-shadow:inset 0 0 18px #b20e20,0 0 14px #bd1224;pointer-events:none}.arch:after{content:"";position:absolute;left:50%;bottom:15px;width:74%;height:96px;transform:translateX(-50%);border:3px solid #a87934;border-radius:50% 50% 10px 10px/35% 35% 10px 10px;background:repeating-linear-gradient(90deg,#24110c 0 7px,#a47234 7px 9px,#120b09 9px 15px);box-shadow:inset 0 0 28px #000}
-.content{position:relative;z-index:3}.brand{text-align:center;margin:0 auto 14px;color:#f0c66e;font:700 .68rem Cinzel,serif;letter-spacing:.26em}.record-window{height:215px;display:grid;place-items:center;position:relative;margin-bottom:5px;border:2px solid #9d7135;border-radius:50% 50% 12px 12px/60% 60% 12px 12px;background:radial-gradient(circle,#34130f,#090909 66%);box-shadow:inset 0 0 35px #000,0 0 16px rgba(255,171,33,.25)}.record{position:relative;width:158px;height:158px;border-radius:50%;background:repeating-radial-gradient(circle,transparent 0 4px,rgba(255,255,255,.09) 5px,transparent 6px 9px),conic-gradient(#030303,#343434,#050505,#272727,#030303);border:3px solid #111;box-shadow:0 0 0 4px #777066,0 10px 22px #000}.record.spin{animation:spin 1.45s linear infinite}.label{position:absolute;inset:50px;display:grid;place-items:center;border-radius:50%;color:#160c08;background:radial-gradient(circle,#171717 0 5px,#d3a143 6px);font:800 9px Cinzel,serif;text-align:center;line-height:1}.arm{position:absolute;top:52px;left:calc(50% + 47px);width:98px;height:12px;transform:rotate(42deg);transform-origin:left;border-radius:9px;background:linear-gradient(#fff7dd,#79736c 50%,#201d1b);box-shadow:0 3px 5px #000}.arm:before{content:"";position:absolute;left:-11px;top:-7px;width:26px;height:26px;border-radius:50%;background:radial-gradient(circle at 35% 30%,#fff7e4,#766f67 56%,#191715)}.arm:after{content:"";position:absolute;right:-7px;top:-5px;width:21px;height:21px;border-radius:4px;background:#a50e1c;border:1px solid #deb063}
-.machine-title{text-align:center;margin:10px 0 3px;color:#d9ae62;font:400 clamp(2.25rem,8vw,4rem)/.85 "Metal Mania",Cinzel,serif;text-shadow:0 2px #3b2109,0 0 8px #e4ae55,0 0 22px #a30b1b}.sub{text-align:center;margin:8px 0 16px;color:#d7c2a2;font:700 .72rem Cinzel,serif;letter-spacing:.22em}.selector{padding:15px;border:2px solid #b18445;background:linear-gradient(#d8cdb5,#665f56 8%,#171514 13%,#080808 88%,#696158 94%,#e0d5bd);box-shadow:0 8px 20px #000}.display{height:72px;display:flex;align-items:center;justify-content:center;gap:15px;margin-bottom:13px;border:2px solid #947038;background:#020302;box-shadow:inset 0 0 22px #000,0 0 12px rgba(189,18,36,.45)}.slot{width:48px;height:52px;display:grid;place-items:center;border:1px solid #c08d3d;background:#060604;color:#ffc84d;font:700 34px "Courier New",monospace;text-shadow:0 0 9px #ff9c1d}.display.success .slot{color:var(--green);border-color:var(--green);text-shadow:0 0 10px var(--green)}.display.error{animation:shake .38s}.display.error .slot{color:#ff3348;border-color:#ff3348}.message{min-height:42px;display:grid;place-items:center;text-align:center;color:#ddcfb7;font-size:.82rem}.keypad{display:grid;grid-template-columns:repeat(5,1fr);gap:10px}.key{aspect-ratio:1;border:2px solid #d5c8ae;border-radius:50%;color:#1b1109;background:radial-gradient(circle at 34% 25%,#fff0bd,#d18b27 57%,#663810 100%);font:800 1.08rem Cinzel,serif;cursor:pointer;box-shadow:0 5px 0 #2b1407,0 8px 12px #000,inset 0 3px 5px #fff7d2;transition:.12s}.key:hover{filter:brightness(1.15);box-shadow:0 5px 0 #2b1407,0 8px 12px #000,0 0 16px #bd1224}.key:active{transform:translateY(4px);box-shadow:0 1px #2b1407}.clear{width:100%;margin-top:14px;padding:12px;border:1px solid #d8bd84;color:#f4e7cd;background:linear-gradient(#65121b,#26090c);font:700 .78rem Cinzel,serif;letter-spacing:.15em;cursor:pointer}.player-box{display:none;margin-top:15px;padding:11px;border:1px solid #ae7b36;background:#080808}.player-box.visible{display:block}audio{display:block;width:100%}
-.next-hint{display:none;margin-top:30px;padding:27px;border:1px solid #a77934;background:linear-gradient(145deg,rgba(36,15,17,.97),rgba(8,8,10,.98));box-shadow:0 0 0 4px #080708,0 0 0 5px rgba(213,170,89,.22),0 18px 50px #000;opacity:0;transform:translateY(22px)}.next-hint.visible{display:block;animation:reveal 1s ease forwards}.next-hint h2{margin:0 0 18px;text-align:center;color:#deb66c;font:700 clamp(1.25rem,4vw,1.8rem) Cinzel,serif;text-shadow:0 0 12px #a40c1c}.next-hint p,.next-hint li{line-height:1.55}.next-path{text-align:center;color:#eece89}.memory-note{display:block;margin-top:7px;color:#f15a65;font-size:.86rem;font-style:italic}.shield{display:inline-grid;place-items:center;width:24px;height:27px;margin-left:4px;color:#fff;font-style:normal;font-weight:800;background:linear-gradient(#c91425,#650711);border:1px solid #f2c2c6;clip-path:polygon(50% 0,100% 18%,100% 72%,50% 100%,0 72%,0 18%);filter:drop-shadow(0 0 5px #e02233)}
-@keyframes spin{to{transform:rotate(360deg)}}@keyframes bubble{to{background-position:0 100%}}@keyframes shake{25%{transform:translateX(-5px)}75%{transform:translateX(5px)}}@keyframes reveal{to{opacity:1;transform:none}}
-@media(max-width:560px){body{padding:12px 0 45px}.page{width:100%}.cache-title{padding:0 12px}.jukebox{padding:14px 13px 19px;border-left-width:2px;border-right-width:2px}.jukebox:before,.jukebox:after{width:12px;top:78px}.jukebox:before{left:7px}.jukebox:after{right:7px}.arch{min-height:720px;padding:31px 33px 28px}.record-window{height:178px}.record{width:128px;height:128px}.label{inset:40px}.arm{top:43px;left:calc(50% + 38px);width:78px}.keypad{gap:7px}.key{font-size:.92rem}.next-hint{margin:24px 12px 0;padding:21px 18px}}
-@media(prefers-reduced-motion:reduce){*{animation:none!important;scroll-behavior:auto!important}}
-</style>
+
+    <!-- =========================================================
+         GRUNDEINSTELLUNGEN DER WEBSEITE
+         Zeichensatz, mobile Darstellung und Browserfarbe.
+         ========================================================= -->
+
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width,initial-scale=1,viewport-fit=cover">
+    <meta name="theme-color" content="#08070a">
+
+    <!-- Titel im Browser-Tab -->
+    <title>Headbangers Rock 'n' Roll MusicBox</title>
+
+
+    <!-- =========================================================
+         SCHRIFTARTEN
+
+         Die Webseite verwendet Google Fonts:
+         - Cinzel
+         - Metal Mania
+         - Roboto Slab
+
+         "preconnect" baut die Verbindung zu den Google-Servern
+         bereits frühzeitig auf und kann dadurch das Laden der
+         Schriftarten beschleunigen.
+         ========================================================= -->
+
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+
+    <link
+        href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Metal+Mania&family=Roboto+Slab:wght@400;600&display=swap"
+        rel="stylesheet"
+    >
+
+
+    <style>
+
+        /* =========================================================
+           ZENTRALE FARBEN
+
+           Hier werden die Farben definiert, die an verschiedenen
+           Stellen der MusicBox wiederverwendet werden.
+           ========================================================= */
+
+        :root {
+            --black:#060608;
+            --wood1:#210b08;
+            --wood2:#6e2314;
+            --chrome1:#f7eed3;
+            --chrome2:#736b62;
+            --gold:#d7aa59;
+            --amber:#ffb323;
+            --red:#bd1224;
+            --red2:#5a0710;
+            --cream:#f2e5cb;
+            --cyan:#5ee7e1;
+            --green:#77e69a;
+        }
+
+
+        /* =========================================================
+           ALLGEMEINE SEITENEINSTELLUNGEN
+           ========================================================= */
+
+        /* Innenabstände und Rahmen werden in die definierte
+           Breite eines Elements eingerechnet. */
+        * {
+            box-sizing:border-box;
+        }
+
+        /* Weiches Scrollen innerhalb der Seite */
+        html {
+            scroll-behavior:smooth;
+        }
+
+        /* Grundgestaltung der gesamten Webseite */
+        body {
+            margin:0;
+            min-height:100vh;
+            padding:30px 14px 70px;
+            overflow-x:hidden;
+
+            color:var(--cream);
+            font-family:"Roboto Slab",Georgia,serif;
+
+            background:
+                radial-gradient(
+                    circle at 50% 10%,
+                    rgba(118,9,21,.28),
+                    transparent 34%
+                ),
+                linear-gradient(
+                    #050507,
+                    #0c090d 55%,
+                    #040406
+                );
+        }
+
+
+        /* =========================================================
+           HINTERGRUNDTEXTUR
+
+           Über den normalen Hintergrund wird eine dezente
+           Rauschstruktur gelegt.
+
+           Das dafür benötigte SVG befindet sich direkt als
+           Data-URL im CSS. Es wird keine zusätzliche Bilddatei
+           benötigt.
+           ========================================================= */
+
+        body:before {
+            content:"";
+            position:fixed;
+            inset:0;
+            z-index:-2;
+            opacity:.11;
+
+            background-image:url(
+                "data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.8' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)'/%3E%3C/svg%3E"
+            );
+        }
+
+
+        /* =========================================================
+           HAUPTCONTAINER DER SEITE
+
+           Begrenzt die maximale Breite der MusicBox.
+           ========================================================= */
+
+        .page {
+            width:min(690px,100%);
+            margin:auto;
+        }
+
+
+        /* =========================================================
+           ÜBERSCHRIFT OBERHALB DER MUSICBOX
+           ========================================================= */
+
+        .cache-title {
+            text-align:center;
+            margin-bottom:24px;
+        }
+
+        /* Kleine obere Überschrift */
+        .cache-title small {
+            display:block;
+            color:#ad8040;
+            letter-spacing:.22em;
+            font:700 .7rem Cinzel,serif;
+        }
+
+        /* Große Überschrift "Die MusicBox" */
+        .cache-title h1 {
+            margin:6px 0;
+            color:#d9ae63;
+
+            font:
+                400
+                clamp(2.5rem,8vw,4.7rem)/.9
+                "Metal Mania",
+                Cinzel,
+                serif;
+
+            text-shadow:
+                0 2px #3a2109,
+                0 0 10px #bd1224,
+                0 0 28px rgba(189,18,36,.55);
+        }
+
+
+        /* =========================================================
+           MUSICBOX-GEHÄUSE
+
+           Das Gehäuse orientiert sich optisch an einer klassischen
+           Wurlitzer-Jukebox.
+
+           Mehrere Farbverläufe erzeugen den Eindruck von Holz,
+           Goldleisten und Metall.
+           ========================================================= */
+
+        .jukebox {
+            position:relative;
+            padding:18px 18px 24px;
+
+            border-radius:
+                48% 48% 42px 42px /
+                27% 27% 42px 42px;
+
+            background:
+                linear-gradient(
+                    90deg,
+                    #150400,
+                    #7b2c19 4%,
+                    #d6aa5a 7%,
+                    #3e130c 11%,
+                    #8d341e 18%,
+                    #2b0b08 50%,
+                    #8d341e 82%,
+                    #3e130c 89%,
+                    #d6aa5a 93%,
+                    #7b2c19 96%,
+                    #150400
+                );
+
+            border:3px solid #b8863d;
+
+            box-shadow:
+                0 0 0 4px #21120c,
+                0 0 0 6px #8c652f,
+                0 26px 70px #000,
+                0 0 34px rgba(189,18,36,.4);
+        }
+
+
+        /* =========================================================
+           LEUCHTSTREIFEN LINKS UND RECHTS
+
+           Die Pseudoelemente :before und :after bilden die
+           beiden farbigen Lichtleisten der Jukebox.
+
+           Die Animation "bubble" lässt die Farben durchlaufen.
+           ========================================================= */
+
+        .jukebox:before,
+        .jukebox:after {
+            content:"";
+            position:absolute;
+            top:85px;
+            bottom:58px;
+
+            width:18px;
+            z-index:5;
+
+            border:3px solid #efe0be;
+            border-radius:50px;
+
+            background:
+                linear-gradient(
+                    #ffdf62,
+                    #f13024,
+                    #ffb62e,
+                    #57d7d7,
+                    #ffdf62
+                );
+
+            background-size:100% 300%;
+
+            box-shadow:
+                inset 0 0 5px #fff,
+                0 0 11px #f0292b,
+                0 0 24px #ff9b22;
+
+            animation:bubble 4s linear infinite;
+        }
+
+        /* Linke Lichtleiste */
+        .jukebox:before {
+            left:12px;
+        }
+
+        /* Rechte Lichtleiste läuft in Gegenrichtung */
+        .jukebox:after {
+            right:12px;
+            animation-direction:reverse;
+        }
+
+
+        /* =========================================================
+           INNERER BOGEN DER MUSICBOX
+           ========================================================= */
+
+        .arch {
+            position:relative;
+            overflow:hidden;
+
+            min-height:790px;
+            padding:38px 50px 30px;
+
+            border:5px solid #d8c8a4;
+
+            border-radius:
+                48% 48% 28px 28px /
+                25% 25% 28px 28px;
+
+            background:
+                radial-gradient(
+                    ellipse at 50% 16%,
+                    rgba(255,185,45,.28),
+                    transparent 28%
+                ),
+                linear-gradient(
+                    #27110d,
+                    #090909 42%,
+                    #160e0b
+                );
+
+            box-shadow:
+                inset 0 0 55px #000,
+                0 0 0 5px #6e2315,
+                0 0 0 8px #d0a353;
+        }
+
+
+        /* Zusätzlicher dekorativer Innenrahmen */
+        .arch:before {
+            content:"";
+            position:absolute;
+            inset:13px;
+
+            border:5px double #bb842f;
+
+            border-radius:
+                48% 48% 18px 18px /
+                24% 24% 18px 18px;
+
+            box-shadow:
+                inset 0 0 18px #b20e20,
+                0 0 14px #bd1224;
+
+            pointer-events:none;
+        }
+
+
+        /* Dekoratives Lüftungs-/Gitterelement unten */
+        .arch:after {
+            content:"";
+            position:absolute;
+
+            left:50%;
+            bottom:15px;
+
+            width:74%;
+            height:96px;
+
+            transform:translateX(-50%);
+
+            border:3px solid #a87934;
+
+            border-radius:
+                50% 50% 10px 10px /
+                35% 35% 10px 10px;
+
+            background:
+                repeating-linear-gradient(
+                    90deg,
+                    #24110c 0 7px,
+                    #a47234 7px 9px,
+                    #120b09 9px 15px
+                );
+
+            box-shadow:inset 0 0 28px #000;
+        }
+
+
+        /* =========================================================
+           INHALT DER MUSICBOX
+
+           Der z-index sorgt dafür, dass der Inhalt über den
+           dekorativen Hintergrundelementen liegt.
+           ========================================================= */
+
+        .content {
+            position:relative;
+            z-index:3;
+        }
+
+
+        /* Cache-Kennung oberhalb der Schallplatte */
+        .brand {
+            text-align:center;
+            margin:0 auto 14px;
+
+            color:#f0c66e;
+
+            font:700 .68rem Cinzel,serif;
+            letter-spacing:.26em;
+        }
+
+
+        /* =========================================================
+           SCHALLPLATTENFENSTER
+           ========================================================= */
+
+        .record-window {
+            height:215px;
+
+            display:grid;
+            place-items:center;
+
+            position:relative;
+
+            margin-bottom:5px;
+
+            border:2px solid #9d7135;
+
+            border-radius:
+                50% 50% 12px 12px /
+                60% 60% 12px 12px;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #34130f,
+                    #090909 66%
+                );
+
+            box-shadow:
+                inset 0 0 35px #000,
+                0 0 16px rgba(255,171,33,.25);
+        }
+
+
+        /* =========================================================
+           SCHALLPLATTE
+
+           Mehrere radiale und kreisförmige Farbverläufe erzeugen
+           die Plattenrillen.
+
+           Die Klasse "spin" wird später per JavaScript hinzugefügt,
+           sobald die MP3 abgespielt wird.
+           ========================================================= */
+
+        .record {
+            position:relative;
+
+            width:158px;
+            height:158px;
+
+            border-radius:50%;
+
+            background:
+                repeating-radial-gradient(
+                    circle,
+                    transparent 0 4px,
+                    rgba(255,255,255,.09) 5px,
+                    transparent 6px 9px
+                ),
+                conic-gradient(
+                    #030303,
+                    #343434,
+                    #050505,
+                    #272727,
+                    #030303
+                );
+
+            border:3px solid #111;
+
+            box-shadow:
+                0 0 0 4px #777066,
+                0 10px 22px #000;
+        }
+
+
+        /* Drehende Schallplatte während der Musikwiedergabe */
+        .record.spin {
+            animation:spin 1.45s linear infinite;
+        }
+
+
+        /* Etikett in der Mitte der Schallplatte */
+        .label {
+            position:absolute;
+            inset:50px;
+
+            display:grid;
+            place-items:center;
+
+            border-radius:50%;
+
+            color:#160c08;
+
+            background:
+                radial-gradient(
+                    circle,
+                    #171717 0 5px,
+                    #d3a143 6px
+                );
+
+            font:800 9px Cinzel,serif;
+
+            text-align:center;
+            line-height:1;
+        }
+
+
+        /* =========================================================
+           TONARM
+           ========================================================= */
+
+        .arm {
+            position:absolute;
+
+            top:52px;
+            left:calc(50% + 47px);
+
+            width:98px;
+            height:12px;
+
+            transform:rotate(42deg);
+            transform-origin:left;
+
+            border-radius:9px;
+
+            background:
+                linear-gradient(
+                    #fff7dd,
+                    #79736c 50%,
+                    #201d1b
+                );
+
+            box-shadow:0 3px 5px #000;
+        }
+
+
+        /* Drehpunkt des Tonarms */
+        .arm:before {
+            content:"";
+            position:absolute;
+
+            left:-11px;
+            top:-7px;
+
+            width:26px;
+            height:26px;
+
+            border-radius:50%;
+
+            background:
+                radial-gradient(
+                    circle at 35% 30%,
+                    #fff7e4,
+                    #766f67 56%,
+                    #191715
+                );
+        }
+
+
+        /* Tonabnehmer am Ende des Tonarms */
+        .arm:after {
+            content:"";
+            position:absolute;
+
+            right:-7px;
+            top:-5px;
+
+            width:21px;
+            height:21px;
+
+            border-radius:4px;
+
+            background:#a50e1c;
+            border:1px solid #deb063;
+        }
+
+
+        /* =========================================================
+           TITEL INNERHALB DER MUSICBOX
+           ========================================================= */
+
+        .machine-title {
+            text-align:center;
+            margin:10px 0 3px;
+
+            color:#d9ae62;
+
+            font:
+                400
+                clamp(2.25rem,8vw,4rem)/.85
+                "Metal Mania",
+                Cinzel,
+                serif;
+
+            text-shadow:
+                0 2px #3b2109,
+                0 0 8px #e4ae55,
+                0 0 22px #a30b1b;
+        }
+
+
+        /* Kleine Beschriftung "MUSICBOX" */
+        .sub {
+            text-align:center;
+            margin:8px 0 16px;
+
+            color:#d7c2a2;
+
+            font:700 .72rem Cinzel,serif;
+            letter-spacing:.22em;
+        }
+
+
+        /* =========================================================
+           NUMMERNWAHL / SELECTOR
+
+           Dieser Bereich enthält:
+           - zweistellige Anzeige
+           - Statusmeldung
+           - Zahlentasten
+           - Löschen-Button
+           - MP3-Player
+           ========================================================= */
+
+        .selector {
+            padding:15px;
+
+            border:2px solid #b18445;
+
+            background:
+                linear-gradient(
+                    #d8cdb5,
+                    #665f56 8%,
+                    #171514 13%,
+                    #080808 88%,
+                    #696158 94%,
+                    #e0d5bd
+                );
+
+            box-shadow:0 8px 20px #000;
+        }
+
+
+        /* =========================================================
+           ZWEISTELLIGE NUMMERNANZEIGE
+           ========================================================= */
+
+        .display {
+            height:72px;
+
+            display:flex;
+            align-items:center;
+            justify-content:center;
+            gap:15px;
+
+            margin-bottom:13px;
+
+            border:2px solid #947038;
+            background:#020302;
+
+            box-shadow:
+                inset 0 0 22px #000,
+                0 0 12px rgba(189,18,36,.45);
+        }
+
+
+        /* Eine einzelne Stelle der zweistelligen Anzeige */
+        .slot {
+            width:48px;
+            height:52px;
+
+            display:grid;
+            place-items:center;
+
+            border:1px solid #c08d3d;
+
+            background:#060604;
+            color:#ffc84d;
+
+            font:700 34px "Courier New",monospace;
+
+            text-shadow:0 0 9px #ff9c1d;
+        }
+
+
+        /* =========================================================
+           RICHTIGE NUMMER
+
+           JavaScript setzt bei der richtigen Eingabe die Klasse
+           "success". Die Anzeige wird anschließend grün.
+           ========================================================= */
+
+        .display.success .slot {
+            color:var(--green);
+            border-color:var(--green);
+            text-shadow:0 0 10px var(--green);
+        }
+
+
+        /* =========================================================
+           FALSCHE NUMMER
+
+           Bei einer falschen Eingabe wird die Klasse "error"
+           gesetzt und kurz die Shake-Animation ausgeführt.
+           ========================================================= */
+
+        .display.error {
+            animation:shake .38s;
+        }
+
+        .display.error .slot {
+            color:#ff3348;
+            border-color:#ff3348;
+        }
+
+
+        /* =========================================================
+           STATUSMELDUNG DER NUMMERNAUSWAHL
+           ========================================================= */
+
+        .message {
+            min-height:42px;
+
+            display:grid;
+            place-items:center;
+
+            text-align:center;
+
+            color:#ddcfb7;
+            font-size:.82rem;
+        }
+
+
+        /* =========================================================
+           ZAHLENTASTATUR
+
+           JavaScript erzeugt später automatisch zehn Tasten
+           mit den Ziffern 0 bis 9.
+           ========================================================= */
+
+        .keypad {
+            display:grid;
+            grid-template-columns:repeat(5,1fr);
+            gap:10px;
+        }
+
+
+        /* Einzelne Zahlentaste */
+        .key {
+            aspect-ratio:1;
+
+            border:2px solid #d5c8ae;
+            border-radius:50%;
+
+            color:#1b1109;
+
+            background:
+                radial-gradient(
+                    circle at 34% 25%,
+                    #fff0bd,
+                    #d18b27 57%,
+                    #663810 100%
+                );
+
+            font:800 1.08rem Cinzel,serif;
+
+            cursor:pointer;
+
+            box-shadow:
+                0 5px 0 #2b1407,
+                0 8px 12px #000,
+                inset 0 3px 5px #fff7d2;
+
+            transition:.12s;
+        }
+
+
+        /* Effekt beim Überfahren einer Zahlentaste */
+        .key:hover {
+            filter:brightness(1.15);
+
+            box-shadow:
+                0 5px 0 #2b1407,
+                0 8px 12px #000,
+                0 0 16px #bd1224;
+        }
+
+
+        /* Effekt beim Drücken einer Zahlentaste */
+        .key:active {
+            transform:translateY(4px);
+            box-shadow:0 1px #2b1407;
+        }
+
+
+        /* =========================================================
+           BUTTON "AUSWAHL LÖSCHEN"
+           ========================================================= */
+
+        .clear {
+            width:100%;
+
+            margin-top:14px;
+            padding:12px;
+
+            border:1px solid #d8bd84;
+
+            color:#f4e7cd;
+            background:linear-gradient(#65121b,#26090c);
+
+            font:700 .78rem Cinzel,serif;
+            letter-spacing:.15em;
+
+            cursor:pointer;
+        }
+
+
+        /* =========================================================
+           AUDIO-PLAYER
+
+           Der Player ist standardmäßig versteckt.
+
+           Erst nach Eingabe der richtigen Nummer wird ihm per
+           JavaScript die Klasse "visible" hinzugefügt.
+           ========================================================= */
+
+        .player-box {
+            display:none;
+
+            margin-top:15px;
+            padding:11px;
+
+            border:1px solid #ae7b36;
+            background:#080808;
+        }
+
+
+        /* Player nach richtiger Eingabe anzeigen */
+        .player-box.visible {
+            display:block;
+        }
+
+
+        /* Audioelement über die gesamte Breite darstellen */
+        audio {
+            display:block;
+            width:100%;
+        }
+
+
+        /* =========================================================
+           HINWEIS FÜR DEN NÄCHSTEN SCHRITT
+
+           Dieser Bereich ist zunächst vollständig verborgen.
+
+           Nachdem der Song gestartet wurde, wartet JavaScript
+           12 Sekunden. Anschließend wird der Hinweis eingeblendet.
+           ========================================================= */
+
+        .next-hint {
+            display:none;
+
+            margin-top:30px;
+            padding:27px;
+
+            border:1px solid #a77934;
+
+            background:
+                linear-gradient(
+                    145deg,
+                    rgba(36,15,17,.97),
+                    rgba(8,8,10,.98)
+                );
+
+            box-shadow:
+                0 0 0 4px #080708,
+                0 0 0 5px rgba(213,170,89,.22),
+                0 18px 50px #000;
+
+            opacity:0;
+            transform:translateY(22px);
+        }
+
+
+        /* Hinweis sichtbar machen und Einblendanimation starten */
+        .next-hint.visible {
+            display:block;
+            animation:reveal 1s ease forwards;
+        }
+
+
+        /* Überschrift des Hinweises */
+        .next-hint h2 {
+            margin:0 0 18px;
+
+            text-align:center;
+            color:#deb66c;
+
+            font:
+                700
+                clamp(1.25rem,4vw,1.8rem)
+                Cinzel,
+                serif;
+
+            text-shadow:0 0 12px #a40c1c;
+        }
+
+
+        /* Lesbarkeit von Text und Liste */
+        .next-hint p,
+        .next-hint li {
+            line-height:1.55;
+        }
+
+
+        /* Abschlusszeile im nächsten Hinweis */
+        .next-path {
+            text-align:center;
+            color:#eece89;
+        }
+
+
+        /* Hinweis zum Merken der ermittelten Werte */
+        .memory-note {
+            display:block;
+            margin-top:7px;
+
+            color:#f15a65;
+            font-size:.86rem;
+            font-style:italic;
+        }
+
+
+        /* =========================================================
+           SCHILD MIT BUCHSTABE F ODER G
+           ========================================================= */
+
+        .shield {
+            display:inline-grid;
+            place-items:center;
+
+            width:24px;
+            height:27px;
+
+            margin-left:4px;
+
+            color:#fff;
+            font-style:normal;
+            font-weight:800;
+
+            background:
+                linear-gradient(
+                    #c91425,
+                    #650711
+                );
+
+            border:1px solid #f2c2c6;
+
+            /* Erzeugt die Schildform */
+            clip-path:
+                polygon(
+                    50% 0,
+                    100% 18%,
+                    100% 72%,
+                    50% 100%,
+                    0 72%,
+                    0 18%
+                );
+
+            filter:drop-shadow(0 0 5px #e02233);
+        }
+
+
+        /* =========================================================
+           ANIMATIONEN
+           ========================================================= */
+
+
+        /* Schallplatte einmal vollständig drehen */
+        @keyframes spin {
+
+            to {
+                transform:rotate(360deg);
+            }
+
+        }
+
+
+        /* Farbverlauf der seitlichen Lichtleisten bewegen */
+        @keyframes bubble {
+
+            to {
+                background-position:0 100%;
+            }
+
+        }
+
+
+        /* Anzeige bei falscher Eingabe kurz schütteln */
+        @keyframes shake {
+
+            25% {
+                transform:translateX(-5px);
+            }
+
+            75% {
+                transform:translateX(5px);
+            }
+
+        }
+
+
+        /* Nächsten Hinweis weich einblenden */
+        @keyframes reveal {
+
+            to {
+                opacity:1;
+                transform:none;
+            }
+
+        }
+
+
+        /* =========================================================
+           SMARTPHONE-DARSTELLUNG
+
+           Unterhalb von 560 Pixel Bildschirmbreite wird die
+           MusicBox kompakter dargestellt.
+           ========================================================= */
+
+        @media(max-width:560px) {
+
+            body {
+                padding:12px 0 45px;
+            }
+
+            .page {
+                width:100%;
+            }
+
+            .cache-title {
+                padding:0 12px;
+            }
+
+            /* Außenrahmen der Jukebox etwas kompakter */
+            .jukebox {
+                padding:14px 13px 19px;
+                border-left-width:2px;
+                border-right-width:2px;
+            }
+
+            /* Lichtleisten verkleinern */
+            .jukebox:before,
+            .jukebox:after {
+                width:12px;
+                top:78px;
+            }
+
+            .jukebox:before {
+                left:7px;
+            }
+
+            .jukebox:after {
+                right:7px;
+            }
+
+            /* Innenbereich kompakter darstellen */
+            .arch {
+                min-height:720px;
+                padding:31px 33px 28px;
+            }
+
+            /* Schallplattenfenster verkleinern */
+            .record-window {
+                height:178px;
+            }
+
+            /* Schallplatte verkleinern */
+            .record {
+                width:128px;
+                height:128px;
+            }
+
+            /* Plattenlabel an kleinere Platte anpassen */
+            .label {
+                inset:40px;
+            }
+
+            /* Tonarm an kleinere Schallplatte anpassen */
+            .arm {
+                top:43px;
+                left:calc(50% + 38px);
+                width:78px;
+            }
+
+            /* Abstand der Zahlentasten reduzieren */
+            .keypad {
+                gap:7px;
+            }
+
+            /* Ziffern etwas verkleinern */
+            .key {
+                font-size:.92rem;
+            }
+
+            /* Hinweisbereich an Smartphonebreite anpassen */
+            .next-hint {
+                margin:24px 12px 0;
+                padding:21px 18px;
+            }
+
+        }
+
+
+        /* =========================================================
+           BARRIEREARME DARSTELLUNG
+
+           Wenn im Betriebssystem "Bewegung reduzieren" aktiviert
+           ist, werden sämtliche Animationen deaktiviert.
+           ========================================================= */
+
+        @media(prefers-reduced-motion:reduce) {
+
+            * {
+                animation:none !important;
+                scroll-behavior:auto !important;
+            }
+
+        }
+
+    </style>
+
 </head>
+
+
 <body>
-<main class="page">
-<header class="cache-title"><small>HEADBANGERS ROCK 'N' RENTE</small><h1>Die MusicBox</h1></header>
-<div class="jukebox"><section class="arch"><div class="content"><div class="brand">GCBY17R</div><div class="record-window" aria-hidden="true"><div class="record" id="record"><div class="label">HEAD<br>BANGER</div></div><div class="arm"></div></div><h1 class="machine-title">Headbangers<br>Rock 'n' Roll</h1><p class="sub">MUSICBOX</p><div class="selector"><div class="display" id="display"><div class="slot" id="slot0">&nbsp;</div><div class="slot" id="slot1">&nbsp;</div></div><div class="message" id="message" aria-live="polite">Wähle deine Nummer</div><div class="keypad" id="keypad"></div><button class="clear" id="clearBtn" type="button">AUSWAHL LÖSCHEN</button><div class="player-box" id="playerBox"><audio id="audioPlayer" controls preload="metadata"><source src="motorhead.mp3" type="audio/mpeg">Dein Browser kann diese MP3-Datei nicht abspielen.</audio></div></div></div></section></div>
-<section class="next-hint" id="nextHint" aria-live="polite" aria-hidden="true"><h2>🤘 Headbanger geht in Rente. Der Rock bleibt.</h2><p>Der erste Schlüssel hat die Jukebox geöffnet.</p><p>Der zweite steckt im Song.</p><ul><li>Wer spielt ihn?</li><li>Von welchem Album stammt er? (das wievielte?)<span class="memory-note">Merke dir <span class="shield">F</span></span></li><li>Welche Nummer trägt der Titel auf diesem Album?<span class="memory-note">Merke dir <span class="shield">G</span></span></li></ul><p class="next-path"><strong>Diese Nummer öffnet den nächsten Weg.</strong></p></section>
-</main>
-<script>
-"use strict";
-const CORRECT_CODE="49",HINT_DELAY_MS=12000;let entered="",resetTimer=null,hintTimer=null,audioContext=null;
-const display=document.getElementById("display"),slot0=document.getElementById("slot0"),slot1=document.getElementById("slot1"),message=document.getElementById("message"),keypad=document.getElementById("keypad"),clearBtn=document.getElementById("clearBtn"),record=document.getElementById("record"),playerBox=document.getElementById("playerBox"),audioPlayer=document.getElementById("audioPlayer"),nextHint=document.getElementById("nextHint");
-for(let n=0;n<=9;n++){const b=document.createElement("button");b.className="key";b.type="button";b.textContent=n;b.setAttribute("aria-label","Ziffer "+n);b.addEventListener("click",()=>pressDigit(String(n)));keypad.appendChild(b)}
-function updateSlots(){slot0.textContent=entered[0]||"\u00a0";slot1.textContent=entered[1]||"\u00a0"}
-function pressDigit(d){if(entered.length>=2)return;display.classList.remove("error","success");entered+=d;updateSlots();if(entered.length===2)checkCode()}
-function checkCode(){if(entered===CORRECT_CODE){display.classList.add("success");message.textContent="Treffer! Drücke auf Play, falls der Song nicht automatisch startet.";playerBox.classList.add("visible");audioPlayer.currentTime=0;audioPlayer.play().catch(()=>{});return}display.classList.add("error");message.textContent="Falsche Nummer";beep();clearTimeout(resetTimer);resetTimer=setTimeout(resetSelection,900)}
-function resetSelection(){entered="";display.classList.remove("error","success");updateSlots();message.textContent="Wähle deine Nummer"}
-function scheduleHint(){if(nextHint.classList.contains("visible")||hintTimer!==null)return;hintTimer=setTimeout(()=>{nextHint.classList.add("visible");nextHint.setAttribute("aria-hidden","false");hintTimer=null;setTimeout(()=>nextHint.scrollIntoView({behavior:"smooth",block:"nearest"}),250)},HINT_DELAY_MS)}
-function hideHint(){clearTimeout(hintTimer);hintTimer=null;nextHint.classList.remove("visible");nextHint.setAttribute("aria-hidden","true")}
-function resetAll(){clearTimeout(resetTimer);audioPlayer.pause();audioPlayer.currentTime=0;playerBox.classList.remove("visible");record.classList.remove("spin");hideHint();resetSelection()}
-function beep(){const A=window.AudioContext||window.webkitAudioContext;if(!A)return;audioContext=audioContext||new A();const o=audioContext.createOscillator(),g=audioContext.createGain(),now=audioContext.currentTime;o.type="sawtooth";o.frequency.setValueAtTime(440,now);o.frequency.exponentialRampToValueAtTime(110,now+.55);g.gain.setValueAtTime(.14,now);g.gain.exponentialRampToValueAtTime(.001,now+.6);o.connect(g);g.connect(audioContext.destination);o.start(now);o.stop(now+.6)}
-clearBtn.addEventListener("click",resetAll);audioPlayer.addEventListener("play",()=>{record.classList.add("spin");scheduleHint()});audioPlayer.addEventListener("pause",()=>record.classList.remove("spin"));audioPlayer.addEventListener("ended",()=>record.classList.remove("spin"));updateSlots();
-</script>
+
+
+    <!-- =========================================================
+         GESAMTER SEITENINHALT
+         ========================================================= -->
+
+    <main class="page">
+
+
+        <!-- =====================================================
+             SEITENÜBERSCHRIFT
+             ===================================================== -->
+
+        <header class="cache-title">
+
+            <small>
+                HEADBANGERS ROCK 'N' RENTE
+            </small>
+
+            <h1>
+                Die MusicBox
+            </h1>
+
+        </header>
+
+
+        <!-- =====================================================
+             MUSICBOX-GEHÄUSE
+             ===================================================== -->
+
+        <div class="jukebox">
+
+
+            <!-- =================================================
+                 INNERER BOGEN DER MUSICBOX
+                 ================================================= -->
+
+            <section class="arch">
+
+
+                <!--
+                    Eigentlicher sichtbarer Inhalt innerhalb
+                    des Gehäuses.
+                -->
+
+                <div class="content">
+
+
+                    <!-- Cache-Kennung -->
+                    <div class="brand">
+                        GCBY17R
+                    </div>
+
+
+                    <!-- =========================================
+                         SCHALLPLATTENFENSTER
+
+                         aria-hidden="true", weil Schallplatte und
+                         Tonarm rein dekorative Elemente sind.
+                         ========================================= -->
+
+                    <div
+                        class="record-window"
+                        aria-hidden="true"
+                    >
+
+
+                        <!--
+                            Schallplatte.
+
+                            JavaScript ergänzt während der
+                            Wiedergabe die Klasse "spin".
+                        -->
+
+                        <div
+                            class="record"
+                            id="record"
+                        >
+
+                            <div class="label">
+                                HEAD<br>
+                                BANGER
+                            </div>
+
+                        </div>
+
+
+                        <!-- Dekorativer Tonarm -->
+                        <div class="arm"></div>
+
+                    </div>
+
+
+                    <!-- =========================================
+                         TITEL DER MUSICBOX
+                         ========================================= -->
+
+                    <h1 class="machine-title">
+                        Headbangers<br>
+                        Rock 'n' Roll
+                    </h1>
+
+                    <p class="sub">
+                        MUSICBOX
+                    </p>
+
+
+                    <!-- =========================================
+                         NUMMERNAUSWAHL
+                         ========================================= -->
+
+                    <div class="selector">
+
+
+                        <!-- =====================================
+                             ZWEISTELLIGE ANZEIGE
+
+                             Die beiden Felder werden später per
+                             JavaScript mit der eingegebenen
+                             Nummer gefüllt.
+                             ===================================== -->
+
+                        <div
+                            class="display"
+                            id="display"
+                        >
+
+                            <!-- Erste Ziffer -->
+                            <div
+                                class="slot"
+                                id="slot0"
+                            >&nbsp;</div>
+
+                            <!-- Zweite Ziffer -->
+                            <div
+                                class="slot"
+                                id="slot1"
+                            >&nbsp;</div>
+
+                        </div>
+
+
+                        <!-- =====================================
+                             STATUSMELDUNG
+
+                             JavaScript zeigt hier beispielsweise:
+                             - Wähle deine Nummer
+                             - Falsche Nummer
+                             - Treffer!
+
+                             aria-live sorgt dafür, dass Änderungen
+                             auch von unterstützenden Technologien
+                             erkannt werden können.
+                             ===================================== -->
+
+                        <div
+                            class="message"
+                            id="message"
+                            aria-live="polite"
+                        >
+                            Wähle deine Nummer
+                        </div>
+
+
+                        <!-- =====================================
+                             ZAHLENTASTATUR
+
+                             Dieser Container ist zunächst leer.
+
+                             JavaScript erzeugt automatisch die
+                             zehn Zahlentasten von 0 bis 9.
+                             ===================================== -->
+
+                        <div
+                            class="keypad"
+                            id="keypad"
+                        ></div>
+
+
+                        <!-- =====================================
+                             AUSWAHL ZURÜCKSETZEN
+
+                             Setzt Eingabe, Audio, Schallplatte
+                             und Hinweis vollständig zurück.
+                             ===================================== -->
+
+                        <button
+                            class="clear"
+                            id="clearBtn"
+                            type="button"
+                        >
+                            AUSWAHL LÖSCHEN
+                        </button>
+
+
+                        <!-- =====================================
+                             AUDIO-PLAYER
+
+                             Der Player ist anfangs unsichtbar.
+
+                             Er wird erst eingeblendet, wenn die
+                             richtige Nummer eingegeben wurde.
+
+                             Abgespielt wird die Datei:
+                             motorhead.mp3
+
+                             Sie muss entsprechend erreichbar sein.
+                             ===================================== -->
+
+                        <div
+                            class="player-box"
+                            id="playerBox"
+                        >
+
+                            <audio
+                                id="audioPlayer"
+                                controls
+                                preload="metadata"
+                            >
+
+                                <source
+                                    src="motorhead.mp3"
+                                    type="audio/mpeg"
+                                >
+
+                                Dein Browser kann diese MP3-Datei nicht abspielen.
+
+                            </audio>
+
+                        </div>
+
+                    </div>
+
+                </div>
+
+            </section>
+
+        </div>
+
+
+        <!-- =====================================================
+             HINWEIS FÜR DEN NÄCHSTEN CACHE-SCHRITT
+
+             Dieser Bereich ist beim Laden der Seite zunächst
+             unsichtbar.
+
+             Sobald der Song abgespielt wird, startet ein Timer.
+
+             Nach 12 Sekunden wird dieser Hinweis eingeblendet.
+             ===================================================== -->
+
+        <section
+            class="next-hint"
+            id="nextHint"
+            aria-live="polite"
+            aria-hidden="true"
+        >
+
+            <h2>
+                🤘 Headbanger geht in Rente. Der Rock bleibt.
+            </h2>
+
+            <p>
+                Der erste Schlüssel hat die Jukebox geöffnet.
+            </p>
+
+            <p>
+                Der zweite steckt im Song.
+            </p>
+
+
+            <!--
+                Die folgenden Fragen führen zu den nächsten
+                benötigten Informationen.
+            -->
+
+            <ul>
+
+                <li>
+                    Wer spielt ihn?
+                </li>
+
+                <li>
+                    Von welchem Album stammt er? (das wievielte?)
+
+                    <!--
+                        Das Ergebnis dieser Frage soll als Wert F
+                        gemerkt werden.
+                    -->
+
+                    <span class="memory-note">
+                        Merke dir
+                        <span class="shield">F</span>
+                    </span>
+
+                </li>
+
+                <li>
+                    Welche Nummer trägt der Titel auf diesem Album?
+
+                    <!--
+                        Das Ergebnis dieser Frage soll als Wert G
+                        gemerkt werden.
+                    -->
+
+                    <span class="memory-note">
+                        Merke dir
+                        <span class="shield">G</span>
+                    </span>
+
+                </li>
+
+            </ul>
+
+
+            <p class="next-path">
+
+                <strong>
+                    Diese Nummer öffnet den nächsten Weg.
+                </strong>
+
+            </p>
+
+        </section>
+
+    </main>
+
+
+    <script>
+
+        /* =========================================================
+           JAVASCRIPT DER MUSICBOX
+
+           Hier wird die komplette Funktion der Zahlenauswahl,
+           Musikwiedergabe, Schallplattenanimation und des
+           nächsten Hinweises gesteuert.
+           ========================================================= */
+
+
+        /* Strengeren JavaScript-Modus aktivieren */
+        "use strict";
+
+
+        /* =========================================================
+           KONFIGURATION
+           ========================================================= */
+
+
+        /*
+            Die richtige zweistellige Nummer.
+
+            Nur bei Eingabe von "49" wird der Song freigeschaltet.
+        */
+
+        const CORRECT_CODE = "49";
+
+
+        /*
+            Wartezeit bis der nächste Hinweis erscheint.
+
+            12000 Millisekunden entsprechen 12 Sekunden.
+        */
+
+        const HINT_DELAY_MS = 12000;
+
+
+        /* =========================================================
+           STATUSVARIABLEN
+           ========================================================= */
+
+
+        /*
+            Speichert die bisher eingegebenen Ziffern.
+            Zu Beginn ist noch keine Ziffer ausgewählt.
+        */
+
+        let entered = "";
+
+
+        /*
+            Timer zum automatischen Zurücksetzen nach einer
+            falschen Eingabe.
+        */
+
+        let resetTimer = null;
+
+
+        /*
+            Timer für die verzögerte Anzeige des nächsten Hinweises.
+        */
+
+        let hintTimer = null;
+
+
+        /*
+            AudioContext wird für den Fehlerton verwendet.
+
+            Die Variable bleibt zunächst leer und wird erst beim
+            ersten benötigten Fehlerton erzeugt.
+        */
+
+        let audioContext = null;
+
+
+        /* =========================================================
+           BENÖTIGTE HTML-ELEMENTE HOLEN
+
+           Über die IDs erhalten wir Zugriff auf die Elemente,
+           die später dynamisch verändert werden.
+           ========================================================= */
+
+        const display =
+            document.getElementById("display");
+
+        const slot0 =
+            document.getElementById("slot0");
+
+        const slot1 =
+            document.getElementById("slot1");
+
+        const message =
+            document.getElementById("message");
+
+        const keypad =
+            document.getElementById("keypad");
+
+        const clearBtn =
+            document.getElementById("clearBtn");
+
+        const record =
+            document.getElementById("record");
+
+        const playerBox =
+            document.getElementById("playerBox");
+
+        const audioPlayer =
+            document.getElementById("audioPlayer");
+
+        const nextHint =
+            document.getElementById("nextHint");
+
+
+        /* =========================================================
+           ZAHLENTASTEN 0 BIS 9 ERZEUGEN
+
+           Die Buttons stehen nicht einzeln im HTML.
+
+           Stattdessen erzeugt JavaScript beim Laden der Seite
+           automatisch zehn Buttons.
+           ========================================================= */
+
+        for (let n = 0; n <= 9; n++) {
+
+
+            /*
+                Neuen HTML-Button erzeugen.
+            */
+
+            const b =
+                document.createElement("button");
+
+
+            /* CSS-Klasse für die Gestaltung setzen */
+            b.className = "key";
+
+
+            /*
+                type="button" verhindert ein möglicherweise
+                unbeabsichtigtes Absenden eines Formulars.
+            */
+
+            b.type = "button";
+
+
+            /* Angezeigte Ziffer */
+            b.textContent = n;
+
+
+            /*
+                Zugängliche Bezeichnung der Taste für
+                unterstützende Technologien.
+            */
+
+            b.setAttribute(
+                "aria-label",
+                "Ziffer " + n
+            );
+
+
+            /*
+                Beim Klick wird die entsprechende Ziffer an
+                pressDigit() übergeben.
+            */
+
+            b.addEventListener(
+                "click",
+                () => pressDigit(String(n))
+            );
+
+
+            /*
+                Fertigen Button in die Zahlentastatur einsetzen.
+            */
+
+            keypad.appendChild(b);
+
+        }
+
+
+        /* =========================================================
+           ANZEIGE AKTUALISIEREN
+
+           Überträgt die gespeicherten Ziffern aus "entered"
+           in die beiden sichtbaren Nummernfelder.
+           ========================================================= */
+
+        function updateSlots() {
+
+
+            /*
+                Erste Ziffer anzeigen.
+
+                Wenn noch nichts eingegeben wurde, wird ein
+                geschütztes Leerzeichen verwendet.
+            */
+
+            slot0.textContent =
+                entered[0] || "\u00a0";
+
+
+            /* Zweite Ziffer */
+            slot1.textContent =
+                entered[1] || "\u00a0";
+
+        }
+
+
+        /* =========================================================
+           ZIFFER EINGEBEN
+           ========================================================= */
+
+        function pressDigit(d) {
+
+
+            /*
+                Es dürfen maximal zwei Ziffern eingegeben werden.
+
+                Sobald zwei Ziffern vorhanden sind, werden weitere
+                Eingaben ignoriert.
+            */
+
+            if (entered.length >= 2) {
+                return;
+            }
+
+
+            /*
+                Eventuell vorhandene Fehler- oder Erfolgsanzeige
+                zurücksetzen.
+            */
+
+            display.classList.remove(
+                "error",
+                "success"
+            );
+
+
+            /* Neue Ziffer an die bisherige Eingabe anhängen */
+            entered += d;
+
+
+            /* Sichtbare Anzeige aktualisieren */
+            updateSlots();
+
+
+            /*
+                Sobald zwei Ziffern eingegeben wurden, wird
+                automatisch geprüft, ob die Nummer richtig ist.
+            */
+
+            if (entered.length === 2) {
+
+                checkCode();
+
+            }
+
+        }
+
+
+        /* =========================================================
+           EINGEGEBENE NUMMER PRÜFEN
+           ========================================================= */
+
+        function checkCode() {
+
+
+            /* -----------------------------------------------------
+               RICHTIGE NUMMER
+               ----------------------------------------------------- */
+
+            if (entered === CORRECT_CODE) {
+
+
+                /* Anzeige grün darstellen */
+                display.classList.add("success");
+
+
+                /* Erfolgsmeldung anzeigen */
+                message.textContent =
+                    "Treffer! Drücke auf Play, falls der Song nicht automatisch startet.";
+
+
+                /* MP3-Player sichtbar machen */
+                playerBox.classList.add("visible");
+
+
+                /*
+                    Sicherstellen, dass der Song von vorne beginnt.
+                */
+
+                audioPlayer.currentTime = 0;
+
+
+                /*
+                    Versuchen, den Song automatisch abzuspielen.
+
+                    Browser können automatisches Audio blockieren.
+                    Deshalb wird ein möglicher Fehler hier bewusst
+                    abgefangen.
+
+                    Der Benutzer kann anschließend den sichtbaren
+                    Play-Button verwenden.
+                */
+
+                audioPlayer
+                    .play()
+                    .catch(() => {});
+
+
+                /*
+                    Nach erfolgreicher Eingabe ist die Funktion
+                    beendet.
+                */
+
+                return;
+            }
+
+
+            /* -----------------------------------------------------
+               FALSCHE NUMMER
+               ----------------------------------------------------- */
+
+
+            /* Fehlerklasse hinzufügen */
+            display.classList.add("error");
+
+
+            /* Fehlermeldung anzeigen */
+            message.textContent =
+                "Falsche Nummer";
+
+
+            /*
+                Akustischen Fehlerton erzeugen.
+            */
+
+            beep();
+
+
+            /*
+                Eventuell bereits laufenden Reset-Timer löschen.
+
+                Dadurch wird verhindert, dass mehrere Timer
+                gleichzeitig arbeiten.
+            */
+
+            clearTimeout(resetTimer);
+
+
+            /*
+                Nach 900 Millisekunden wird die Eingabe
+                automatisch zurückgesetzt.
+            */
+
+            resetTimer =
+                setTimeout(
+                    resetSelection,
+                    900
+                );
+
+        }
+
+
+        /* =========================================================
+           NUMMERNAUSWAHL ZURÜCKSETZEN
+
+           Setzt nur die eingegebene Nummer und die dazugehörige
+           Anzeige zurück.
+           ========================================================= */
+
+        function resetSelection() {
+
+
+            /* Eingabe löschen */
+            entered = "";
+
+
+            /* Erfolg- oder Fehlerstatus entfernen */
+            display.classList.remove(
+                "error",
+                "success"
+            );
+
+
+            /* Die beiden Nummernfelder wieder leeren */
+            updateSlots();
+
+
+            /* Ursprüngliche Meldung anzeigen */
+            message.textContent =
+                "Wähle deine Nummer";
+
+        }
+
+
+        /* =========================================================
+           NÄCHSTEN HINWEIS ZEITVERZÖGERT ANZEIGEN
+
+           Diese Funktion wird gestartet, sobald der Song läuft.
+           ========================================================= */
+
+        function scheduleHint() {
+
+
+            /*
+                Nichts machen, wenn:
+
+                - der Hinweis bereits sichtbar ist oder
+                - bereits ein entsprechender Timer läuft.
+            */
+
+            if (
+                nextHint.classList.contains("visible") ||
+                hintTimer !== null
+            ) {
+                return;
+            }
+
+
+            /*
+                Timer starten.
+
+                Nach HINT_DELAY_MS, hier 12 Sekunden, wird der
+                nächste Hinweis sichtbar gemacht.
+            */
+
+            hintTimer =
+                setTimeout(
+                    () => {
+
+
+                        /* Hinweis sichtbar machen */
+                        nextHint.classList.add("visible");
+
+
+                        /*
+                            aria-hidden aktualisieren, damit der
+                            sichtbare Bereich auch für unterstützende
+                            Technologien verfügbar ist.
+                        */
+
+                        nextHint.setAttribute(
+                            "aria-hidden",
+                            "false"
+                        );
+
+
+                        /*
+                            Kennzeichnen, dass kein Hinweis-Timer
+                            mehr läuft.
+                        */
+
+                        hintTimer = null;
+
+
+                        /*
+                            Kurze zusätzliche Verzögerung, damit
+                            zunächst die Einblendanimation beginnt.
+
+                            Anschließend scrollt der Browser weich
+                            zum neuen Hinweis.
+                        */
+
+                        setTimeout(
+                            () =>
+                                nextHint.scrollIntoView({
+                                    behavior:"smooth",
+                                    block:"nearest"
+                                }),
+                            250
+                        );
+
+                    },
+                    HINT_DELAY_MS
+                );
+
+        }
+
+
+        /* =========================================================
+           HINWEIS WIEDER AUSBLENDEN
+           ========================================================= */
+
+        function hideHint() {
+
+
+            /*
+                Falls der 12-Sekunden-Timer noch läuft, wird er
+                beendet.
+            */
+
+            clearTimeout(hintTimer);
+
+
+            /* Timerstatus zurücksetzen */
+            hintTimer = null;
+
+
+            /* Sichtbarkeitsklasse entfernen */
+            nextHint.classList.remove("visible");
+
+
+            /* Hinweis wieder als unsichtbar kennzeichnen */
+            nextHint.setAttribute(
+                "aria-hidden",
+                "true"
+            );
+
+        }
+
+
+        /* =========================================================
+           MUSICBOX KOMPLETT ZURÜCKSETZEN
+
+           Wird über "AUSWAHL LÖSCHEN" ausgelöst.
+           ========================================================= */
+
+        function resetAll() {
+
+
+            /*
+                Automatischen Reset nach Falscheingabe stoppen,
+                falls er noch aktiv sein sollte.
+            */
+
+            clearTimeout(resetTimer);
+
+
+            /* Musikwiedergabe stoppen */
+            audioPlayer.pause();
+
+
+            /* Song wieder an den Anfang setzen */
+            audioPlayer.currentTime = 0;
+
+
+            /* Audio-Player wieder ausblenden */
+            playerBox.classList.remove("visible");
+
+
+            /* Drehung der Schallplatte stoppen */
+            record.classList.remove("spin");
+
+
+            /* Nächsten Hinweis ausblenden */
+            hideHint();
+
+
+            /* Nummernauswahl zurücksetzen */
+            resetSelection();
+
+        }
+
+
+        /* =========================================================
+           FEHLERTON ERZEUGEN
+
+           Der Ton wird vollständig im Browser mit der
+           Web Audio API erzeugt.
+
+           Es wird dafür keine zusätzliche Audiodatei benötigt.
+           ========================================================= */
+
+        function beep() {
+
+
+            /*
+                Je nach Browser heißt die AudioContext-Schnittstelle
+                AudioContext oder webkitAudioContext.
+            */
+
+            const A =
+                window.AudioContext ||
+                window.webkitAudioContext;
+
+
+            /*
+                Falls der Browser die Web Audio API nicht
+                unterstützt, wird die Funktion beendet.
+            */
+
+            if (!A) {
+                return;
+            }
+
+
+            /*
+                Einen vorhandenen AudioContext verwenden oder beim
+                ersten Aufruf einen neuen erzeugen.
+            */
+
+            audioContext =
+                audioContext || new A();
+
+
+            /* Oszillator erzeugt den eigentlichen Ton */
+            const o =
+                audioContext.createOscillator();
+
+
+            /*
+                GainNode steuert die Lautstärke des erzeugten Tons.
+            */
+
+            const g =
+                audioContext.createGain();
+
+
+            /*
+                Aktuellen Zeitwert des Audiokontexts speichern.
+            */
+
+            const now =
+                audioContext.currentTime;
+
+
+            /*
+                Sägezahn-Wellenform erzeugt einen raueren
+                Fehlerton.
+            */
+
+            o.type = "sawtooth";
+
+
+            /*
+                Ton beginnt bei 440 Hz.
+            */
+
+            o.frequency.setValueAtTime(
+                440,
+                now
+            );
+
+
+            /*
+                Innerhalb von 0,55 Sekunden fällt die Frequenz
+                auf 110 Hz.
+            */
+
+            o.frequency.exponentialRampToValueAtTime(
+                110,
+                now + .55
+            );
+
+
+            /*
+                Anfangslautstärke setzen.
+            */
+
+            g.gain.setValueAtTime(
+                .14,
+                now
+            );
+
+
+            /*
+                Lautstärke innerhalb von 0,6 Sekunden nahezu
+                vollständig ausblenden.
+            */
+
+            g.gain.exponentialRampToValueAtTime(
+                .001,
+                now + .6
+            );
+
+
+            /* Oszillator mit Lautstärkesteuerung verbinden */
+            o.connect(g);
+
+
+            /* Lautstärkesteuerung mit Audioausgabe verbinden */
+            g.connect(
+                audioContext.destination
+            );
+
+
+            /* Fehlerton starten */
+            o.start(now);
+
+
+            /* Fehlerton nach 0,6 Sekunden beenden */
+            o.stop(
+                now + .6
+            );
+
+        }
+
+
+        /* =========================================================
+           BUTTON "AUSWAHL LÖSCHEN"
+
+           Beim Klick wird die komplette MusicBox zurückgesetzt.
+           ========================================================= */
+
+        clearBtn.addEventListener(
+            "click",
+            resetAll
+        );
+
+
+        /* =========================================================
+           SONG WIRD ABGESPIELT
+
+           Sobald das Audioelement tatsächlich mit der Wiedergabe
+           beginnt:
+
+           1. Die Schallplatte beginnt sich zu drehen.
+           2. Der 12-Sekunden-Timer für den Hinweis startet.
+           ========================================================= */
+
+        audioPlayer.addEventListener(
+            "play",
+            () => {
+
+
+                /* Schallplatte drehen */
+                record.classList.add("spin");
+
+
+                /* Timer für nächsten Hinweis starten */
+                scheduleHint();
+
+            }
+        );
+
+
+        /* =========================================================
+           SONG WIRD PAUSIERT
+
+           Die Schallplatte stoppt.
+           Der bereits gestartete Hinweis-Timer wird dadurch
+           nicht zurückgesetzt.
+           ========================================================= */
+
+        audioPlayer.addEventListener(
+            "pause",
+            () => {
+
+                record.classList.remove("spin");
+
+            }
+        );
+
+
+        /* =========================================================
+           SONG IST ZU ENDE
+
+           Auch nach dem vollständigen Abspielen wird die
+           Schallplattenanimation beendet.
+           ========================================================= */
+
+        audioPlayer.addEventListener(
+            "ended",
+            () => {
+
+                record.classList.remove("spin");
+
+            }
+        );
+
+
+        /* =========================================================
+           INITIALISIERUNG
+
+           Beim ersten Laden der Seite werden die beiden
+           Nummernfelder auf ihren Ausgangszustand gesetzt.
+           ========================================================= */
+
+        updateSlots();
+
+    </script>
+
 </body>
+
 </html>
