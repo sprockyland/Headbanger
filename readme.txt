@@ -61,6 +61,9 @@ Geocaching-Listing:
   * Listing GCBY17R auf Geocaching.com:
     https://www.geocaching.com/geocache/GCBY17R
 
+Admin-Site für Christian, falls mal was kaputtgeht (nur für Christian)
+  * Cache Repair Center:
+    https://sprockyland.github.io/Headbanger/reparatur.html
 
 --------------------------------------------------------------------------------
 4. HINWEIS
