@@ -80,7 +80,7 @@
         display: flex;
         align-items: center;
         gap: 15px;
-        padding: 16px 18px;
+        padding: 18px;
         background: rgba(20,20,20,.94);
         border: 1px solid #333;
         border-left: 4px solid #800000;
@@ -99,6 +99,7 @@
         width: 42px;
         text-align: center;
         font-size: 29px;
+        flex-shrink: 0;
     }
 
     .file-info {
@@ -110,12 +111,21 @@
         font-size: 16px;
         font-weight: bold;
         word-break: break-word;
+        color: #ffffff;
     }
 
     .file-type {
         margin-top: 4px;
         font-size: 12px;
         color: #777;
+    }
+
+    .file-description {
+        margin-top: 9px;
+        padding-right: 15px;
+        font-size: 14px;
+        color: #bbbbbb;
+        line-height: 1.5;
     }
 
     button {
@@ -128,6 +138,7 @@
         cursor: pointer;
         transition: .2s;
         white-space: nowrap;
+        flex-shrink: 0;
     }
 
     button:hover {
@@ -210,7 +221,7 @@
         box-shadow: 0 0 10px red;
     }
 
-    @media (max-width: 620px) {
+    @media (max-width: 700px) {
         .file {
             flex-wrap: wrap;
         }
@@ -219,9 +230,19 @@
             width: calc(100% - 60px);
         }
 
+        .file-description {
+            padding-right: 0;
+        }
+
         button {
             width: 100%;
             margin-left: 57px;
+        }
+    }
+
+    @media (max-width: 480px) {
+        button {
+            margin-left: 0;
         }
     }
 </style>
@@ -243,8 +264,9 @@
         </div>
 
         <div class="warning">
-            ⚠️ Dieser Bereich enthält das digitale Notfallbesteck.
-            Falls irgendwann etwas im Cache abraucht:
+            ⚠️ Hier lagert das digitale Notfallbesteck für den Headbanger-Cache.
+            Falls draußen irgendwann etwas verschwindet, zerknittert, absäuft,
+            sich in Luft auflöst oder von Muggeln gefressen wird:
             Ruhe bewahren, passende Datei auswählen und den roten Knopf drücken.
         </div>
 
@@ -299,9 +321,7 @@ const RAW_BASE =
 
 /*
     ---------------------------------------------------------
-    Dateien
-
-    Die beiden ZIP-Dateien sind bewusst nicht enthalten.
+    Dateien und Erklärungen
     ---------------------------------------------------------
 */
 
@@ -310,55 +330,73 @@ const files = [
     {
         name: "DosenBild-IN.png",
         type: "PNG-Grafik",
-        icon: "🖼️"
+        icon: "🥫",
+        description:
+            "Das Innenleben der Final-Dose. Dieses Bild liegt in der Dose und begrüßt den Cacher, sobald der Deckel aufgeht. Falls es irgendwann beschädigt ist oder die Flucht ergreift: Hier gibt es frischen Ersatz."
     },
 
     {
         name: "DosenBild-OUT.png",
         type: "PNG-Grafik",
-        icon: "🖼️"
+        icon: "🎸",
+        description:
+            "Die Außenhaut der Final-Cache-Dose. Dieses Bild ummantelt die Dose und sorgt für den standesgemäßen ersten Auftritt. Quasi das Bühnenoutfit des Finals."
     },
 
     {
         name: "Eintrittskarte.jpg",
         type: "JPG-Grafik",
-        icon: "🎫"
+        icon: "🎫",
+        description:
+            "Christians persönliche Eintrittskarte. Eigentlich ein Einzelstück nur für dich. Falls du sie noch einmal ausdrucken möchtest, weil das Original irgendwann zu viele Headbanger-Einsätze hinter sich hat, liegt hier die Reserve."
     },
 
     {
         name: "FINAL-Code.png",
         type: "PNG-Grafik",
-        icon: "🧩"
+        icon: "🔐",
+        description:
+            "Der Final-Code für den Plan B. Im Original liegt dieser Code an der Finalstelle nicht separat aus. Aber man kann ja nie wissen. Falls Improvisation gefragt ist, wartet hier die digitale Notfallration."
     },
 
     {
         name: "LaternenSchild.png",
         type: "PNG-Grafik",
-        icon: "🖼️"
+        icon: "💡",
+        description:
+            "Das Schild direkt am ver.di-Haus. Sollte das Original irgendwann Beine bekommen, Wind und Wetter verlieren oder anderweitig die Bühne verlassen: Hier wartet sein digitaler Zwilling."
     },
 
     {
         name: "LOGBUCH-DB.jpg",
         type: "JPG-Grafik",
-        icon: "📖"
+        icon: "📕",
+        description:
+            "Das Deckblatt für das Logbuch. Damit auch ein Ersatz-Logbuch sofort weiß, dass es zum Headbanger gehört und nicht versehentlich auf einer Jahreshauptversammlung gelandet ist."
     },
 
     {
         name: "LogBuch-Druck.jpg",
         type: "JPG-Grafik",
-        icon: "📖"
+        icon: "📖",
+        description:
+            "Das Rundum-sorglos-Paket fürs Logbuch: Deckblatt plus einige Blankoseiten. Ausdrucken, zusammenbauen, ab zum Cache. Fast wie ein neues Logbuch aus der Werkstatt."
     },
 
     {
         name: "LogBuch-Druck-blanko.jpg",
         type: "JPG-Grafik",
-        icon: "📖"
+        icon: "📝",
+        description:
+            "Ein paar frische Blankoseiten für das Logbuch. Für den Moment, in dem die Cacher fleißiger loggen als geplant und plötzlich jeder freie Quadratzentimeter kostbar wird."
     },
 
     {
         name: "URKUNDE2.png",
         type: "PNG-Grafik",
-        icon: "🏆"
+        icon: "🏆",
+        description:
+            "Die digitale Ausgabe deiner Urkunde. Das Original hast du inzwischen sogar hinter Glas. Falls irgendwann jemand fragt, ob es dafür wirklich eine Urkunde gab: Natürlich gab es die. Hier ist der Beweis."
     }
 
 ];
@@ -394,6 +432,10 @@ files.forEach(file => {
                 ${file.type}
             </div>
 
+            <div class="file-description">
+                ${file.description}
+            </div>
+
         </div>
 
         <button onclick="headbangerDownload('${file.name}')">
@@ -423,7 +465,6 @@ function headbangerDownload(filename) {
     const progress =
         document.getElementById("progressBar");
 
-
     overlay.style.display = "flex";
 
     progress.style.width = "0%";
@@ -448,7 +489,15 @@ function headbangerDownload(filename) {
 
         "Christian hat den roten Knopf gedrückt. Mutig.",
 
-        "Headbanger-Protokoll wird ausgeführt ..."
+        "Headbanger-Protokoll wird ausgeführt ...",
+
+        "Final-Dose bekommt digitales Erste-Hilfe-Material ...",
+
+        "Muggel werden vorsorglich aus dem Arbeitsspeicher entfernt ...",
+
+        "Logbuch-Roadies stehen bereit ...",
+
+        "Ersatzteil wird für den nächsten Gig vorbereitet ..."
 
     ];
 
@@ -470,7 +519,6 @@ function headbangerDownload(filename) {
         progress.style.width =
             value + "%";
 
-
         if (Math.random() > 0.65) {
 
             message.textContent =
@@ -483,14 +531,12 @@ function headbangerDownload(filename) {
 
         }
 
-
         if (value >= 100) {
 
             clearInterval(timer);
 
             message.textContent =
                 "🤘 REPARATURMATERIAL BEREIT. DOWNLOAD!";
-
 
             setTimeout(() => {
 
