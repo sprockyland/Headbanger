@@ -1,0 +1,542 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+<title>Headbanger Admin Repair Center</title>
+
+<style>
+    * {
+        box-sizing: border-box;
+    }
+
+    body {
+        margin: 0;
+        min-height: 100vh;
+        font-family: Arial, Helvetica, sans-serif;
+        color: #eeeeee;
+        background:
+            radial-gradient(circle at top, #3a0909 0, #160404 25%, #080808 60%);
+    }
+
+    .container {
+        width: min(1000px, 92%);
+        margin: 0 auto;
+        padding: 45px 0 70px;
+    }
+
+    .header {
+        text-align: center;
+        margin-bottom: 40px;
+    }
+
+    .logo {
+        font-size: 70px;
+        margin-bottom: 5px;
+        filter: drop-shadow(0 0 15px #ff2424);
+    }
+
+    h1 {
+        margin: 0;
+        font-size: clamp(32px, 7vw, 64px);
+        letter-spacing: 3px;
+        text-transform: uppercase;
+        color: #ffffff;
+        text-shadow:
+            0 0 7px #ff0000,
+            0 0 18px #8a0000;
+    }
+
+    .subtitle {
+        margin-top: 12px;
+        color: #bbbbbb;
+        font-size: 17px;
+    }
+
+    .christian {
+        color: #ff3535;
+        font-weight: bold;
+    }
+
+    .warning {
+        max-width: 760px;
+        margin: 25px auto;
+        padding: 15px 20px;
+        border: 1px solid #592020;
+        border-radius: 8px;
+        background: rgba(120, 0, 0, 0.13);
+        color: #c8c8c8;
+        font-size: 14px;
+        line-height: 1.5;
+    }
+
+    .file-list {
+        display: grid;
+        gap: 12px;
+    }
+
+    .file {
+        display: flex;
+        align-items: center;
+        gap: 15px;
+        padding: 16px 18px;
+        background: rgba(20,20,20,.94);
+        border: 1px solid #333;
+        border-left: 4px solid #800000;
+        border-radius: 8px;
+        transition: .2s;
+    }
+
+    .file:hover {
+        border-left-color: #ff2626;
+        transform: translateX(4px);
+        background: #181818;
+        box-shadow: 0 0 18px rgba(255,0,0,.11);
+    }
+
+    .file-icon {
+        width: 42px;
+        text-align: center;
+        font-size: 29px;
+    }
+
+    .file-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .file-name {
+        font-size: 16px;
+        font-weight: bold;
+        word-break: break-word;
+    }
+
+    .file-type {
+        margin-top: 4px;
+        font-size: 12px;
+        color: #777;
+    }
+
+    button {
+        border: 1px solid #b52020;
+        padding: 10px 16px;
+        border-radius: 6px;
+        background: #760d0d;
+        color: white;
+        font-weight: bold;
+        cursor: pointer;
+        transition: .2s;
+        white-space: nowrap;
+    }
+
+    button:hover {
+        background: #bf1818;
+        box-shadow: 0 0 13px rgba(255,0,0,.45);
+    }
+
+    button:disabled {
+        opacity: .5;
+        cursor: wait;
+    }
+
+    .footer {
+        margin-top: 40px;
+        text-align: center;
+        color: #666;
+        font-size: 12px;
+    }
+
+    /* Download-Overlay */
+
+    #downloadOverlay {
+        position: fixed;
+        inset: 0;
+        display: none;
+        align-items: center;
+        justify-content: center;
+        z-index: 9999;
+        background: rgba(0,0,0,.92);
+        text-align: center;
+    }
+
+    .repair-box {
+        padding: 35px;
+        width: min(600px, 90%);
+    }
+
+    .headbang {
+        font-size: 90px;
+        animation: bang .22s infinite alternate;
+    }
+
+    @keyframes bang {
+        0% {
+            transform: rotate(-10deg) translateY(-5px);
+        }
+        100% {
+            transform: rotate(10deg) translateY(10px);
+        }
+    }
+
+    .repair-title {
+        margin-top: 20px;
+        color: #ff3434;
+        font-size: 28px;
+        font-weight: bold;
+        text-transform: uppercase;
+    }
+
+    .repair-message {
+        margin-top: 15px;
+        color: #ddd;
+        font-size: 18px;
+        min-height: 28px;
+    }
+
+    .progress {
+        width: 100%;
+        height: 8px;
+        margin-top: 25px;
+        background: #222;
+        border-radius: 10px;
+        overflow: hidden;
+    }
+
+    .progress-bar {
+        width: 0%;
+        height: 100%;
+        background: linear-gradient(90deg, #710000, #ff2222);
+        box-shadow: 0 0 10px red;
+    }
+
+    @media (max-width: 620px) {
+        .file {
+            flex-wrap: wrap;
+        }
+
+        .file-info {
+            width: calc(100% - 60px);
+        }
+
+        button {
+            width: 100%;
+            margin-left: 57px;
+        }
+    }
+</style>
+</head>
+
+<body>
+
+<div class="container">
+
+    <div class="header">
+
+        <div class="logo">🤘</div>
+
+        <h1>Headbanger Admin</h1>
+
+        <div class="subtitle">
+            Cache Repair Center für
+            <span class="christian">Christian aka Headbanger</span>
+        </div>
+
+        <div class="warning">
+            ⚠️ Dieser Bereich enthält das digitale Notfallbesteck.
+            Falls irgendwann etwas im Cache abraucht:
+            Ruhe bewahren, passende Datei auswählen und den roten Knopf drücken.
+        </div>
+
+    </div>
+
+    <div id="fileList" class="file-list"></div>
+
+    <div class="footer">
+        HEADBANGER ADMIN CONSOLE &nbsp;•&nbsp;
+        In case of emergency: download harder. 🤘
+    </div>
+
+</div>
+
+
+<!-- Lustiges Download-Overlay -->
+
+<div id="downloadOverlay">
+
+    <div class="repair-box">
+
+        <div class="headbang">🤘</div>
+
+        <div class="repair-title">
+            HEADBANGER REPAIR MODE
+        </div>
+
+        <div id="repairMessage" class="repair-message">
+            Cache wird ordentlich durchgeschüttelt ...
+        </div>
+
+        <div class="progress">
+            <div id="progressBar" class="progress-bar"></div>
+        </div>
+
+    </div>
+
+</div>
+
+
+<script>
+
+/*
+    ---------------------------------------------------------
+    GitHub-Konfiguration
+    ---------------------------------------------------------
+*/
+
+const RAW_BASE =
+    "https://raw.githubusercontent.com/sprockyland/Headbanger/admin/";
+
+
+/*
+    ---------------------------------------------------------
+    Dateien
+
+    Die beiden ZIP-Dateien sind bewusst nicht enthalten.
+    ---------------------------------------------------------
+*/
+
+const files = [
+
+    {
+        name: "DosenBild-IN.png",
+        type: "PNG-Grafik",
+        icon: "🖼️"
+    },
+
+    {
+        name: "DosenBild-OUT.png",
+        type: "PNG-Grafik",
+        icon: "🖼️"
+    },
+
+    {
+        name: "Eintrittskarte.jpg",
+        type: "JPG-Grafik",
+        icon: "🎫"
+    },
+
+    {
+        name: "FINAL-Code.png",
+        type: "PNG-Grafik",
+        icon: "🧩"
+    },
+
+    {
+        name: "LaternenSchild.png",
+        type: "PNG-Grafik",
+        icon: "🖼️"
+    },
+
+    {
+        name: "LOGBUCH-DB.jpg",
+        type: "JPG-Grafik",
+        icon: "📖"
+    },
+
+    {
+        name: "LogBuch-Druck.jpg",
+        type: "JPG-Grafik",
+        icon: "📖"
+    },
+
+    {
+        name: "LogBuch-Druck-blanko.jpg",
+        type: "JPG-Grafik",
+        icon: "📖"
+    },
+
+    {
+        name: "URKUNDE2.png",
+        type: "PNG-Grafik",
+        icon: "🏆"
+    }
+
+];
+
+
+/*
+    ---------------------------------------------------------
+    Dateiliste erzeugen
+    ---------------------------------------------------------
+*/
+
+const fileList = document.getElementById("fileList");
+
+files.forEach(file => {
+
+    const entry = document.createElement("div");
+
+    entry.className = "file";
+
+    entry.innerHTML = `
+
+        <div class="file-icon">
+            ${file.icon}
+        </div>
+
+        <div class="file-info">
+
+            <div class="file-name">
+                ${file.name}
+            </div>
+
+            <div class="file-type">
+                ${file.type}
+            </div>
+
+        </div>
+
+        <button onclick="headbangerDownload('${file.name}')">
+            ⬇ REPARATURDATEI
+        </button>
+    `;
+
+    fileList.appendChild(entry);
+
+});
+
+
+/*
+    ---------------------------------------------------------
+    Download mit Headbanger-Zeremonie
+    ---------------------------------------------------------
+*/
+
+function headbangerDownload(filename) {
+
+    const overlay =
+        document.getElementById("downloadOverlay");
+
+    const message =
+        document.getElementById("repairMessage");
+
+    const progress =
+        document.getElementById("progressBar");
+
+
+    overlay.style.display = "flex";
+
+    progress.style.width = "0%";
+
+    message.textContent =
+        "Cache wird ordentlich durchgeschüttelt ...";
+
+
+    /*
+        Kleine zufällige Admin-Weisheiten
+    */
+
+    const messages = [
+
+        "Defekte Bits werden aus dem Moshpit entfernt ...",
+
+        "Cache wird mit 120 Dezibel repariert ...",
+
+        "GitHub-Roadie holt die Ersatzteile ...",
+
+        "Kaputte Bytes fliegen jetzt raus ...",
+
+        "Christian hat den roten Knopf gedrückt. Mutig.",
+
+        "Headbanger-Protokoll wird ausgeführt ..."
+
+    ];
+
+
+    /*
+        Fortschrittsanzeige
+    */
+
+    let value = 0;
+
+    const timer = setInterval(() => {
+
+        value += Math.floor(Math.random() * 18) + 5;
+
+        if (value > 100) {
+            value = 100;
+        }
+
+        progress.style.width =
+            value + "%";
+
+
+        if (Math.random() > 0.65) {
+
+            message.textContent =
+                messages[
+                    Math.floor(
+                        Math.random() *
+                        messages.length
+                    )
+                ];
+
+        }
+
+
+        if (value >= 100) {
+
+            clearInterval(timer);
+
+            message.textContent =
+                "🤘 REPARATURMATERIAL BEREIT. DOWNLOAD!";
+
+
+            setTimeout(() => {
+
+                startDownload(filename);
+
+                overlay.style.display =
+                    "none";
+
+            }, 700);
+
+        }
+
+    }, 150);
+
+}
+
+
+/*
+    ---------------------------------------------------------
+    Eigentlichen Download starten
+    ---------------------------------------------------------
+*/
+
+function startDownload(filename) {
+
+    const url =
+        RAW_BASE + encodeURIComponent(filename);
+
+    const link =
+        document.createElement("a");
+
+    link.href = url;
+
+    link.download = filename;
+
+    link.target = "_blank";
+
+    document.body.appendChild(link);
+
+    link.click();
+
+    link.remove();
+
+}
+
+</script>
+
+</body>
+</html>
