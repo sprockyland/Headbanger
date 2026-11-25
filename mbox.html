@@ -38,6 +38,17 @@
     >
 
 
+    <!-- =========================================================
+         FIREBASE
+
+         Wird für die Live-Statistik (Seitenaufrufe und gelöste
+         Jukebox-Schritte) verwendet.
+         ========================================================= -->
+
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+
     <style>
 
         /* =========================================================
@@ -67,18 +78,14 @@
            ALLGEMEINE SEITENEINSTELLUNGEN
            ========================================================= */
 
-        /* Innenabstände und Rahmen werden in die definierte
-           Breite eines Elements eingerechnet. */
         * {
             box-sizing:border-box;
         }
 
-        /* Weiches Scrollen innerhalb der Seite */
         html {
             scroll-behavior:smooth;
         }
 
-        /* Grundgestaltung der gesamten Webseite */
         body {
             margin:0;
             min-height:100vh;
@@ -104,13 +111,6 @@
 
         /* =========================================================
            HINTERGRUNDTEXTUR
-
-           Über den normalen Hintergrund wird eine dezente
-           Rauschstruktur gelegt.
-
-           Das dafür benötigte SVG befindet sich direkt als
-           Data-URL im CSS. Es wird keine zusätzliche Bilddatei
-           benötigt.
            ========================================================= */
 
         body:before {
@@ -128,8 +128,6 @@
 
         /* =========================================================
            HAUPTCONTAINER DER SEITE
-
-           Begrenzt die maximale Breite der MusicBox.
            ========================================================= */
 
         .page {
@@ -147,7 +145,6 @@
             margin-bottom:24px;
         }
 
-        /* Kleine obere Überschrift */
         .cache-title small {
             display:block;
             color:#ad8040;
@@ -155,7 +152,6 @@
             font:700 .7rem Cinzel,serif;
         }
 
-        /* Große Überschrift "Die MusicBox" */
         .cache-title h1 {
             margin:6px 0;
             color:#d9ae63;
@@ -176,12 +172,6 @@
 
         /* =========================================================
            MUSICBOX-GEHÄUSE
-
-           Das Gehäuse orientiert sich optisch an einer klassischen
-           Wurlitzer-Jukebox.
-
-           Mehrere Farbverläufe erzeugen den Eindruck von Holz,
-           Goldleisten und Metall.
            ========================================================= */
 
         .jukebox {
@@ -220,11 +210,6 @@
 
         /* =========================================================
            LEUCHTSTREIFEN LINKS UND RECHTS
-
-           Die Pseudoelemente :before und :after bilden die
-           beiden farbigen Lichtleisten der Jukebox.
-
-           Die Animation "bubble" lässt die Farben durchlaufen.
            ========================================================= */
 
         .jukebox:before,
@@ -259,12 +244,10 @@
             animation:bubble 4s linear infinite;
         }
 
-        /* Linke Lichtleiste */
         .jukebox:before {
             left:12px;
         }
 
-        /* Rechte Lichtleiste läuft in Gegenrichtung */
         .jukebox:after {
             right:12px;
             animation-direction:reverse;
@@ -306,8 +289,6 @@
                 0 0 0 8px #d0a353;
         }
 
-
-        /* Zusätzlicher dekorativer Innenrahmen */
         .arch:before {
             content:"";
             position:absolute;
@@ -326,8 +307,6 @@
             pointer-events:none;
         }
 
-
-        /* Dekoratives Lüftungs-/Gitterelement unten */
         .arch:after {
             content:"";
             position:absolute;
@@ -360,9 +339,6 @@
 
         /* =========================================================
            INHALT DER MUSICBOX
-
-           Der z-index sorgt dafür, dass der Inhalt über den
-           dekorativen Hintergrundelementen liegt.
            ========================================================= */
 
         .content {
@@ -370,8 +346,6 @@
             z-index:3;
         }
 
-
-        /* Cache-Kennung oberhalb der Schallplatte */
         .brand {
             text-align:center;
             margin:0 auto 14px;
@@ -418,12 +392,6 @@
 
         /* =========================================================
            SCHALLPLATTE
-
-           Mehrere radiale und kreisförmige Farbverläufe erzeugen
-           die Plattenrillen.
-
-           Die Klasse "spin" wird später per JavaScript hinzugefügt,
-           sobald die MP3 abgespielt wird.
            ========================================================= */
 
         .record {
@@ -456,14 +424,10 @@
                 0 10px 22px #000;
         }
 
-
-        /* Drehende Schallplatte während der Musikwiedergabe */
         .record.spin {
             animation:spin 1.45s linear infinite;
         }
 
-
-        /* Etikett in der Mitte der Schallplatte */
         .label {
             position:absolute;
             inset:50px;
@@ -517,8 +481,6 @@
             box-shadow:0 3px 5px #000;
         }
 
-
-        /* Drehpunkt des Tonarms */
         .arm:before {
             content:"";
             position:absolute;
@@ -540,8 +502,6 @@
                 );
         }
 
-
-        /* Tonabnehmer am Ende des Tonarms */
         .arm:after {
             content:"";
             position:absolute;
@@ -582,8 +542,6 @@
                 0 0 22px #a30b1b;
         }
 
-
-        /* Kleine Beschriftung "MUSICBOX" */
         .sub {
             text-align:center;
             margin:8px 0 16px;
@@ -597,13 +555,6 @@
 
         /* =========================================================
            NUMMERNWAHL / SELECTOR
-
-           Dieser Bereich enthält:
-           - zweistellige Anzeige
-           - Statusmeldung
-           - Zahlentasten
-           - Löschen-Button
-           - MP3-Player
            ========================================================= */
 
         .selector {
@@ -647,8 +598,6 @@
                 0 0 12px rgba(189,18,36,.45);
         }
 
-
-        /* Eine einzelne Stelle der zweistelligen Anzeige */
         .slot {
             width:48px;
             height:52px;
@@ -666,27 +615,11 @@
             text-shadow:0 0 9px #ff9c1d;
         }
 
-
-        /* =========================================================
-           RICHTIGE NUMMER
-
-           JavaScript setzt bei der richtigen Eingabe die Klasse
-           "success". Die Anzeige wird anschließend grün.
-           ========================================================= */
-
         .display.success .slot {
             color:var(--green);
             border-color:var(--green);
             text-shadow:0 0 10px var(--green);
         }
-
-
-        /* =========================================================
-           FALSCHE NUMMER
-
-           Bei einer falschen Eingabe wird die Klasse "error"
-           gesetzt und kurz die Shake-Animation ausgeführt.
-           ========================================================= */
 
         .display.error {
             animation:shake .38s;
@@ -717,9 +650,6 @@
 
         /* =========================================================
            ZAHLENTASTATUR
-
-           JavaScript erzeugt später automatisch zehn Tasten
-           mit den Ziffern 0 bis 9.
            ========================================================= */
 
         .keypad {
@@ -728,8 +658,6 @@
             gap:10px;
         }
 
-
-        /* Einzelne Zahlentaste */
         .key {
             aspect-ratio:1;
 
@@ -758,8 +686,6 @@
             transition:.12s;
         }
 
-
-        /* Effekt beim Überfahren einer Zahlentaste */
         .key:hover {
             filter:brightness(1.15);
 
@@ -769,8 +695,6 @@
                 0 0 16px #bd1224;
         }
 
-
-        /* Effekt beim Drücken einer Zahlentaste */
         .key:active {
             transform:translateY(4px);
             box-shadow:0 1px #2b1407;
@@ -801,11 +725,6 @@
 
         /* =========================================================
            AUDIO-PLAYER
-
-           Der Player ist standardmäßig versteckt.
-
-           Erst nach Eingabe der richtigen Nummer wird ihm per
-           JavaScript die Klasse "visible" hinzugefügt.
            ========================================================= */
 
         .player-box {
@@ -818,14 +737,10 @@
             background:#080808;
         }
 
-
-        /* Player nach richtiger Eingabe anzeigen */
         .player-box.visible {
             display:block;
         }
 
-
-        /* Audioelement über die gesamte Breite darstellen */
         audio {
             display:block;
             width:100%;
@@ -834,11 +749,6 @@
 
         /* =========================================================
            HINWEIS FÜR DEN NÄCHSTEN SCHRITT
-
-           Dieser Bereich ist zunächst vollständig verborgen.
-
-           Nachdem der Song gestartet wurde, wartet JavaScript
-           12 Sekunden. Anschließend wird der Hinweis eingeblendet.
            ========================================================= */
 
         .next-hint {
@@ -865,15 +775,11 @@
             transform:translateY(22px);
         }
 
-
-        /* Hinweis sichtbar machen und Einblendanimation starten */
         .next-hint.visible {
             display:block;
             animation:reveal 1s ease forwards;
         }
 
-
-        /* Überschrift des Hinweises */
         .next-hint h2 {
             margin:0 0 18px;
 
@@ -889,22 +795,16 @@
             text-shadow:0 0 12px #a40c1c;
         }
 
-
-        /* Lesbarkeit von Text und Liste */
         .next-hint p,
         .next-hint li {
             line-height:1.55;
         }
 
-
-        /* Abschlusszeile im nächsten Hinweis */
         .next-path {
             text-align:center;
             color:#eece89;
         }
 
-
-        /* Hinweis zum Merken der ermittelten Werte */
         .memory-note {
             display:block;
             margin-top:7px;
@@ -940,7 +840,6 @@
 
             border:1px solid #f2c2c6;
 
-            /* Erzeugt die Schildform */
             clip-path:
                 polygon(
                     50% 0,
@@ -959,30 +858,19 @@
            ANIMATIONEN
            ========================================================= */
 
-
-        /* Schallplatte einmal vollständig drehen */
         @keyframes spin {
-
             to {
                 transform:rotate(360deg);
             }
-
         }
 
-
-        /* Farbverlauf der seitlichen Lichtleisten bewegen */
         @keyframes bubble {
-
             to {
                 background-position:0 100%;
             }
-
         }
 
-
-        /* Anzeige bei falscher Eingabe kurz schütteln */
         @keyframes shake {
-
             25% {
                 transform:translateX(-5px);
             }
@@ -990,26 +878,18 @@
             75% {
                 transform:translateX(5px);
             }
-
         }
 
-
-        /* Nächsten Hinweis weich einblenden */
         @keyframes reveal {
-
             to {
                 opacity:1;
                 transform:none;
             }
-
         }
 
 
         /* =========================================================
            SMARTPHONE-DARSTELLUNG
-
-           Unterhalb von 560 Pixel Bildschirmbreite wird die
-           MusicBox kompakter dargestellt.
            ========================================================= */
 
         @media(max-width:560px) {
@@ -1026,14 +906,12 @@
                 padding:0 12px;
             }
 
-            /* Außenrahmen der Jukebox etwas kompakter */
             .jukebox {
                 padding:14px 13px 19px;
                 border-left-width:2px;
                 border-right-width:2px;
             }
 
-            /* Lichtleisten verkleinern */
             .jukebox:before,
             .jukebox:after {
                 width:12px;
@@ -1048,46 +926,38 @@
                 right:7px;
             }
 
-            /* Innenbereich kompakter darstellen */
             .arch {
                 min-height:720px;
                 padding:31px 33px 28px;
             }
 
-            /* Schallplattenfenster verkleinern */
             .record-window {
                 height:178px;
             }
 
-            /* Schallplatte verkleinern */
             .record {
                 width:128px;
                 height:128px;
             }
 
-            /* Plattenlabel an kleinere Platte anpassen */
             .label {
                 inset:40px;
             }
 
-            /* Tonarm an kleinere Schallplatte anpassen */
             .arm {
                 top:43px;
                 left:calc(50% + 38px);
                 width:78px;
             }
 
-            /* Abstand der Zahlentasten reduzieren */
             .keypad {
                 gap:7px;
             }
 
-            /* Ziffern etwas verkleinern */
             .key {
                 font-size:.92rem;
             }
 
-            /* Hinweisbereich an Smartphonebreite anpassen */
             .next-hint {
                 margin:24px 12px 0;
                 padding:21px 18px;
@@ -1098,9 +968,6 @@
 
         /* =========================================================
            BARRIEREARME DARSTELLUNG
-
-           Wenn im Betriebssystem "Bewegung reduzieren" aktiviert
-           ist, werden sämtliche Animationen deaktiviert.
            ========================================================= */
 
         @media(prefers-reduced-motion:reduce) {
@@ -1157,40 +1024,21 @@
 
             <section class="arch">
 
-
-                <!--
-                    Eigentlicher sichtbarer Inhalt innerhalb
-                    des Gehäuses.
-                -->
-
                 <div class="content">
-
 
                     <!-- Cache-Kennung -->
                     <div class="brand">
                         GCBY17R
                     </div>
 
-
                     <!-- =========================================
                          SCHALLPLATTENFENSTER
-
-                         aria-hidden="true", weil Schallplatte und
-                         Tonarm rein dekorative Elemente sind.
                          ========================================= -->
 
                     <div
                         class="record-window"
                         aria-hidden="true"
                     >
-
-
-                        <!--
-                            Schallplatte.
-
-                            JavaScript ergänzt während der
-                            Wiedergabe die Klasse "spin".
-                        -->
 
                         <div
                             class="record"
@@ -1204,8 +1052,6 @@
 
                         </div>
 
-
-                        <!-- Dekorativer Tonarm -->
                         <div class="arm"></div>
 
                     </div>
@@ -1231,47 +1077,20 @@
 
                     <div class="selector">
 
-
-                        <!-- =====================================
-                             ZWEISTELLIGE ANZEIGE
-
-                             Die beiden Felder werden später per
-                             JavaScript mit der eingegebenen
-                             Nummer gefüllt.
-                             ===================================== -->
-
                         <div
                             class="display"
                             id="display"
                         >
-
-                            <!-- Erste Ziffer -->
                             <div
                                 class="slot"
                                 id="slot0"
                             >&nbsp;</div>
 
-                            <!-- Zweite Ziffer -->
                             <div
                                 class="slot"
                                 id="slot1"
                             >&nbsp;</div>
-
                         </div>
-
-
-                        <!-- =====================================
-                             STATUSMELDUNG
-
-                             JavaScript zeigt hier beispielsweise:
-                             - Wähle deine Nummer
-                             - Falsche Nummer
-                             - Treffer!
-
-                             aria-live sorgt dafür, dass Änderungen
-                             auch von unterstützenden Technologien
-                             erkannt werden können.
-                             ===================================== -->
 
                         <div
                             class="message"
@@ -1281,28 +1100,10 @@
                             Wähle deine Nummer
                         </div>
 
-
-                        <!-- =====================================
-                             ZAHLENTASTATUR
-
-                             Dieser Container ist zunächst leer.
-
-                             JavaScript erzeugt automatisch die
-                             zehn Zahlentasten von 0 bis 9.
-                             ===================================== -->
-
                         <div
                             class="keypad"
                             id="keypad"
                         ></div>
-
-
-                        <!-- =====================================
-                             AUSWAHL ZURÜCKSETZEN
-
-                             Setzt Eingabe, Audio, Schallplatte
-                             und Hinweis vollständig zurück.
-                             ===================================== -->
 
                         <button
                             class="clear"
@@ -1311,21 +1112,6 @@
                         >
                             AUSWAHL LÖSCHEN
                         </button>
-
-
-                        <!-- =====================================
-                             AUDIO-PLAYER
-
-                             Der Player ist anfangs unsichtbar.
-
-                             Er wird erst eingeblendet, wenn die
-                             richtige Nummer eingegeben wurde.
-
-                             Abgespielt wird die Datei:
-                             motorhead.mp3
-
-                             Sie muss entsprechend erreichbar sein.
-                             ===================================== -->
 
                         <div
                             class="player-box"
@@ -1360,13 +1146,6 @@
 
         <!-- =====================================================
              HINWEIS FÜR DEN NÄCHSTEN CACHE-SCHRITT
-
-             Dieser Bereich ist beim Laden der Seite zunächst
-             unsichtbar.
-
-             Sobald der Song abgespielt wird, startet ein Timer.
-
-             Nach 12 Sekunden wird dieser Hinweis eingeblendet.
              ===================================================== -->
 
         <section
@@ -1388,12 +1167,6 @@
                 Der zweite steckt im Song.
             </p>
 
-
-            <!--
-                Die folgenden Fragen führen zu den nächsten
-                benötigten Informationen.
-            -->
-
             <ul>
 
                 <li>
@@ -1403,42 +1176,27 @@
                 <li>
                     Von welchem Album stammt er? (das wievielte?)
 
-                    <!--
-                        Das Ergebnis dieser Frage soll als Wert F
-                        gemerkt werden.
-                    -->
-
                     <span class="memory-note">
                         Merke dir
                         <span class="shield">F</span>
                     </span>
-
                 </li>
 
                 <li>
                     Welche Nummer trägt der Titel auf diesem Album?
 
-                    <!--
-                        Das Ergebnis dieser Frage soll als Wert G
-                        gemerkt werden.
-                    -->
-
                     <span class="memory-note">
                         Merke dir
                         <span class="shield">G</span>
                     </span>
-
                 </li>
 
             </ul>
 
-
             <p class="next-path">
-
                 <strong>
                     Diese Nummer öffnet den nächsten Weg.
                 </strong>
-
             </p>
 
         </section>
@@ -1449,38 +1207,70 @@
     <script>
 
         /* =========================================================
-           JAVASCRIPT DER MUSICBOX
-
-           Hier wird die komplette Funktion der Zahlenauswahl,
-           Musikwiedergabe, Schallplattenanimation und des
-           nächsten Hinweises gesteuert.
+           JAVASCRIPT DER MUSICBOX & LIVE-STATISTIK
            ========================================================= */
 
-
-        /* Strengeren JavaScript-Modus aktivieren */
         "use strict";
+
+
+        /* =========================================================
+           FIREBASE LIVE-STATISTIK INITIALISIEREN
+           ========================================================= */
+
+        let statsDb = null;
+
+        try {
+            if (typeof firebase !== "undefined") {
+                firebase.initializeApp({
+                    databaseURL: "https://headbangerdiplom-default-rtdb.europe-west1.firebasedatabase.app/"
+                });
+                statsDb = firebase.database();
+            }
+        } catch (err) {
+            console.warn("Firebase Statistik konnte nicht gestartet werden:", err);
+        }
+
+
+        /* =========================================================
+           HILFSFUNKTION FÜR STATISTIK-EREIGNISSE
+           ========================================================= */
+
+        function trackEvent(eventName) {
+            if (!statsDb) return;
+
+            const istHandy = /Mobi|Android|iPhone/i.test(navigator.userAgent)
+                ? "Smartphone"
+                : "PC/Tablet";
+
+            statsDb
+                .ref("statistik/" + eventName + "/aufrufe")
+                .transaction((n) => (n || 0) + 1);
+
+            statsDb
+                .ref("statistik/" + eventName + "/logs")
+                .push({
+                    zeitpunkt: new Date().toLocaleString("de-DE", {
+                        day: "2-digit",
+                        month: "2-digit",
+                        year: "numeric",
+                        hour: "2-digit",
+                        minute: "2-digit",
+                        second: "2-digit"
+                    }),
+                    geraet: istHandy,
+                    timestamp: Date.now()
+                });
+        }
+
+        /* Seitenaufruf der MusicBox direkt erfassen */
+        trackEvent("musicbox_seite");
 
 
         /* =========================================================
            KONFIGURATION
            ========================================================= */
 
-
-        /*
-            Die richtige zweistellige Nummer.
-
-            Nur bei Eingabe von "49" wird der Song freigeschaltet.
-        */
-
         const CORRECT_CODE = "49";
-
-
-        /*
-            Wartezeit bis der nächste Hinweis erscheint.
-
-            12000 Millisekunden entsprechen 12 Sekunden.
-        */
-
         const HINT_DELAY_MS = 12000;
 
 
@@ -1488,139 +1278,41 @@
            STATUSVARIABLEN
            ========================================================= */
 
-
-        /*
-            Speichert die bisher eingegebenen Ziffern.
-            Zu Beginn ist noch keine Ziffer ausgewählt.
-        */
-
         let entered = "";
-
-
-        /*
-            Timer zum automatischen Zurücksetzen nach einer
-            falschen Eingabe.
-        */
-
         let resetTimer = null;
-
-
-        /*
-            Timer für die verzögerte Anzeige des nächsten Hinweises.
-        */
-
         let hintTimer = null;
-
-
-        /*
-            AudioContext wird für den Fehlerton verwendet.
-
-            Die Variable bleibt zunächst leer und wird erst beim
-            ersten benötigten Fehlerton erzeugt.
-        */
-
         let audioContext = null;
 
 
         /* =========================================================
            BENÖTIGTE HTML-ELEMENTE HOLEN
-
-           Über die IDs erhalten wir Zugriff auf die Elemente,
-           die später dynamisch verändert werden.
            ========================================================= */
 
-        const display =
-            document.getElementById("display");
-
-        const slot0 =
-            document.getElementById("slot0");
-
-        const slot1 =
-            document.getElementById("slot1");
-
-        const message =
-            document.getElementById("message");
-
-        const keypad =
-            document.getElementById("keypad");
-
-        const clearBtn =
-            document.getElementById("clearBtn");
-
-        const record =
-            document.getElementById("record");
-
-        const playerBox =
-            document.getElementById("playerBox");
-
-        const audioPlayer =
-            document.getElementById("audioPlayer");
-
-        const nextHint =
-            document.getElementById("nextHint");
+        const display = document.getElementById("display");
+        const slot0 = document.getElementById("slot0");
+        const slot1 = document.getElementById("slot1");
+        const message = document.getElementById("message");
+        const keypad = document.getElementById("keypad");
+        const clearBtn = document.getElementById("clearBtn");
+        const record = document.getElementById("record");
+        const playerBox = document.getElementById("playerBox");
+        const audioPlayer = document.getElementById("audioPlayer");
+        const nextHint = document.getElementById("nextHint");
 
 
         /* =========================================================
            ZAHLENTASTEN 0 BIS 9 ERZEUGEN
-
-           Die Buttons stehen nicht einzeln im HTML.
-
-           Stattdessen erzeugt JavaScript beim Laden der Seite
-           automatisch zehn Buttons.
            ========================================================= */
 
         for (let n = 0; n <= 9; n++) {
 
-
-            /*
-                Neuen HTML-Button erzeugen.
-            */
-
-            const b =
-                document.createElement("button");
-
-
-            /* CSS-Klasse für die Gestaltung setzen */
+            const b = document.createElement("button");
             b.className = "key";
-
-
-            /*
-                type="button" verhindert ein möglicherweise
-                unbeabsichtigtes Absenden eines Formulars.
-            */
-
             b.type = "button";
-
-
-            /* Angezeigte Ziffer */
             b.textContent = n;
+            b.setAttribute("aria-label", "Ziffer " + n);
 
-
-            /*
-                Zugängliche Bezeichnung der Taste für
-                unterstützende Technologien.
-            */
-
-            b.setAttribute(
-                "aria-label",
-                "Ziffer " + n
-            );
-
-
-            /*
-                Beim Klick wird die entsprechende Ziffer an
-                pressDigit() übergeben.
-            */
-
-            b.addEventListener(
-                "click",
-                () => pressDigit(String(n))
-            );
-
-
-            /*
-                Fertigen Button in die Zahlentastatur einsetzen.
-            */
+            b.addEventListener("click", () => pressDigit(String(n)));
 
             keypad.appendChild(b);
 
@@ -1629,29 +1321,11 @@
 
         /* =========================================================
            ANZEIGE AKTUALISIEREN
-
-           Überträgt die gespeicherten Ziffern aus "entered"
-           in die beiden sichtbaren Nummernfelder.
            ========================================================= */
 
         function updateSlots() {
-
-
-            /*
-                Erste Ziffer anzeigen.
-
-                Wenn noch nichts eingegeben wurde, wird ein
-                geschütztes Leerzeichen verwendet.
-            */
-
-            slot0.textContent =
-                entered[0] || "\u00a0";
-
-
-            /* Zweite Ziffer */
-            slot1.textContent =
-                entered[1] || "\u00a0";
-
+            slot0.textContent = entered[0] || "\u00a0";
+            slot1.textContent = entered[1] || "\u00a0";
         }
 
 
@@ -1661,47 +1335,17 @@
 
         function pressDigit(d) {
 
-
-            /*
-                Es dürfen maximal zwei Ziffern eingegeben werden.
-
-                Sobald zwei Ziffern vorhanden sind, werden weitere
-                Eingaben ignoriert.
-            */
-
             if (entered.length >= 2) {
                 return;
             }
 
+            display.classList.remove("error", "success");
 
-            /*
-                Eventuell vorhandene Fehler- oder Erfolgsanzeige
-                zurücksetzen.
-            */
-
-            display.classList.remove(
-                "error",
-                "success"
-            );
-
-
-            /* Neue Ziffer an die bisherige Eingabe anhängen */
             entered += d;
-
-
-            /* Sichtbare Anzeige aktualisieren */
             updateSlots();
 
-
-            /*
-                Sobald zwei Ziffern eingegeben wurden, wird
-                automatisch geprüft, ob die Nummer richtig ist.
-            */
-
             if (entered.length === 2) {
-
                 checkCode();
-
             }
 
         }
@@ -1713,151 +1357,57 @@
 
         function checkCode() {
 
-
-            /* -----------------------------------------------------
-               RICHTIGE NUMMER
-               ----------------------------------------------------- */
-
+            /* RICHTIGE NUMMER */
             if (entered === CORRECT_CODE) {
 
-
-                /* Anzeige grün darstellen */
                 display.classList.add("success");
 
-
-                /* Erfolgsmeldung anzeigen */
                 message.textContent =
                     "Treffer! Drücke auf Play, falls der Song nicht automatisch startet.";
 
-
-                /* MP3-Player sichtbar machen */
                 playerBox.classList.add("visible");
 
-
-                /*
-                    Sicherstellen, dass der Song von vorne beginnt.
-                */
+                /* Treffer in der Live-Statistik protokollieren */
+                trackEvent("musicbox_code_geknackt");
 
                 audioPlayer.currentTime = 0;
-
-
-                /*
-                    Versuchen, den Song automatisch abzuspielen.
-
-                    Browser können automatisches Audio blockieren.
-                    Deshalb wird ein möglicher Fehler hier bewusst
-                    abgefangen.
-
-                    Der Benutzer kann anschließend den sichtbaren
-                    Play-Button verwenden.
-                */
 
                 audioPlayer
                     .play()
                     .catch(() => {});
 
-
-                /*
-                    Nach erfolgreicher Eingabe ist die Funktion
-                    beendet.
-                */
-
                 return;
             }
 
-
-            /* -----------------------------------------------------
-               FALSCHE NUMMER
-               ----------------------------------------------------- */
-
-
-            /* Fehlerklasse hinzufügen */
+            /* FALSCHE NUMMER */
             display.classList.add("error");
-
-
-            /* Fehlermeldung anzeigen */
-            message.textContent =
-                "Falsche Nummer";
-
-
-            /*
-                Akustischen Fehlerton erzeugen.
-            */
+            message.textContent = "Falsche Nummer";
 
             beep();
 
-
-            /*
-                Eventuell bereits laufenden Reset-Timer löschen.
-
-                Dadurch wird verhindert, dass mehrere Timer
-                gleichzeitig arbeiten.
-            */
-
             clearTimeout(resetTimer);
-
-
-            /*
-                Nach 900 Millisekunden wird die Eingabe
-                automatisch zurückgesetzt.
-            */
-
-            resetTimer =
-                setTimeout(
-                    resetSelection,
-                    900
-                );
+            resetTimer = setTimeout(resetSelection, 900);
 
         }
 
 
         /* =========================================================
            NUMMERNAUSWAHL ZURÜCKSETZEN
-
-           Setzt nur die eingegebene Nummer und die dazugehörige
-           Anzeige zurück.
            ========================================================= */
 
         function resetSelection() {
-
-
-            /* Eingabe löschen */
             entered = "";
-
-
-            /* Erfolg- oder Fehlerstatus entfernen */
-            display.classList.remove(
-                "error",
-                "success"
-            );
-
-
-            /* Die beiden Nummernfelder wieder leeren */
+            display.classList.remove("error", "success");
             updateSlots();
-
-
-            /* Ursprüngliche Meldung anzeigen */
-            message.textContent =
-                "Wähle deine Nummer";
-
+            message.textContent = "Wähle deine Nummer";
         }
 
 
         /* =========================================================
            NÄCHSTEN HINWEIS ZEITVERZÖGERT ANZEIGEN
-
-           Diese Funktion wird gestartet, sobald der Song läuft.
            ========================================================= */
 
         function scheduleHint() {
-
-
-            /*
-                Nichts machen, wenn:
-
-                - der Hinweis bereits sichtbar ist oder
-                - bereits ein entsprechender Timer läuft.
-            */
 
             if (
                 nextHint.classList.contains("visible") ||
@@ -1866,63 +1416,25 @@
                 return;
             }
 
+            hintTimer = setTimeout(() => {
 
-            /*
-                Timer starten.
+                nextHint.classList.add("visible");
+                nextHint.setAttribute("aria-hidden", "false");
+                hintTimer = null;
 
-                Nach HINT_DELAY_MS, hier 12 Sekunden, wird der
-                nächste Hinweis sichtbar gemacht.
-            */
+                /* Freischaltung des 2. Hinweises im Live-Radar erfassen */
+                trackEvent("musicbox_hinweis_angezeigt");
 
-            hintTimer =
                 setTimeout(
-                    () => {
-
-
-                        /* Hinweis sichtbar machen */
-                        nextHint.classList.add("visible");
-
-
-                        /*
-                            aria-hidden aktualisieren, damit der
-                            sichtbare Bereich auch für unterstützende
-                            Technologien verfügbar ist.
-                        */
-
-                        nextHint.setAttribute(
-                            "aria-hidden",
-                            "false"
-                        );
-
-
-                        /*
-                            Kennzeichnen, dass kein Hinweis-Timer
-                            mehr läuft.
-                        */
-
-                        hintTimer = null;
-
-
-                        /*
-                            Kurze zusätzliche Verzögerung, damit
-                            zunächst die Einblendanimation beginnt.
-
-                            Anschließend scrollt der Browser weich
-                            zum neuen Hinweis.
-                        */
-
-                        setTimeout(
-                            () =>
-                                nextHint.scrollIntoView({
-                                    behavior:"smooth",
-                                    block:"nearest"
-                                }),
-                            250
-                        );
-
-                    },
-                    HINT_DELAY_MS
+                    () =>
+                        nextHint.scrollIntoView({
+                            behavior: "smooth",
+                            block: "nearest"
+                        }),
+                    250
                 );
+
+            }, HINT_DELAY_MS);
 
         }
 
@@ -1932,288 +1444,83 @@
            ========================================================= */
 
         function hideHint() {
-
-
-            /*
-                Falls der 12-Sekunden-Timer noch läuft, wird er
-                beendet.
-            */
-
             clearTimeout(hintTimer);
-
-
-            /* Timerstatus zurücksetzen */
             hintTimer = null;
-
-
-            /* Sichtbarkeitsklasse entfernen */
             nextHint.classList.remove("visible");
-
-
-            /* Hinweis wieder als unsichtbar kennzeichnen */
-            nextHint.setAttribute(
-                "aria-hidden",
-                "true"
-            );
-
+            nextHint.setAttribute("aria-hidden", "true");
         }
 
 
         /* =========================================================
            MUSICBOX KOMPLETT ZURÜCKSETZEN
-
-           Wird über "AUSWAHL LÖSCHEN" ausgelöst.
            ========================================================= */
 
         function resetAll() {
-
-
-            /*
-                Automatischen Reset nach Falscheingabe stoppen,
-                falls er noch aktiv sein sollte.
-            */
-
             clearTimeout(resetTimer);
-
-
-            /* Musikwiedergabe stoppen */
             audioPlayer.pause();
-
-
-            /* Song wieder an den Anfang setzen */
             audioPlayer.currentTime = 0;
-
-
-            /* Audio-Player wieder ausblenden */
             playerBox.classList.remove("visible");
-
-
-            /* Drehung der Schallplatte stoppen */
             record.classList.remove("spin");
-
-
-            /* Nächsten Hinweis ausblenden */
             hideHint();
-
-
-            /* Nummernauswahl zurücksetzen */
             resetSelection();
-
         }
 
 
         /* =========================================================
            FEHLERTON ERZEUGEN
-
-           Der Ton wird vollständig im Browser mit der
-           Web Audio API erzeugt.
-
-           Es wird dafür keine zusätzliche Audiodatei benötigt.
            ========================================================= */
 
         function beep() {
 
-
-            /*
-                Je nach Browser heißt die AudioContext-Schnittstelle
-                AudioContext oder webkitAudioContext.
-            */
-
-            const A =
-                window.AudioContext ||
-                window.webkitAudioContext;
-
-
-            /*
-                Falls der Browser die Web Audio API nicht
-                unterstützt, wird die Funktion beendet.
-            */
-
+            const A = window.AudioContext || window.webkitAudioContext;
             if (!A) {
                 return;
             }
 
+            audioContext = audioContext || new A();
 
-            /*
-                Einen vorhandenen AudioContext verwenden oder beim
-                ersten Aufruf einen neuen erzeugen.
-            */
-
-            audioContext =
-                audioContext || new A();
-
-
-            /* Oszillator erzeugt den eigentlichen Ton */
-            const o =
-                audioContext.createOscillator();
-
-
-            /*
-                GainNode steuert die Lautstärke des erzeugten Tons.
-            */
-
-            const g =
-                audioContext.createGain();
-
-
-            /*
-                Aktuellen Zeitwert des Audiokontexts speichern.
-            */
-
-            const now =
-                audioContext.currentTime;
-
-
-            /*
-                Sägezahn-Wellenform erzeugt einen raueren
-                Fehlerton.
-            */
+            const o = audioContext.createOscillator();
+            const g = audioContext.createGain();
+            const now = audioContext.currentTime;
 
             o.type = "sawtooth";
+            o.frequency.setValueAtTime(440, now);
+            o.frequency.exponentialRampToValueAtTime(110, now + .55);
 
+            g.gain.setValueAtTime(.14, now);
+            g.gain.exponentialRampToValueAtTime(.001, now + .6);
 
-            /*
-                Ton beginnt bei 440 Hz.
-            */
-
-            o.frequency.setValueAtTime(
-                440,
-                now
-            );
-
-
-            /*
-                Innerhalb von 0,55 Sekunden fällt die Frequenz
-                auf 110 Hz.
-            */
-
-            o.frequency.exponentialRampToValueAtTime(
-                110,
-                now + .55
-            );
-
-
-            /*
-                Anfangslautstärke setzen.
-            */
-
-            g.gain.setValueAtTime(
-                .14,
-                now
-            );
-
-
-            /*
-                Lautstärke innerhalb von 0,6 Sekunden nahezu
-                vollständig ausblenden.
-            */
-
-            g.gain.exponentialRampToValueAtTime(
-                .001,
-                now + .6
-            );
-
-
-            /* Oszillator mit Lautstärkesteuerung verbinden */
             o.connect(g);
+            g.connect(audioContext.destination);
 
-
-            /* Lautstärkesteuerung mit Audioausgabe verbinden */
-            g.connect(
-                audioContext.destination
-            );
-
-
-            /* Fehlerton starten */
             o.start(now);
-
-
-            /* Fehlerton nach 0,6 Sekunden beenden */
-            o.stop(
-                now + .6
-            );
+            o.stop(now + .6);
 
         }
 
 
         /* =========================================================
-           BUTTON "AUSWAHL LÖSCHEN"
-
-           Beim Klick wird die komplette MusicBox zurückgesetzt.
+           EVENT-LISTENER
            ========================================================= */
 
-        clearBtn.addEventListener(
-            "click",
-            resetAll
-        );
+        clearBtn.addEventListener("click", resetAll);
 
+        audioPlayer.addEventListener("play", () => {
+            record.classList.add("spin");
+            scheduleHint();
+        });
 
-        /* =========================================================
-           SONG WIRD ABGESPIELT
+        audioPlayer.addEventListener("pause", () => {
+            record.classList.remove("spin");
+        });
 
-           Sobald das Audioelement tatsächlich mit der Wiedergabe
-           beginnt:
-
-           1. Die Schallplatte beginnt sich zu drehen.
-           2. Der 12-Sekunden-Timer für den Hinweis startet.
-           ========================================================= */
-
-        audioPlayer.addEventListener(
-            "play",
-            () => {
-
-
-                /* Schallplatte drehen */
-                record.classList.add("spin");
-
-
-                /* Timer für nächsten Hinweis starten */
-                scheduleHint();
-
-            }
-        );
-
-
-        /* =========================================================
-           SONG WIRD PAUSIERT
-
-           Die Schallplatte stoppt.
-           Der bereits gestartete Hinweis-Timer wird dadurch
-           nicht zurückgesetzt.
-           ========================================================= */
-
-        audioPlayer.addEventListener(
-            "pause",
-            () => {
-
-                record.classList.remove("spin");
-
-            }
-        );
-
-
-        /* =========================================================
-           SONG IST ZU ENDE
-
-           Auch nach dem vollständigen Abspielen wird die
-           Schallplattenanimation beendet.
-           ========================================================= */
-
-        audioPlayer.addEventListener(
-            "ended",
-            () => {
-
-                record.classList.remove("spin");
-
-            }
-        );
+        audioPlayer.addEventListener("ended", () => {
+            record.classList.remove("spin");
+        });
 
 
         /* =========================================================
            INITIALISIERUNG
-
-           Beim ersten Laden der Seite werden die beiden
-           Nummernfelder auf ihren Ausgangszustand gesetzt.
            ========================================================= */
 
         updateSlots();
