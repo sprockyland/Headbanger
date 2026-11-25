@@ -8,6 +8,11 @@
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
   <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Metal+Mania&family=Roboto+Slab:wght@300;400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDKs für die Statistik -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
   <style>
     :root {
       --black: #07070a;
@@ -33,6 +38,7 @@
 
     body {
       margin: 0;
+      min-height: 100dvh;
       background: #050507;
       color: var(--text);
       font-family: "Roboto Slab", Georgia, serif;
@@ -232,6 +238,12 @@
       letter-spacing: .08em;
     }
 
+    .hud-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+    }
+
     .hud-count {
       color: #fff;
       background: #650a14;
@@ -239,6 +251,21 @@
       padding: 4px 9px;
       border-radius: 999px;
       font-size: .76rem;
+    }
+
+    .fs-btn {
+      background: rgba(210, 167, 90, 0.12);
+      color: var(--gold);
+      border: 1px solid var(--bronze);
+      padding: 4px 9px;
+      border-radius: 6px;
+      font-family: Cinzel, serif;
+      font-size: .72rem;
+      cursor: pointer;
+    }
+
+    .fs-btn:hover {
+      background: rgba(210, 167, 90, 0.25);
     }
 
     .station {
@@ -510,7 +537,10 @@
 
       <div class="hud">
         <strong>FORTSCHRITT DER TOUR</strong>
-        <span class="hud-count" id="count">0 / 6 Stationen</span>
+        <div class="hud-right">
+          <span class="hud-count" id="count">0 / 6 Stationen</span>
+          <button type="button" class="fs-btn" id="fsBtn" onclick="toggleFullscreen()" title="Vollbild umschalten">⛶ Vollbild</button>
+        </div>
       </div>
 
       <!-- Station 01 -->
@@ -658,6 +688,29 @@
   </div>
 
   <script>
+    // 1. Firebase Statistik-Tracking
+    firebase.initializeApp({
+      databaseURL: "https://headbangerdiplom-default-rtdb.europe-west1.firebasedatabase.app/"
+    });
+    const statsDb = firebase.database();
+
+    function trackEvent(eventName) {
+      const istHandy = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? "Smartphone" : "PC/Tablet";
+      statsDb.ref('statistik/' + eventName + '/aufrufe').transaction((n) => (n || 0) + 1);
+      statsDb.ref('statistik/' + eventName + '/logs').push({
+        zeitpunkt: new Date().toLocaleString('de-DE', {
+          day: '2-digit', month: '2-digit', year: 'numeric',
+          hour: '2-digit', minute: '2-digit', second: '2-digit'
+        }),
+        geraet: istHandy,
+        timestamp: Date.now()
+      });
+    }
+
+    // Seitenaufruf direkt beim Öffnen zählen
+    trackEvent("hauptseite_listing");
+
+    // 2. Fortschritt & Stations-Tracking
     const boxes = [...document.querySelectorAll('[data-done]')];
     const bar = document.getElementById('progress');
     const count = document.getElementById('count');
@@ -671,10 +724,29 @@
 
     boxes.forEach(b => {
       b.checked = localStorage.getItem('headbanger-' + b.dataset.done) === '1';
-      b.addEventListener('change', update);
+      b.addEventListener('change', () => {
+        update();
+        if (b.checked) {
+          trackEvent("station_" + b.dataset.done + "_erledigt");
+        }
+      });
     });
 
     update();
+
+    // 3. Optionaler Vollbild-Umschalter
+    function toggleFullscreen() {
+      const btn = document.getElementById('fsBtn');
+      if (!document.fullscreenElement) {
+        document.documentElement.requestFullscreen().then(() => {
+          btn.textContent = "✕ Vollbild";
+        }).catch(() => {});
+      } else {
+        document.exitFullscreen().then(() => {
+          btn.textContent = "⛶ Vollbild";
+        }).catch(() => {});
+      }
+    }
   </script>
 </body>
 </html>
