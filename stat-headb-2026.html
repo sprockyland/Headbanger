@@ -195,7 +195,7 @@
             margin-top: 5px;
             font-size: 0.78rem;
             color: #9898b0;
-            line-height: 1.35;
+            line-height: 1.4;
         }
 
         /* Smartphone-Ansicht: Kompakte Karten statt abgeschnittener Tabelle */
@@ -390,14 +390,18 @@
                         seite: seitenKey,
                         zeitpunkt: log.zeitpunkt || '-',
                         geraet: log.geraet || '-',
+                        modell: log.modell || '',
                         besucherId: log.besucherId || '',
                         os: log.os || '',
                         browser: log.browser || '',
                         aufloesung: log.aufloesung || '',
+                        hardware: log.hardware || '',
                         akku: log.akku || '',
                         netzwerk: log.netzwerk || '',
                         ort: log.ort || '',
                         sprache: log.sprache || '',
+                        alleSprachen: log.alleSprachen || '',
+                        zeitzone: log.zeitzone || '',
                         referrer: log.referrer || '',
                         timestamp: log.timestamp || 0
                     });
@@ -419,11 +423,15 @@
         gesamterVerlauf.slice(0, 60).forEach(entry => {
             const geraetIcon = entry.geraet.toLowerCase().includes('smartphone') ? '📱 ' : '💻 ';
 
-            // Zusatzinfos (falls vom Einstieg vorhanden) kompakt zusammenbauen
+            // Zusatzinfos (inkl. neuer bsalat-Felder) kompakt zusammenbauen
             const details = [];
             if (entry.besucherId) details.push(`👤 ${entry.besucherId}`);
+            if (entry.modell && entry.modell !== 'k.A.') details.push(`📲 ${entry.modell}`);
             if (entry.os) details.push(`${entry.os}${entry.browser ? ' · ' + entry.browser : ''}`);
+            if (entry.sprache && entry.sprache !== 'k.A.') details.push(`🗣️ ${entry.sprache}`);
+            if (entry.zeitzone && entry.zeitzone !== 'k.A.') details.push(`🌍 ${entry.zeitzone}`);
             if (entry.ort && entry.ort !== 'k.A.') details.push(`📍 ${entry.ort}`);
+            if (entry.hardware && entry.hardware !== 'k.A.') details.push(`⚙️ ${entry.hardware}`);
             if (entry.akku && entry.akku !== 'k.A.') details.push(`🔋 ${entry.akku}`);
             if (entry.netzwerk && entry.netzwerk !== 'k.A.') details.push(`📶 ${entry.netzwerk}`);
 
@@ -458,13 +466,17 @@
             "Station / Seite",
             "Besucher-ID",
             "Gerät",
+            "Gerätemodell",
             "Betriebssystem",
             "Browser",
             "Bildschirmauflösung",
+            "Hardware",
             "Akku",
             "Netzwerk",
             "Ort",
             "Sprache",
+            "Alle Sprachen",
+            "Zeitzone",
             "Herkunft (Referrer)"
         ];
 
@@ -481,13 +493,17 @@
                 e.seite,
                 e.besucherId,
                 e.geraet,
+                e.modell,
                 e.os,
                 e.browser,
                 e.aufloesung,
+                e.hardware,
                 e.akku,
                 e.netzwerk,
                 e.ort,
                 e.sprache,
+                e.alleSprachen,
+                e.zeitzone,
                 e.referrer
             ].map(escapeCsv).join(";"));
         });
