@@ -1267,9 +1267,19 @@
             }
 
 
+            function getVisitorId() {
+                let id = localStorage.getItem('hb_visitor_id');
+                if (!id) {
+                    id = 'Cacher-' + Math.random().toString(36).substring(2, 6).toUpperCase();
+                    localStorage.setItem('hb_visitor_id', id);
+                }
+                return id;
+            }
+
+
             /* =====================================================
                HILFSFUNKTION FÜR DIE LIVE-STATISTIK
-               Speichert Zähler und Zeitstempel unter "statistik/..."
+               Speichert Zähler, Besucher-ID und Zeitstempel unter "statistik/..."
                ===================================================== */
 
             function trackEvent(eventName) {
@@ -1297,6 +1307,7 @@
                             second: '2-digit'
                         }),
                         geraet: istHandy,
+                        besucherId: getVisitorId(),
                         timestamp: Date.now()
                     });
             }
@@ -1316,12 +1327,12 @@
                 database = firebase.database();
 
                 /* Seitenaufruf der Diplom-Seite in der Statistik zählen */
-                trackEvent('diplom_seite');
+                trackEvent('Diplom Seite');
 
                 /* Klick auf den Urkunden-Button ebenfalls erfassen */
                 if (urkundeLink) {
                     urkundeLink.addEventListener('click', function() {
-                        trackEvent('urkunde_geoeffnet');
+                        trackEvent('Urkunde geöffnet');
                     });
                 }
 
@@ -1391,7 +1402,7 @@
                             });
 
                         /* Neuen Gästebucheintrag zusätzlich im Live-Radar vermerken */
-                        trackEvent('diplom_gaestebuch_eintrag');
+                        trackEvent('Gästebuch Eintrag');
 
                         if (typeof emailjs !== 'undefined') {
 
