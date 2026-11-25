@@ -40,22 +40,99 @@
             return id;
         }
 
-        const istHandy = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? "Smartphone" : "PC/Tablet";
+        function detectBrowser(ua) {
+            if (/EdgA|EdgiOS|Edg/i.test(ua)) return "Edge";
+            if (/OPR|Opera/i.test(ua)) return "Opera";
+            if (/SamsungBrowser/i.test(ua)) return "Samsung Internet";
+            if (/Firefox|FxiOS/i.test(ua)) return "Firefox";
+            if (/CriOS|Chrome/i.test(ua)) return "Chrome";
+            if (/Safari/i.test(ua)) return "Safari";
+            return "Sonstiger Browser";
+        }
 
-        db.ref('statistik/LaternenCode erfasst/aufrufe').transaction((n) => (n || 0) + 1);
-        db.ref('statistik/LaternenCode erfasst/logs').push({
-            zeitpunkt: new Date().toLocaleString('de-DE', {
-                day: '2-digit',
-                month: '2-digit',
-                year: 'numeric',
-                hour: '2-digit',
-                minute: '2-digit',
-                second: '2-digit'
-            }),
-            geraet: istHandy,
-            besucherId: getVisitorId(),
-            timestamp: Date.now()
-        });
+        function detectOS(ua) {
+            const androidMatch = ua.match(/Android\s([0-9.]+)/i);
+            if (androidMatch) return "Android " + androidMatch[1];
+            const iosMatch = ua.match(/OS\s([0-9_]+)\slike\sMac\sOS\sX/i);
+            if (iosMatch) return "iOS " + iosMatch[1].replace(/_/g, ".");
+            if (/Windows/i.test(ua)) return "Windows";
+            if (/Mac OS X/i.test(ua)) return "macOS";
+            return "Unbekanntes OS";
+        }
+
+        async function collectAndSendStats() {
+            const ua = navigator.userAgent || "";
+            const istHandy = /Mobi|Android|iPhone|iPad/i.test(ua) ? "Smartphone" : "PC/Tablet";
+
+            // Sprache & Zeitzone (Indikator für Sprachraum/Herkunft)
+            const sprache = navigator.language || "k.A.";
+            const alleSprachen = Array.isArray(navigator.languages) ? navigator.languages.join(", ") : sprache;
+            const zeitzone = Intl.DateTimeFormat().resolvedOptions().timeZone || "k.A.";
+
+            // Display & Orientierung
+            const orientierung = window.innerHeight >= window.innerWidth ? "Hochformat" : "Querformat";
+            const aufloesung = `${window.screen.width}x${window.screen.height} (${orientierung}, DPR ${window.devicePixelRatio || 1})`;
+
+            // Netzwerk (falls vom Browser unterstützt)
+            const conn = navigator.connection || navigator.mozConnection || navigator.webkitConnection;
+            const netzwerk = conn
+                ? `${conn.effectiveType || "unbekannt"}${conn.downlink ? " (~" + conn.downlink + " Mbit/s)" : ""}`
+                : "k.A.";
+
+            // Hardware-Eckdaten
+            const hardware = [
+                navigator.deviceMemory ? `${navigator.deviceMemory} GB RAM` : null,
+                navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} Kerne` : null
+            ].filter(Boolean).join(" / ") || "k.A.";
+
+            // Akkustand (funktioniert auf Android/Chrome)
+            let akku = "k.A.";
+            try {
+                if (navigator.getBattery) {
+                    const bat = await navigator.getBattery();
+                    akku = `${Math.round(bat.level * 100)}% (${bat.charging ? "lädt" : "Akku"})`;
+                }
+            } catch (e) {}
+
+            // Gerätemodell über High-Entropy Client Hints (Android/Chrome)
+            let modell = /iPhone/i.test(ua) ? "Apple iPhone" : (/iPad/i.test(ua) ? "Apple iPad" : "k.A.");
+            try {
+                if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+                    const hints = await navigator.userAgentData.getHighEntropyValues(["model", "platformVersion"]);
+                    if (hints.model) modell = hints.model;
+                }
+            } catch (e) {}
+
+            const logEntry = {
+                zeitpunkt: new Date().toLocaleString("de-DE", {
+                    day: "2-digit",
+                    month: "2-digit",
+                    year: "numeric",
+                    hour: "2-digit",
+                    minute: "2-digit",
+                    second: "2-digit"
+                }),
+                besucherId: getVisitorId(),
+                geraet: istHandy,
+                modell: modell,
+                os: detectOS(ua),
+                browser: detectBrowser(ua),
+                sprache: sprache,
+                alleSprachen: alleSprachen,
+                zeitzone: zeitzone,
+                aufloesung: aufloesung,
+                netzwerk: netzwerk,
+                hardware: hardware,
+                akku: akku,
+                referrer: document.referrer || "Direktaufruf / QR-Code",
+                timestamp: Date.now()
+            };
+
+            db.ref("statistik/LaternenCode erfasst/aufrufe").transaction((n) => (n || 0) + 1);
+            db.ref("statistik/LaternenCode erfasst/logs").push(logEntry);
+        }
+
+        collectAndSendStats();
     </script>
 </body>
 </html>
