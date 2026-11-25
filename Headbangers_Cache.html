@@ -694,6 +694,15 @@
     });
     const statsDb = firebase.database();
 
+    function getVisitorId() {
+      let id = localStorage.getItem("hb_visitor_id");
+      if (!id) {
+        id = "Cacher-" + Math.random().toString(36).substring(2, 6).toUpperCase();
+        localStorage.setItem("hb_visitor_id", id);
+      }
+      return id;
+    }
+
     function trackEvent(eventName) {
       const istHandy = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? "Smartphone" : "PC/Tablet";
       statsDb.ref('statistik/' + eventName + '/aufrufe').transaction((n) => (n || 0) + 1);
@@ -703,12 +712,13 @@
           hour: '2-digit', minute: '2-digit', second: '2-digit'
         }),
         geraet: istHandy,
+        besucherId: getVisitorId(),
         timestamp: Date.now()
       });
     }
 
     // Seitenaufruf direkt beim Öffnen zählen
-    trackEvent("hauptseite_listing");
+    trackEvent("Hauptseite Start");
 
     // 2. Fortschritt & Stations-Tracking
     const boxes = [...document.querySelectorAll('[data-done]')];
@@ -727,7 +737,7 @@
       b.addEventListener('change', () => {
         update();
         if (b.checked) {
-          trackEvent("station_" + b.dataset.done + "_erledigt");
+          trackEvent("Station " + b.dataset.done + " check");
         }
       });
     });
