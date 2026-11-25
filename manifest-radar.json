@@ -1,0 +1,23 @@
+{
+  "name": "Headbanger Live-Radar (GCBY17R)",
+  "short_name": "Live-Radar",
+  "start_url": "./stat-headb-2026.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#0d0a14",
+  "theme_color": "#0d0a14",
+  "icons": [
+    {
+      "src": "./logo-radar.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./logo-radar.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
