@@ -1,4 +1,4 @@
-<!DOCTYPE html> 
+<!DOCTYPE html>
 <html lang="de">
 <head>
     <meta charset="UTF-8">
@@ -446,7 +446,7 @@
         alert("Fehler beim Abrufen der Statistik: " + error.message);
     });
 
-    // CSV-Export für Excel & Auswertung
+    // CSV-Export für Excel & Smartphone-Tabellen-Apps (echtes Windows-1252 ohne BOM)
     function exportCSV() {
         if (gesamterVerlauf.length === 0) {
             alert("Es sind noch keine Daten zum Exportieren vorhanden.");
@@ -492,9 +492,16 @@
             ].map(escapeCsv).join(";"));
         });
 
-        // UTF-8 BOM (\uFEFF), damit Excel Umlaute (ä, ö, ü, ß) sofort korrekt anzeigt
-        const csvInhalt = "\uFEFF" + zeilen.join("\r\n");
-        const blob = new Blob([csvInhalt], { type: "text/csv;charset=utf-8;" });
+        const text = zeilen.join("\r\n");
+
+        // Text in echtes Windows-1252 (ISO-8859-1) umwandeln, damit Umlaute überall ohne BOM funktionieren
+        const bytes = new Uint8Array(text.length);
+        for (let i = 0; i < text.length; i++) {
+            const code = text.charCodeAt(i);
+            bytes[i] = code <= 255 ? code : 63; // Zeichen > 255 als '?' ersetzen
+        }
+
+        const blob = new Blob([bytes], { type: "text/csv;charset=windows-1252;" });
         const url = URL.createObjectURL(blob);
 
         const heute = new Date().toISOString().slice(0, 10);
