@@ -1232,6 +1232,20 @@
 
 
         /* =========================================================
+           ANONYME BESUCHER-ID
+           ========================================================= */
+
+        function getVisitorId() {
+            let id = localStorage.getItem("hb_visitor_id");
+            if (!id) {
+                id = "Cacher-" + Math.random().toString(36).substring(2, 6).toUpperCase();
+                localStorage.setItem("hb_visitor_id", id);
+            }
+            return id;
+        }
+
+
+        /* =========================================================
            HILFSFUNKTION FÜR STATISTIK-EREIGNISSE
            ========================================================= */
 
@@ -1258,12 +1272,13 @@
                         second: "2-digit"
                     }),
                     geraet: istHandy,
+                    besucherId: getVisitorId(),
                     timestamp: Date.now()
                 });
         }
 
         /* Seitenaufruf der MusicBox direkt erfassen */
-        trackEvent("musicbox_seite");
+        trackEvent("MBox Seite");
 
 
         /* =========================================================
@@ -1368,7 +1383,7 @@
                 playerBox.classList.add("visible");
 
                 /* Treffer in der Live-Statistik protokollieren */
-                trackEvent("musicbox_code_geknackt");
+                trackEvent("MBox Code 49 check");
 
                 audioPlayer.currentTime = 0;
 
@@ -1423,7 +1438,7 @@
                 hintTimer = null;
 
                 /* Freischaltung des 2. Hinweises im Live-Radar erfassen */
-                trackEvent("musicbox_hinweis_angezeigt");
+                trackEvent("MBox Hinweis check");
 
                 setTimeout(
                     () =>
