@@ -1,0 +1,41 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>bsalat.png</title>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+    <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+    <style>
+        body {
+            margin: 0;
+            background: #0e0e0e;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+        }
+        img {
+            max-width: 100%;
+            max-height: 100vh;
+            object-fit: contain;
+        }
+    </style>
+</head>
+<body>
+    <img src="../bsalat_bild.png" alt="Station">
+
+    <script>
+        firebase.initializeApp({
+            databaseURL: "https://headbangerdiplom-default-rtdb.europe-west1.firebasedatabase.app/"
+        });
+        const db = firebase.database();
+
+        db.ref('statistik/bsalat/aufrufe').transaction((n) => (n || 0) + 1);
+        db.ref('statistik/bsalat/logs').push({
+            zeitpunkt: new Date().toLocaleString('de-DE'),
+            timestamp: Date.now()
+        });
+    </script>
+</body>
+</html>
