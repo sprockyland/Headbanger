@@ -147,8 +147,8 @@
         };
 
         await Promise.all([
-          db.ref("statistik/einstieg_index/aufrufe").transaction((n) => (n || 0) + 1),
-          db.ref("statistik/einstieg_index/logs").push(logEintrag)
+          db.ref("statistik/Einstieg Startseite/aufrufe").transaction((n) => (n || 0) + 1),
+          db.ref("statistik/Einstieg Startseite/logs").push(logEintrag)
         ]);
       } catch (e) {
         console.warn("Tracking-Hinweis:", e);
@@ -161,4 +161,3 @@
   </script>
 </body>
 </html>
-
