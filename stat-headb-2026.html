@@ -16,22 +16,46 @@
             font-family: 'Outfit', sans-serif;
             background: #0d0a14;
             color: #f0f0f5;
-            padding: 30px 20px 60px;
+            padding: 35px 20px 60px;
+            text-align: center;
         }
         .container { max-width: 900px; margin: 0 auto; }
+
+        /* Zentrierter Haupttitel mit 🤘 links und rechts */
+        .title-row {
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 12px;
+            margin-bottom: 4px;
+        }
+        .title-icon {
+            font-size: clamp(2rem, 6vw, 3rem);
+            line-height: 1;
+            display: inline-flex;
+            align-items: center;
+        }
         h1 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 3.2rem;
+            font-size: clamp(2.6rem, 8vw, 3.6rem);
             color: #ffea00;
-            text-align: center;
             letter-spacing: 2px;
-            margin-bottom: 5px;
+            line-height: 1;
+            margin: 0;
+        }
+        .title-sub {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: clamp(2.2rem, 7vw, 3.2rem);
+            color: #ffea00;
+            letter-spacing: 2px;
+            line-height: 1.05;
+            margin-bottom: 12px;
         }
         .subtitle {
-            text-align: center;
             color: #00f0ff;
             margin-bottom: 35px;
             font-weight: 600;
+            font-size: 1.05rem;
         }
 
         /* Kacheln für die Seiten-Übersicht */
@@ -39,7 +63,7 @@
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
             gap: 20px;
-            margin-bottom: 45px;
+            margin-bottom: 40px;
         }
         .stat-card {
             background: rgba(25, 20, 38, 0.9);
@@ -68,36 +92,53 @@
             color: #808095;
         }
 
-        /* Verlaufs-Tabelle */
+        /* Verlaufs-Box */
         .log-box {
             background: rgba(20, 16, 32, 0.9);
             border: 2px solid #ff5500;
             border-radius: 20px;
-            padding: 25px;
+            padding: 25px 20px;
         }
-        .log-box h2 {
+        .log-header {
+            text-align: center;
+            margin-bottom: 20px;
+        }
+        .log-header h2 {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 2rem;
+            font-size: 2.1rem;
             color: #ff5500;
-            margin-bottom: 15px;
-            letter-spacing: 1px;
+            letter-spacing: 1.5px;
+            line-height: 1.1;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            gap: 8px;
         }
+        .log-header .log-sub {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.8rem;
+            color: #ff5500;
+            letter-spacing: 1.5px;
+            line-height: 1.1;
+            margin-top: 2px;
+        }
+
         table {
             width: 100%;
             border-collapse: collapse;
             text-align: left;
         }
         th {
-            padding: 12px;
+            padding: 12px 10px;
             border-bottom: 2px solid rgba(255,255,255,0.1);
             color: #00f0ff;
-            font-size: 0.9rem;
+            font-size: 0.85rem;
             text-transform: uppercase;
         }
         td {
-            padding: 12px;
+            padding: 12px 10px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
-            font-size: 0.95rem;
+            font-size: 0.92rem;
         }
         .tag {
             background: rgba(255, 234, 0, 0.15);
@@ -105,18 +146,25 @@
             padding: 4px 10px;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
+            display: inline-block;
+        }
+
+        .reset-wrapper {
+            text-align: center;
+            margin-top: 25px;
         }
         .reset-btn {
             background: transparent;
-            border: 1px solid #ff0055;
+            border: 1.5px solid #ff0055;
             color: #ff0055;
-            padding: 8px 16px;
-            border-radius: 8px;
+            padding: 10px 20px;
+            border-radius: 10px;
             cursor: pointer;
-            font-size: 0.85rem;
-            margin-top: 25px;
-            float: right;
+            font-size: 0.9rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s ease;
         }
         .reset-btn:hover { background: #ff0055; color: white; }
     </style>
@@ -124,7 +172,12 @@
 <body>
 
 <div class="container" id="dashboard" style="display:none;">
-    <h1>🤘 HEADBANGER LIVE-RADAR</h1>
+    <div class="title-row">
+        <span class="title-icon">🤘</span>
+        <h1>HEADBANGER</h1>
+        <span class="title-icon">🤘</span>
+    </div>
+    <div class="title-sub">LIVE-RADAR</div>
     <div class="subtitle">Echtzeit-Statistik für GCBY17R</div>
 
     <!-- Übersichtskacheln pro Seite -->
@@ -134,7 +187,10 @@
 
     <!-- Chronologisches Protokoll -->
     <div class="log-box">
-        <h2>🕒 Letzte Zugriffe (Live-Verlauf)</h2>
+        <div class="log-header">
+            <h2><span>🕒</span> LETZTE ZUGRIFFE</h2>
+            <div class="log-sub">(LIVE-VERLAUF)</div>
+        </div>
         <table>
             <thead>
                 <tr>
@@ -146,13 +202,13 @@
             <tbody id="logTableBody">
             </tbody>
         </table>
-        <button class="reset-btn" onclick="resetStats()">🗑️ Testdaten zurücksetzen</button>
-        <div style="clear:both;"></div>
+        <div class="reset-wrapper">
+            <button class="reset-btn" onclick="resetStats()">🗑️ Testdaten zurücksetzen</button>
+        </div>
     </div>
 </div>
 
 <script>
-    // Kleiner PIN-Schutz (Standard-PIN: 1967 - kannst du unten einfach ändern)
     const GEHEIME_PIN = "1967";
     const eingabe = prompt("🔒 Admin-PIN eingeben:");
     if (eingabe === GEHEIME_PIN) {
@@ -161,13 +217,12 @@
         document.body.innerHTML = "<h2 style='text-align:center; margin-top:100px; color:#ff0055;'>⛔ Zugriff verweigert</h2>";
     }
 
-    // Firebase verbinden
     firebase.initializeApp({
         databaseURL: "https://headbangerdiplom-default-rtdb.europe-west1.firebasedatabase.app/"
     });
     const db = firebase.database();
 
-    // Live auf Änderungen in 'statistik' hören
+    // Live-Abruf aus Firebase
     db.ref('statistik').on('value', (snapshot) => {
         const statsData = snapshot.val();
         const cardsContainer = document.getElementById('summaryCards');
@@ -183,7 +238,6 @@
 
         let alleLogs = [];
 
-        // Für jede erfasste Seite eine Kachel bauen
         Object.keys(statsData).forEach((seitenKey) => {
             const seite = statsData[seitenKey];
             const anzahl = seite.aufrufe || 0;
@@ -191,13 +245,11 @@
 
             if (seite.logs) {
                 const logEintraege = Object.values(seite.logs);
-                // Nach Timestamp sortieren
                 logEintraege.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
                 if (logEintraege.length > 0 && logEintraege[0].zeitpunkt) {
                     letzterAufruf = logEintraege[0].zeitpunkt;
                 }
 
-                // Alle Logs für die Gesamttabelle sammeln
                 logEintraege.forEach(log => {
                     alleLogs.push({
                         seite: seitenKey,
@@ -218,7 +270,6 @@
             cardsContainer.appendChild(card);
         });
 
-        // Gesamttabelle absteigend nach Zeit sortieren (neueste oben)
         alleLogs.sort((a, b) => b.timestamp - a.timestamp);
 
         alleLogs.slice(0, 50).forEach(entry => {
@@ -230,12 +281,20 @@
             `;
             tableBody.appendChild(row);
         });
+    }, (error) => {
+        alert("Fehler beim Abrufen der Statistik: " + error.message);
     });
 
-    // Praktisch nach deinen eigenen Tests, bevor Christian loszieht:
+    // Löschen der Testdaten in Firebase
     function resetStats() {
         if (confirm("Wirklich alle bisher gezählten Test-Aufrufe löschen?")) {
-            db.ref('statistik').remove();
+            db.ref('statistik').remove()
+                .then(() => {
+                    alert("✅ Alle Testdaten wurden erfolgreich gelöscht.");
+                })
+                .catch((error) => {
+                    alert("❌ Fehler beim Löschen (Firebase-Regeln prüfen!): " + error.message);
+                });
         }
     }
 </script>
