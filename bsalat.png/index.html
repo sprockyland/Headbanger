@@ -31,9 +31,29 @@
         });
         const db = firebase.database();
 
-        db.ref('statistik/bsalat/aufrufe').transaction((n) => (n || 0) + 1);
-        db.ref('statistik/bsalat/logs').push({
-            zeitpunkt: new Date().toLocaleString('de-DE'),
+        function getVisitorId() {
+            let id = localStorage.getItem("hb_visitor_id");
+            if (!id) {
+                id = "Cacher-" + Math.random().toString(36).substring(2, 6).toUpperCase();
+                localStorage.setItem("hb_visitor_id", id);
+            }
+            return id;
+        }
+
+        const istHandy = /Mobi|Android|iPhone/i.test(navigator.userAgent) ? "Smartphone" : "PC/Tablet";
+
+        db.ref('statistik/LaternenCode erfasst/aufrufe').transaction((n) => (n || 0) + 1);
+        db.ref('statistik/LaternenCode erfasst/logs').push({
+            zeitpunkt: new Date().toLocaleString('de-DE', {
+                day: '2-digit',
+                month: '2-digit',
+                year: 'numeric',
+                hour: '2-digit',
+                minute: '2-digit',
+                second: '2-digit'
+            }),
+            geraet: istHandy,
+            besucherId: getVisitorId(),
             timestamp: Date.now()
         });
     </script>
