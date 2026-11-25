@@ -40,8 +40,7 @@
       window.location.replace(ZIEL_SEITE);
     }
 
-    // Sicherheits-Fallback: Spätestens nach 1,8 Sek. weiterleiten,
-    // selbst wenn Firebase oder Geo-IP mal langsam antworten
+    // Sicherheits-Fallback: Spätestens nach 1,8 Sek. weiterleiten
     setTimeout(go, 1800);
 
     // 1. Anonyme Cacher-ID erzeugen / auslesen
@@ -54,9 +53,9 @@
       return id;
     }
 
-    // 2. Betriebssystem & Browser erkennen
+    // 2. Betriebssystem, Browser & Gerätetyp erkennen (PC & Smartphone)
     function getSystemInfo() {
-      const ua = navigator.userAgent;
+      const ua = navigator.userAgent || "";
       let os = "Unbekannt";
       if (/iPhone|iPad|iPod/i.test(ua)) {
         const m = ua.match(/OS (\d+[_\d]*)/);
@@ -73,17 +72,18 @@
       }
 
       let browser = "Unbekannt";
-      if (/Edg\//i.test(ua)) browser = "Edge";
-      else if (/OPR\//i.test(ua)) browser = "Opera";
-      else if (/Chrome\//i.test(ua) && !/Edg\//i.test(ua)) browser = "Chrome";
-      else if (/Firefox\//i.test(ua)) browser = "Firefox";
-      else if (/Safari\//i.test(ua) && !/Chrome\//i.test(ua)) browser = "Safari";
+      if (/EdgA|EdgiOS|Edg\//i.test(ua)) browser = "Edge";
+      else if (/OPR|Opera/i.test(ua)) browser = "Opera";
+      else if (/SamsungBrowser/i.test(ua)) browser = "Samsung Internet";
+      else if (/Firefox|FxiOS/i.test(ua)) browser = "Firefox";
+      else if (/CriOS|Chrome\//i.test(ua)) browser = "Chrome";
+      else if (/Safari/i.test(ua)) browser = "Safari";
 
-      const geraet = /Mobi|Android|iPhone/i.test(ua) ? "Smartphone" : "PC/Tablet";
-      return { os, browser, geraet };
+      const geraet = /Mobi|Android|iPhone|iPad/i.test(ua) ? "Smartphone" : "PC/Tablet";
+      return { ua, os, browser, geraet };
     }
 
-    // 3. Alle Infos einsammeln und in Firebase speichern
+    // 3. Alle Infos parallel einsammeln und in Firebase speichern
     async function trackAndRedirect() {
       try {
         firebase.initializeApp({
@@ -94,8 +94,10 @@
         const sys = getSystemInfo();
         const visitorId = getVisitorId();
         const orientierung = window.innerHeight >= window.innerWidth ? "Hochformat" : "Querformat";
-        const aufloesung = `${window.screen.width}x${window.screen.height} (${orientierung})`;
+        const aufloesung = `${window.screen.width}x${window.screen.height} (${orientierung}, DPR ${window.devicePixelRatio || 1})`;
         const sprache = navigator.language || "k.A.";
+        const alleSprachen = Array.isArray(navigator.languages) ? navigator.languages.join(", ") : sprache;
+        const zeitzone = Intl.DateTimeFormat().resolvedOptions().timeZone || "k.A.";
         const referrer = document.referrer ? document.referrer : "Direktaufruf / QR-Code";
 
         // Netzwerk-Info (falls unterstützt)
@@ -104,29 +106,53 @@
           ? `${conn.effectiveType || "unbekannt"}${conn.downlink ? " (~" + conn.downlink + " Mbit/s)" : ""}`
           : "k.A.";
 
-        // Akku-Status (falls unterstützt, z.B. Android/Chrome)
-        let akku = "k.A.";
-        if (navigator.getBattery) {
-          try {
-            const bat = await navigator.getBattery();
-            akku = `${Math.round(bat.level * 100)}% (${bat.charging ? "Lädt" : "Akku"})`;
-          } catch (_) {}
-        }
+        // Hardware-Eckdaten (RAM & CPU-Kerne)
+        const hardware = [
+          navigator.deviceMemory ? `${navigator.deviceMemory} GB RAM` : null,
+          navigator.hardwareConcurrency ? `${navigator.hardwareConcurrency} Kerne` : null
+        ].filter(Boolean).join(" / ") || "k.A.";
 
-        // Ungefähre Stadt / Region via IP (max. 700ms Timeout)
-        let ort = "k.A.";
-        try {
-          const ctrl = new AbortController();
-          const t = setTimeout(() => ctrl.abort(), 700);
-          const res = await fetch("https://ipwho.is/", { signal: ctrl.signal });
-          clearTimeout(t);
-          if (res.ok) {
-            const geo = await res.json();
-            if (geo && geo.success) {
-              ort = `${geo.city || "?"} (${geo.country_code || "?"})`;
+        // Akku, Gerätemodell & Geo-IP parallel abfragen, damit keine Zeit verloren geht
+        const batteryTask = (async () => {
+          try {
+            if (navigator.getBattery) {
+              const bat = await navigator.getBattery();
+              return `${Math.round(bat.level * 100)}% (${bat.charging ? "Lädt" : "Akku"})`;
             }
-          }
-        } catch (_) {}
+          } catch (_) {}
+          return "k.A.";
+        })();
+
+        const modelTask = (async () => {
+          if (/iPhone/i.test(sys.ua)) return "Apple iPhone";
+          if (/iPad/i.test(sys.ua)) return "Apple iPad";
+          if (sys.geraet === "PC/Tablet") return "Desktop / Notebook";
+          try {
+            if (navigator.userAgentData && navigator.userAgentData.getHighEntropyValues) {
+              const hints = await navigator.userAgentData.getHighEntropyValues(["model"]);
+              if (hints.model) return hints.model;
+            }
+          } catch (_) {}
+          return "k.A.";
+        })();
+
+        const geoTask = (async () => {
+          try {
+            const ctrl = new AbortController();
+            const t = setTimeout(() => ctrl.abort(), 700);
+            const res = await fetch("https://ipwho.is/", { signal: ctrl.signal });
+            clearTimeout(t);
+            if (res.ok) {
+              const geo = await res.json();
+              if (geo && geo.success) {
+                return `${geo.city || "?"} (${geo.country_code || "?"})`;
+              }
+            }
+          } catch (_) {}
+          return "k.A.";
+        })();
+
+        const [akku, modell, ort] = await Promise.all([batteryTask, modelTask, geoTask]);
 
         const logEintrag = {
           zeitpunkt: new Date().toLocaleString("de-DE", {
@@ -136,13 +162,17 @@
           timestamp: Date.now(),
           besucherId: visitorId,
           geraet: sys.geraet,
+          modell: modell,
           os: sys.os,
           browser: sys.browser,
           aufloesung: aufloesung,
+          hardware: hardware,
           akku: akku,
           netzwerk: netzwerk,
           ort: ort,
           sprache: sprache,
+          alleSprachen: alleSprachen,
+          zeitzone: zeitzone,
           referrer: referrer
         };
 
