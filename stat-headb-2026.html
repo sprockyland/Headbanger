@@ -16,10 +16,11 @@
             font-family: 'Outfit', sans-serif;
             background: #0d0a14;
             color: #f0f0f5;
-            padding: 35px 20px 60px;
+            padding: 30px 16px 60px;
             text-align: center;
+            overflow-x: hidden;
         }
-        .container { max-width: 900px; margin: 0 auto; }
+        .container { max-width: 960px; margin: 0 auto; width: 100%; }
 
         /* Zentrierter Haupttitel mit 🤘 links und rechts */
         .title-row {
@@ -53,7 +54,7 @@
         }
         .subtitle {
             color: #00f0ff;
-            margin-bottom: 35px;
+            margin-bottom: 30px;
             font-weight: 600;
             font-size: 1.05rem;
         }
@@ -61,34 +62,36 @@
         /* Kacheln für die Seiten-Übersicht */
         .cards-grid {
             display: grid;
-            grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
-            gap: 20px;
-            margin-bottom: 40px;
+            grid-template-columns: repeat(auto-fit, minmax(210px, 1fr));
+            gap: 16px;
+            margin-bottom: 35px;
         }
         .stat-card {
             background: rgba(25, 20, 38, 0.9);
             border: 2px solid #00f0ff;
             border-radius: 18px;
-            padding: 22px;
+            padding: 20px 16px;
             text-align: center;
             box-shadow: 0 8px 25px rgba(0, 240, 255, 0.15);
+            overflow-wrap: anywhere;
         }
         .stat-card h3 {
             color: #a0a0b8;
-            font-size: 0.95rem;
+            font-size: 0.9rem;
             text-transform: uppercase;
-            letter-spacing: 1px;
+            letter-spacing: 0.8px;
             margin-bottom: 10px;
+            line-height: 1.35;
         }
         .stat-number {
             font-family: 'Bebas Neue', sans-serif;
-            font-size: 4rem;
+            font-size: 3.8rem;
             color: #ffea00;
             line-height: 1;
         }
         .stat-last {
             margin-top: 10px;
-            font-size: 0.85rem;
+            font-size: 0.82rem;
             color: #808095;
         }
 
@@ -97,7 +100,8 @@
             background: rgba(20, 16, 32, 0.9);
             border: 2px solid #ff5500;
             border-radius: 20px;
-            padding: 25px 20px;
+            padding: 24px 18px;
+            width: 100%;
         }
         .log-header {
             text-align: center;
@@ -123,6 +127,7 @@
             margin-top: 2px;
         }
 
+        /* PC-Ansicht: Klassische 3-Spalten-Tabelle */
         table {
             width: 100%;
             border-collapse: collapse;
@@ -130,24 +135,114 @@
         }
         th {
             padding: 12px 10px;
-            border-bottom: 2px solid rgba(255,255,255,0.1);
+            border-bottom: 2px solid rgba(255,255,255,0.12);
             color: #00f0ff;
             font-size: 0.85rem;
             text-transform: uppercase;
+            white-space: nowrap;
         }
         td {
             padding: 12px 10px;
             border-bottom: 1px solid rgba(255,255,255,0.06);
             font-size: 0.92rem;
+            vertical-align: middle;
+        }
+        .col-time {
+            white-space: nowrap;
+            color: #d0d0e0;
+        }
+        .col-device {
+            white-space: nowrap;
+            color: #b8b8cc;
         }
         .tag {
             background: rgba(255, 234, 0, 0.15);
             color: #ffea00;
-            padding: 4px 10px;
+            padding: 5px 10px;
             border-radius: 8px;
             font-weight: 600;
-            font-size: 0.82rem;
+            font-size: 0.84rem;
             display: inline-block;
+            overflow-wrap: anywhere;
+            word-break: break-word;
+            line-height: 1.35;
+        }
+
+        /* Smartphone-Ansicht: Kompakte Karten statt abgeschnittener Tabelle */
+        @media (max-width: 640px) {
+            body {
+                padding: 22px 12px 50px;
+            }
+            .cards-grid {
+                grid-template-columns: repeat(2, 1fr);
+                gap: 12px;
+            }
+            .stat-card {
+                padding: 16px 10px;
+            }
+            .stat-card h3 {
+                font-size: 0.78rem;
+            }
+            .stat-number {
+                font-size: 3.1rem;
+            }
+            .log-box {
+                padding: 20px 14px;
+            }
+            table, tbody, tr, td {
+                display: block;
+                width: 100%;
+            }
+            thead {
+                display: none;
+            }
+            tbody tr {
+                background: rgba(255, 255, 255, 0.035);
+                border: 1px solid rgba(255, 255, 255, 0.08);
+                border-radius: 12px;
+                padding: 12px;
+                margin-bottom: 10px;
+                display: grid;
+                grid-template-columns: 1fr auto;
+                gap: 8px 10px;
+                align-items: center;
+            }
+            tbody tr:last-child {
+                margin-bottom: 0;
+            }
+            td {
+                padding: 0;
+                border: none;
+            }
+            td.col-time {
+                grid-column: 1;
+                grid-row: 1;
+                font-size: 0.82rem;
+                color: #a8a8be;
+            }
+            td.col-device {
+                grid-column: 2;
+                grid-row: 1;
+                font-size: 0.8rem;
+                color: #00f0ff;
+                text-align: right;
+            }
+            td.col-page {
+                grid-column: 1 / -1;
+                grid-row: 2;
+            }
+            .tag {
+                width: 100%;
+                font-size: 0.85rem;
+                padding: 6px 10px;
+            }
+        }
+
+        /* Ganz schmale Displays (< 380px): 1 Kachel pro Reihe */
+        @media (max-width: 380px) {
+            .cards-grid {
+                grid-template-columns: 1fr;
+            }
         }
 
         .reset-wrapper {
@@ -273,11 +368,12 @@
         alleLogs.sort((a, b) => b.timestamp - a.timestamp);
 
         alleLogs.slice(0, 50).forEach(entry => {
+            const geraetIcon = entry.geraet.toLowerCase().includes('smartphone') ? '📱 ' : '💻 ';
             const row = document.createElement('tr');
             row.innerHTML = `
-                <td>${entry.zeitpunkt}</td>
-                <td><span class="tag">${entry.seite}</span></td>
-                <td>${entry.geraet}</td>
+                <td class="col-time">${entry.zeitpunkt}</td>
+                <td class="col-page"><span class="tag">${entry.seite}</span></td>
+                <td class="col-device">${geraetIcon}${entry.geraet}</td>
             `;
             tableBody.appendChild(row);
         });
