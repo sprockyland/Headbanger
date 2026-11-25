@@ -20,7 +20,7 @@
             text-align: center;
             overflow-x: hidden;
         }
-        .container { max-width: 960px; margin: 0 auto; width: 100%; }
+        .container { max-width: 980px; margin: 0 auto; width: 100%; }
 
         /* Zentrierter Haupttitel mit 🤘 links und rechts */
         .title-row {
@@ -54,9 +54,33 @@
         }
         .subtitle {
             color: #00f0ff;
-            margin-bottom: 30px;
+            margin-bottom: 22px;
             font-weight: 600;
             font-size: 1.05rem;
+        }
+
+        /* Action-Leiste oben */
+        .top-actions {
+            margin-bottom: 28px;
+        }
+        .csv-btn {
+            background: rgba(0, 230, 118, 0.14);
+            border: 1.5px solid #00e676;
+            color: #00e676;
+            padding: 11px 22px;
+            border-radius: 12px;
+            cursor: pointer;
+            font-size: 0.92rem;
+            font-weight: 600;
+            font-family: 'Outfit', sans-serif;
+            transition: all 0.2s ease;
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+        }
+        .csv-btn:hover {
+            background: #00e676;
+            color: #0d0a14;
         }
 
         /* Kacheln für die Seiten-Übersicht */
@@ -167,6 +191,12 @@
             word-break: break-word;
             line-height: 1.35;
         }
+        .meta-line {
+            margin-top: 5px;
+            font-size: 0.78rem;
+            color: #9898b0;
+            line-height: 1.35;
+        }
 
         /* Smartphone-Ansicht: Kompakte Karten statt abgeschnittener Tabelle */
         @media (max-width: 640px) {
@@ -245,16 +275,19 @@
             }
         }
 
-        .reset-wrapper {
-            text-align: center;
+        .bottom-actions {
+            display: flex;
+            flex-wrap: wrap;
+            justify-content: center;
+            gap: 12px;
             margin-top: 25px;
         }
         .reset-btn {
             background: transparent;
             border: 1.5px solid #ff0055;
             color: #ff0055;
-            padding: 10px 20px;
-            border-radius: 10px;
+            padding: 11px 20px;
+            border-radius: 12px;
             cursor: pointer;
             font-size: 0.9rem;
             font-weight: 600;
@@ -275,6 +308,10 @@
     <div class="title-sub">LIVE-RADAR</div>
     <div class="subtitle">Echtzeit-Statistik für GCBY17R</div>
 
+    <div class="top-actions">
+        <button class="csv-btn" onclick="exportCSV()">📥 CSV für Excel herunterladen</button>
+    </div>
+
     <!-- Übersichtskacheln pro Seite -->
     <div class="cards-grid" id="summaryCards">
         <p style="text-align:center; grid-column: 1/-1; color:#888;">Lade Daten aus Firebase...</p>
@@ -290,14 +327,15 @@
             <thead>
                 <tr>
                     <th>Datum & Uhrzeit</th>
-                    <th>Station / Seite</th>
+                    <th>Station / Seite & Details</th>
                     <th>Gerät</th>
                 </tr>
             </thead>
             <tbody id="logTableBody">
             </tbody>
         </table>
-        <div class="reset-wrapper">
+        <div class="bottom-actions">
+            <button class="csv-btn" onclick="exportCSV()">📥 CSV herunterladen</button>
             <button class="reset-btn" onclick="resetStats()">🗑️ Testdaten zurücksetzen</button>
         </div>
     </div>
@@ -317,6 +355,9 @@
     });
     const db = firebase.database();
 
+    // Speichert alle geladenen Log-Einträge für den CSV-Export
+    let gesamterVerlauf = [];
+
     // Live-Abruf aus Firebase
     db.ref('statistik').on('value', (snapshot) => {
         const statsData = snapshot.val();
@@ -325,13 +366,12 @@
 
         cardsContainer.innerHTML = '';
         tableBody.innerHTML = '';
+        gesamterVerlauf = [];
 
         if (!statsData) {
             cardsContainer.innerHTML = '<p style="text-align:center; grid-column: 1/-1; color:#888;">Noch keine Aufrufe erfasst.</p>';
             return;
         }
-
-        let alleLogs = [];
 
         Object.keys(statsData).forEach((seitenKey) => {
             const seite = statsData[seitenKey];
@@ -346,10 +386,19 @@
                 }
 
                 logEintraege.forEach(log => {
-                    alleLogs.push({
+                    gesamterVerlauf.push({
                         seite: seitenKey,
                         zeitpunkt: log.zeitpunkt || '-',
                         geraet: log.geraet || '-',
+                        besucherId: log.besucherId || '',
+                        os: log.os || '',
+                        browser: log.browser || '',
+                        aufloesung: log.aufloesung || '',
+                        akku: log.akku || '',
+                        netzwerk: log.netzwerk || '',
+                        ort: log.ort || '',
+                        sprache: log.sprache || '',
+                        referrer: log.referrer || '',
                         timestamp: log.timestamp || 0
                     });
                 });
@@ -365,14 +414,30 @@
             cardsContainer.appendChild(card);
         });
 
-        alleLogs.sort((a, b) => b.timestamp - a.timestamp);
+        gesamterVerlauf.sort((a, b) => b.timestamp - a.timestamp);
 
-        alleLogs.slice(0, 50).forEach(entry => {
+        gesamterVerlauf.slice(0, 60).forEach(entry => {
             const geraetIcon = entry.geraet.toLowerCase().includes('smartphone') ? '📱 ' : '💻 ';
+
+            // Zusatzinfos (falls vom Einstieg vorhanden) kompakt zusammenbauen
+            const details = [];
+            if (entry.besucherId) details.push(`👤 ${entry.besucherId}`);
+            if (entry.os) details.push(`${entry.os}${entry.browser ? ' · ' + entry.browser : ''}`);
+            if (entry.ort && entry.ort !== 'k.A.') details.push(`📍 ${entry.ort}`);
+            if (entry.akku && entry.akku !== 'k.A.') details.push(`🔋 ${entry.akku}`);
+            if (entry.netzwerk && entry.netzwerk !== 'k.A.') details.push(`📶 ${entry.netzwerk}`);
+
+            const metaHtml = details.length > 0
+                ? `<div class="meta-line">${details.join(' &nbsp;|&nbsp; ')}</div>`
+                : '';
+
             const row = document.createElement('tr');
             row.innerHTML = `
                 <td class="col-time">${entry.zeitpunkt}</td>
-                <td class="col-page"><span class="tag">${entry.seite}</span></td>
+                <td class="col-page">
+                    <span class="tag">${entry.seite}</span>
+                    ${metaHtml}
+                </td>
                 <td class="col-device">${geraetIcon}${entry.geraet}</td>
             `;
             tableBody.appendChild(row);
@@ -380,6 +445,67 @@
     }, (error) => {
         alert("Fehler beim Abrufen der Statistik: " + error.message);
     });
+
+    // CSV-Export für Excel & Auswertung
+    function exportCSV() {
+        if (gesamterVerlauf.length === 0) {
+            alert("Es sind noch keine Daten zum Exportieren vorhanden.");
+            return;
+        }
+
+        const header = [
+            "Datum & Uhrzeit",
+            "Station / Seite",
+            "Besucher-ID",
+            "Gerät",
+            "Betriebssystem",
+            "Browser",
+            "Bildschirmauflösung",
+            "Akku",
+            "Netzwerk",
+            "Ort",
+            "Sprache",
+            "Herkunft (Referrer)"
+        ];
+
+        const escapeCsv = (val) => {
+            const str = String(val ?? "").replace(/"/g, '""');
+            return `"${str}"`;
+        };
+
+        const zeilen = [header.map(escapeCsv).join(";")];
+
+        gesamterVerlauf.forEach(e => {
+            zeilen.push([
+                e.zeitpunkt,
+                e.seite,
+                e.besucherId,
+                e.geraet,
+                e.os,
+                e.browser,
+                e.aufloesung,
+                e.akku,
+                e.netzwerk,
+                e.ort,
+                e.sprache,
+                e.referrer
+            ].map(escapeCsv).join(";"));
+        });
+
+        // UTF-8 BOM (\uFEFF), damit Excel Umlaute (ä, ö, ü, ß) sofort korrekt anzeigt
+        const csvInhalt = "\uFEFF" + zeilen.join("\r\n");
+        const blob = new Blob([csvInhalt], { type: "text/csv;charset=utf-8;" });
+        const url = URL.createObjectURL(blob);
+
+        const heute = new Date().toISOString().slice(0, 10);
+        const link = document.createElement("a");
+        link.href = url;
+        link.download = `Headbanger_Statistik_${heute}.csv`;
+        document.body.appendChild(link);
+        link.click();
+        document.body.removeChild(link);
+        URL.revokeObjectURL(url);
+    }
 
     // Löschen der Testdaten in Firebase
     function resetStats() {
