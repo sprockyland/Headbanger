@@ -1,0 +1,23 @@
+{
+  "name": "Headbanger-Diplom & Gästebuch",
+  "short_name": "HD-Diplom",
+  "start_url": "./hd-diplom.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#08070a",
+  "theme_color": "#08070a",
+  "icons": [
+    {
+      "src": "./logo-cache.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./logo-cache.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
