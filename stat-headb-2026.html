@@ -287,10 +287,11 @@
             gap: 12px;
             margin-top: 25px;
         }
+        /* NEUE FARBE (Bernstein/Orange) zur Erkennung der neuen Version */
         .reset-btn {
-            background: transparent;
-            border: 1.5px solid #ff0055;
-            color: #ff0055;
+            background: rgba(255, 145, 0, 0.14);
+            border: 1.5px solid #ff9100;
+            color: #ff9100;
             padding: 11px 20px;
             border-radius: 12px;
             cursor: pointer;
@@ -299,7 +300,133 @@
             font-family: 'Outfit', sans-serif;
             transition: all 0.2s ease;
         }
-        .reset-btn:hover { background: #ff0055; color: white; }
+        .reset-btn:hover {
+            background: #ff9100;
+            color: #0d0a14;
+        }
+
+        /* =========================================================
+           SICHERHEITS-DIALOG (MODAL) FÜR LÖSCHSCHUTZ
+           ========================================================= */
+        .modal-overlay {
+            position: fixed;
+            inset: 0;
+            background: rgba(5, 4, 10, 0.86);
+            backdrop-filter: blur(6px);
+            display: none;
+            align-items: center;
+            justify-content: center;
+            padding: 16px;
+            z-index: 9999;
+        }
+        .modal-overlay.active {
+            display: flex;
+        }
+        .modal-card {
+            background: #171224;
+            border: 2px solid #ff9100;
+            border-radius: 20px;
+            max-width: 420px;
+            width: 100%;
+            padding: 26px 22px;
+            box-shadow: 0 20px 50px rgba(0, 0, 0, 0.8), 0 0 25px rgba(255, 145, 0, 0.25);
+            text-align: center;
+        }
+        .modal-icon {
+            font-size: 2.6rem;
+            margin-bottom: 10px;
+        }
+        .modal-title {
+            font-family: 'Bebas Neue', sans-serif;
+            font-size: 1.9rem;
+            color: #ffea00;
+            letter-spacing: 1.2px;
+            margin-bottom: 8px;
+        }
+        .modal-text {
+            font-size: 0.95rem;
+            color: #d6d6e6;
+            line-height: 1.5;
+            margin-bottom: 20px;
+        }
+        .modal-input {
+            width: 100%;
+            padding: 12px 14px;
+            border-radius: 12px;
+            border: 1.5px solid #00f0ff;
+            background: #0d0a14;
+            color: #ffea00;
+            font-family: 'Outfit', sans-serif;
+            font-size: 1.2rem;
+            font-weight: 800;
+            text-align: center;
+            letter-spacing: 6px;
+            margin-bottom: 12px;
+            outline: none;
+        }
+        .modal-input:focus {
+            box-shadow: 0 0 12px rgba(0, 240, 255, 0.4);
+        }
+        .modal-error {
+            color: #ff3b6b;
+            font-size: 0.85rem;
+            font-weight: 600;
+            min-height: 20px;
+            margin-bottom: 12px;
+        }
+        .modal-buttons {
+            display: flex;
+            gap: 10px;
+            justify-content: center;
+        }
+        .btn-cancel {
+            flex: 1;
+            padding: 11px 16px;
+            border-radius: 12px;
+            border: 1.5px solid #6c6c84;
+            background: transparent;
+            color: #d0d0e0;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 600;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-cancel:hover {
+            background: rgba(255, 255, 255, 0.08);
+        }
+        .btn-confirm-step {
+            flex: 1;
+            padding: 11px 16px;
+            border-radius: 12px;
+            border: none;
+            background: #ff9100;
+            color: #0d0a14;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-confirm-step:hover {
+            background: #ffab38;
+        }
+        .btn-danger-final {
+            flex: 1;
+            padding: 11px 16px;
+            border-radius: 12px;
+            border: none;
+            background: #ff0055;
+            color: #ffffff;
+            font-family: 'Outfit', sans-serif;
+            font-weight: 800;
+            font-size: 0.92rem;
+            cursor: pointer;
+            transition: 0.2s;
+        }
+        .btn-danger-final:hover {
+            background: #ff2a70;
+        }
     </style>
 </head>
 <body>
@@ -341,13 +468,48 @@
         </table>
         <div class="bottom-actions">
             <button class="csv-btn" onclick="exportCSV()">📥 CSV herunterladen</button>
-            <button class="reset-btn" onclick="resetStats()">🗑️ Testdaten zurücksetzen</button>
+            <button class="reset-btn" onclick="openDeleteModal()">🔒 Statistik löschen (geschützt)</button>
+        </div>
+    </div>
+</div>
+
+<!-- 2-STUFIGER SICHERHEITS-DIALOG ZUM LÖSCHEN -->
+<div class="modal-overlay" id="deleteModal">
+    <div class="modal-card">
+        <!-- STUFE 1: JA / NEIN ABFRAGE -->
+        <div id="deleteStep1">
+            <div class="modal-icon">⚠️</div>
+            <div class="modal-title">WILLST DU WIRKLICH LÖSCHEN?</div>
+            <p class="modal-text">
+                Alle erfassten Statistik-Daten und Live-Logs werden unwiderruflich aus Firebase entfernt. Möchtest du wirklich fortfahren?
+            </p>
+            <div class="modal-buttons">
+                <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Nein, abbrechen</button>
+                <button type="button" class="btn-confirm-step" onclick="goToPasswordStep()">Ja, weiter</button>
+            </div>
+        </div>
+
+        <!-- STUFE 2: PASSWORT-EINGABE -->
+        <div id="deleteStep2" style="display:none;">
+            <div class="modal-icon">🔐</div>
+            <div class="modal-title">LÖSCH-PASSWORT EINGEBEN</div>
+            <p class="modal-text">
+                Bitte gib zur Bestätigung das 4-stellige Lösch-Passwort ein:
+            </p>
+            <input type="password" id="deletePasswordInput" class="modal-input" inputmode="numeric" maxlength="10" placeholder="••••" onkeydown="if(event.key==='Enter') verifyAndDelete()">
+            <div class="modal-error" id="deleteErrorMsg"></div>
+            <div class="modal-buttons">
+                <button type="button" class="btn-cancel" onclick="closeDeleteModal()">Abbrechen</button>
+                <button type="button" class="btn-danger-final" onclick="verifyAndDelete()">Endgültig löschen</button>
+            </div>
         </div>
     </div>
 </div>
 
 <script>
     const GEHEIME_PIN = "1967";
+    const LOESCH_PASSWORT = "7691";
+
     const eingabe = prompt("🔒 Admin-PIN eingeben:");
     if (eingabe === GEHEIME_PIN) {
         document.getElementById('dashboard').style.display = 'block';
@@ -428,7 +590,6 @@
         gesamterVerlauf.slice(0, 60).forEach(entry => {
             const geraetIcon = entry.geraet.toLowerCase().includes('smartphone') ? '📱 ' : '💻 ';
 
-            // Zusatzinfos (inkl. neuer bsalat-Felder) kompakt zusammenbauen
             const details = [];
             if (entry.besucherId) details.push(`👤 ${entry.besucherId}`);
             if (entry.modell && entry.modell !== 'k.A.') details.push(`📲 ${entry.modell}`);
@@ -515,11 +676,10 @@
 
         const text = zeilen.join("\r\n");
 
-        // Text in echtes Windows-1252 (ISO-8859-1) umwandeln, damit Umlaute überall ohne BOM funktionieren
         const bytes = new Uint8Array(text.length);
         for (let i = 0; i < text.length; i++) {
             const code = text.charCodeAt(i);
-            bytes[i] = code <= 255 ? code : 63; // Zeichen > 255 als '?' ersetzen
+            bytes[i] = code <= 255 ? code : 63;
         }
 
         const blob = new Blob([bytes], { type: "text/csv;charset=windows-1252;" });
@@ -535,18 +695,58 @@
         URL.revokeObjectURL(url);
     }
 
-    // Löschen der Testdaten in Firebase
-    function resetStats() {
-        if (confirm("Wirklich alle bisher gezählten Test-Aufrufe löschen?")) {
-            db.ref('statistik').remove()
-                .then(() => {
-                    alert("✅ Alle Testdaten wurden erfolgreich gelöscht.");
-                })
-                .catch((error) => {
-                    alert("❌ Fehler beim Löschen (Firebase-Regeln prüfen!): " + error.message);
-                });
-        }
+    // =========================================================
+    // 2-STUFIGER LÖSCH-SCHUTZ (JA/NEIN + PASSWORT 7691)
+    // =========================================================
+    function openDeleteModal() {
+        document.getElementById('deleteStep1').style.display = 'block';
+        document.getElementById('deleteStep2').style.display = 'none';
+        document.getElementById('deletePasswordInput').value = '';
+        document.getElementById('deleteErrorMsg').textContent = '';
+        document.getElementById('deleteModal').classList.add('active');
     }
+
+    function closeDeleteModal() {
+        document.getElementById('deleteModal').classList.remove('active');
+        document.getElementById('deletePasswordInput').value = '';
+        document.getElementById('deleteErrorMsg').textContent = '';
+    }
+
+    function goToPasswordStep() {
+        document.getElementById('deleteStep1').style.display = 'none';
+        document.getElementById('deleteStep2').style.display = 'block';
+        const input = document.getElementById('deletePasswordInput');
+        input.value = '';
+        input.focus();
+    }
+
+    function verifyAndDelete() {
+        const eingegebenesPw = document.getElementById('deletePasswordInput').value.trim();
+        const errorBox = document.getElementById('deleteErrorMsg');
+
+        if (eingegebenesPw !== LOESCH_PASSWORT) {
+            errorBox.textContent = "⛔ Falsches Passwort – Löschvorgang abgebrochen!";
+            document.getElementById('deletePasswordInput').value = '';
+            document.getElementById('deletePasswordInput').focus();
+            return;
+        }
+
+        closeDeleteModal();
+        db.ref('statistik').remove()
+            .then(() => {
+                alert("✅ Alle Statistik-Daten wurden erfolgreich gelöscht.");
+            })
+            .catch((error) => {
+                alert("❌ Fehler beim Löschen (Firebase-Regeln prüfen!): " + error.message);
+            });
+    }
+
+    // Schließen mit ESC-Taste
+    document.addEventListener('keydown', (e) => {
+        if (e.key === 'Escape') {
+            closeDeleteModal();
+        }
+    });
 </script>
 
 </body>
