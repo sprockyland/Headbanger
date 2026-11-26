@@ -1,0 +1,23 @@
+{
+  "name": "Headbanger Admin Repair Center",
+  "short_name": "GCBY17R Admin",
+  "start_url": "./reparatur.html",
+  "scope": "./",
+  "display": "standalone",
+  "background_color": "#080808",
+  "theme_color": "#080808",
+  "icons": [
+    {
+      "src": "./logo-cache.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any"
+    },
+    {
+      "src": "./logo-cache.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any"
+    }
+  ]
+}
