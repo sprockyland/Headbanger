@@ -33,7 +33,7 @@
 
     .header {
         text-align: center;
-        margin-bottom: 40px;
+        margin-bottom: 35px;
     }
 
     .logo {
@@ -66,7 +66,7 @@
 
     .warning {
         max-width: 760px;
-        margin: 25px auto;
+        margin: 25px auto 0;
         padding: 15px 20px;
         border: 1px solid #592020;
         border-radius: 8px;
@@ -74,6 +74,92 @@
         color: #c8c8c8;
         font-size: 14px;
         line-height: 1.5;
+    }
+
+    /* Backstage / Lösungsbuch-Karte */
+    .backstage-card {
+        display: flex;
+        align-items: center;
+        gap: 16px;
+        padding: 20px;
+        margin-bottom: 26px;
+        background: linear-gradient(135deg, rgba(62, 10, 14, 0.88), rgba(22, 16, 18, 0.96));
+        border: 1px solid #b8873e;
+        border-left: 5px solid #e0b463;
+        border-radius: 8px;
+        box-shadow: 0 0 22px rgba(224, 180, 99, 0.14);
+        transition: .2s;
+    }
+
+    .backstage-card:hover {
+        transform: translateX(4px);
+        box-shadow: 0 0 26px rgba(224, 180, 99, 0.24);
+    }
+
+    .backstage-icon {
+        width: 44px;
+        text-align: center;
+        font-size: 32px;
+        flex-shrink: 0;
+    }
+
+    .backstage-info {
+        flex: 1;
+        min-width: 0;
+    }
+
+    .backstage-title {
+        font-size: 17px;
+        font-weight: bold;
+        color: #ffe093;
+        letter-spacing: 0.4px;
+    }
+
+    .backstage-tag {
+        margin-top: 4px;
+        font-size: 12px;
+        color: #d49648;
+        text-transform: uppercase;
+        letter-spacing: 1px;
+    }
+
+    .backstage-desc {
+        margin-top: 8px;
+        padding-right: 15px;
+        font-size: 14px;
+        color: #e5dccb;
+        line-height: 1.5;
+    }
+
+    .backstage-btn {
+        display: inline-block;
+        border: 1px solid #e0b463;
+        padding: 12px 18px;
+        border-radius: 6px;
+        background: linear-gradient(135deg, #8b0e1a, #54060d);
+        color: #ffe093;
+        font-weight: bold;
+        font-size: 14px;
+        text-decoration: none;
+        text-align: center;
+        cursor: pointer;
+        transition: .2s;
+        white-space: nowrap;
+        flex-shrink: 0;
+    }
+
+    .backstage-btn:hover {
+        background: linear-gradient(135deg, #b81424, #700812);
+        color: #ffffff;
+        box-shadow: 0 0 15px rgba(224, 180, 99, 0.4);
+    }
+
+    .section-label {
+        margin: 0 0 12px;
+        font-size: 12px;
+        text-transform: uppercase;
+        letter-spacing: 2px;
+        color: #888;
     }
 
     .file-list {
@@ -227,26 +313,26 @@
     }
 
     @media (max-width: 700px) {
-        .file {
+        .file, .backstage-card {
             flex-wrap: wrap;
         }
 
-        .file-info {
+        .file-info, .backstage-info {
             width: calc(100% - 60px);
         }
 
-        .file-description {
+        .file-description, .backstage-desc {
             padding-right: 0;
         }
 
-        button {
+        button, .backstage-btn {
             width: 100%;
             margin-left: 57px;
         }
     }
 
     @media (max-width: 480px) {
-        button {
+        button, .backstage-btn {
             margin-left: 0;
         }
     }
@@ -277,6 +363,22 @@
 
     </div>
 
+    <!-- Direkter Zugang zur Lösungsseite (backstage.html im selben Ordner) -->
+    <div class="backstage-card">
+        <div class="backstage-icon">📖</div>
+        <div class="backstage-info">
+            <div class="backstage-title">Backstage-Lösungsbuch &amp; Souffleur-Zentrale</div>
+            <div class="backstage-tag">GCBY17R · Lösungswege, Hints &amp; Final-Berechnung</div>
+            <div class="backstage-desc">
+                Falls ein Cacher verzweifelt vor einer Station steht und dich um Hilfe bittet: Hier liegen alle Lösungen, Erklärungen, Koordinatenrechnungen und fertige Schubs-Tipps zum Direkt-Kopieren bereit.
+            </div>
+        </div>
+        <a id="backstageLink" class="backstage-btn" href="backstage.html">
+            🔓 ZUR LÖSUNGSSEITE
+        </a>
+    </div>
+
+    <div class="section-label">Notfall- &amp; Reparaturdateien</div>
     <div id="fileList" class="file-list"></div>
 
     <div class="footer">
@@ -322,6 +424,11 @@
 
 const RAW_BASE =
     "https://raw.githubusercontent.com/sprockyland/Headbanger/admin/";
+
+// Relativer Pfad zur backstage.html im selben Ordner
+const BACKSTAGE_URL = "backstage.html";
+
+document.getElementById("backstageLink").href = BACKSTAGE_URL;
 
 
 /*
