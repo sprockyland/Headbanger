@@ -7,32 +7,35 @@
   <title>BACKSTAGE · Headbangers Rock 'n' Rente (Owner-Lösungsbuch)</title>
   <link rel="preconnect" href="https://fonts.googleapis.com">
   <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@500;600;700;800&family=Metal+Mania&family=Roboto+Slab:wght@300;400;600;700&display=swap" rel="stylesheet">
+  <link href="https://fonts.googleapis.com/css2?family=Cinzel:wght@600;700;800&family=Metal+Mania&family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
   <style>
     :root {
       --black: #07070a;
-      --panel: #111116;
-      --panel2: #171218;
-      --gold: #d2a75a;
-      --bronze: #7f5628;
-      --red: #b10f20;
+      --panel: #121218;
+      --panel2: #18141c;
+      --gold: #e0b463;
+      --bronze: #8c602e;
+      --red: #c41426;
       --red2: #5d0710;
-      --green: #2c7a4b;
-      --text: #eadfc9;
-      --muted: #bbaa91;
-      --line: rgba(210, 167, 90, .34);
-      --glow: 0 0 10px rgba(214, 22, 39, .65), 0 0 28px rgba(177, 15, 32, .25);
+      --text: #f3ead8;
+      --muted: #cbbfa8;
+      --line: rgba(224, 180, 99, .38);
+      --glow: 0 0 10px rgba(214, 22, 39, .6), 0 0 24px rgba(177, 15, 32, .22);
     }
 
     * { box-sizing: border-box; }
-    html { scroll-behavior: smooth; }
+    html {
+      scroll-behavior: smooth;
+      -webkit-text-size-adjust: 100%;
+    }
 
     body {
       margin: 0;
-      background: #050507;
+      background: #060609;
       color: var(--text);
       font-family: "Roboto Slab", Georgia, serif;
-      line-height: 1.72;
+      font-size: 16px;
+      line-height: 1.68;
       overflow-x: hidden;
     }
 
@@ -41,44 +44,15 @@
       position: fixed;
       inset: 0;
       z-index: -4;
-      background: radial-gradient(circle at 50% 0, rgba(116, 10, 20, .28), transparent 42%), linear-gradient(#050507, #0a080b 55%, #050507);
-    }
-
-    .noise {
-      position: fixed;
-      inset: 0;
-      z-index: -2;
-      pointer-events: none;
-      opacity: .13;
-      background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.78' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.42'/%3E%3C/svg%3E");
-    }
-
-    .fog {
-      position: fixed;
-      left: -25vw;
-      width: 150vw;
-      height: 34vh;
-      z-index: -1;
-      pointer-events: none;
-      filter: blur(28px);
-      opacity: .20;
-      background: radial-gradient(ellipse at center, rgba(210, 210, 220, .3), transparent 68%);
-      animation: fog 22s ease-in-out infinite alternate;
-    }
-    .fog.a { top: 12vh; }
-    .fog.b { top: 58vh; animation-duration: 29s; animation-direction: alternate-reverse; }
-
-    @keyframes fog {
-      from { transform: translateX(-12%) scale(1); }
-      to { transform: translateX(12%) scale(1.18); }
+      background: radial-gradient(circle at 50% 0, rgba(116, 10, 20, .26), transparent 45%), linear-gradient(#060609, #0b090d 55%, #060609);
     }
 
     .wrap {
-      width: min(1120px, calc(100% - 24px));
-      margin: 24px auto 70px;
+      width: min(1080px, calc(100% - 20px));
+      margin: 16px auto 60px;
       border: 1px solid var(--bronze);
-      background: rgba(8, 8, 11, .94);
-      box-shadow: 0 0 0 4px #080707, 0 0 0 5px rgba(210, 167, 90, .2), 0 24px 70px #000;
+      background: rgba(10, 10, 14, .96);
+      box-shadow: 0 0 0 3px #080707, 0 0 0 4px rgba(224, 180, 99, .22), 0 18px 50px #000;
       position: relative;
     }
 
@@ -87,158 +61,195 @@
       position: absolute;
       top: 10px;
       color: var(--gold);
-      font-size: 26px;
+      font-size: 22px;
       text-shadow: var(--glow);
     }
-    .wrap:before { left: 14px; }
-    .wrap:after { right: 14px; }
+    .wrap:before { left: 12px; }
+    .wrap:after { right: 12px; }
 
     .hero {
-      padding: 68px 24px 46px;
+      padding: 54px 18px 36px;
       display: grid;
       place-items: center;
       text-align: center;
       position: relative;
-      overflow: hidden;
       border-bottom: 1px solid var(--line);
-      background: radial-gradient(circle at 50% 50%, rgba(145, 10, 24, .24), transparent 38%), repeating-linear-gradient(115deg, rgba(255, 255, 255, .018) 0 1px, transparent 1px 8px), linear-gradient(145deg, #08080b, #1b1117 60%, #21080c);
+      background: radial-gradient(circle at 50% 50%, rgba(145, 10, 24, .24), transparent 42%), linear-gradient(145deg, #09090d, #1c1218 60%, #22080d);
     }
 
     .hero:after {
       content: "";
       position: absolute;
-      inset: 16px;
-      border: 1px solid rgba(210, 167, 90, .42);
+      inset: 12px;
+      border: 1px solid rgba(224, 180, 99, .38);
       pointer-events: none;
     }
 
     .badge-vip {
       display: inline-block;
-      padding: 5px 14px;
-      margin-bottom: 12px;
+      padding: 5px 12px;
+      margin-bottom: 10px;
       border: 1px solid var(--gold);
-      background: rgba(177, 15, 32, .35);
-      color: #f4d38c;
+      background: rgba(177, 15, 32, .42);
+      color: #ffe09e;
       font-family: Cinzel, serif;
-      font-size: .75rem;
+      font-size: .74rem;
       font-weight: 700;
-      letter-spacing: .24em;
+      letter-spacing: .18em;
       text-transform: uppercase;
-      box-shadow: var(--glow);
     }
 
     .title {
-      margin: .15em 0 0;
+      margin: .1em 0 0;
       font-family: "Metal Mania", Cinzel, serif;
-      font-size: clamp(2.6rem, 8vw, 5.8rem);
-      line-height: .88;
+      font-size: clamp(2.3rem, 8.5vw, 5.2rem);
+      line-height: .9;
       font-weight: 400;
-      color: #d7ac61;
-      text-shadow: 0 2px #3d240c, 0 0 8px #e5b25c, 0 0 25px rgba(177, 15, 32, .8);
+      color: #e0b463;
+      text-shadow: 0 2px #3d240c, 0 0 8px #e5b25c, 0 0 22px rgba(177, 15, 32, .75);
     }
 
     .title span {
       display: block;
-      color: #d9bd86;
+      color: #e6cca0;
       font-size: .56em;
       margin-top: .25em;
     }
 
     .sigil {
-      margin: 22px auto 0;
-      width: 92px;
+      margin: 18px auto 0;
+      width: 84px;
       height: 2px;
       background: #e0162e;
       box-shadow: var(--glow);
     }
 
-    main { padding: clamp(18px, 4vw, 44px); }
+    main { padding: clamp(14px, 3.5vw, 38px); }
 
     .owner-briefing {
-      margin: 0 0 28px;
-      padding: 20px 22px;
+      margin: 0 0 22px;
+      padding: 16px 18px;
       border-left: 4px solid var(--gold);
-      background: linear-gradient(135deg, #16141a, #100f14);
-      border-top: 1px solid rgba(210, 167, 90, .18);
-      border-right: 1px solid rgba(210, 167, 90, .18);
-      border-bottom: 1px solid rgba(210, 167, 90, .18);
+      background: #15131a;
+      border-top: 1px solid rgba(224, 180, 99, .18);
+      border-right: 1px solid rgba(224, 180, 99, .18);
+      border-bottom: 1px solid rgba(224, 180, 99, .18);
     }
 
     .owner-briefing h2 {
-      margin: 0 0 8px;
+      margin: 0 0 6px;
       font-family: Cinzel, serif;
       color: var(--gold);
-      font-size: 1.15rem;
+      font-size: 1.08rem;
     }
+
+    .owner-briefing p { margin: 0; font-size: .96rem; }
 
     /* Spickzettel-Übersicht */
     .cheat-grid {
       display: grid;
-      grid-template-columns: repeat(auto-fit, minmax(115px, 1fr));
-      gap: 10px;
-      margin: 22px 0 34px;
+      grid-template-columns: repeat(auto-fit, minmax(92px, 1fr));
+      gap: 8px;
+      margin: 18px 0 22px;
     }
 
     .cheat-card {
-      padding: 12px 10px;
+      padding: 10px 6px;
       text-align: center;
       border: 1px solid var(--line);
-      background: #121116;
-      border-radius: 4px;
+      background: #131218;
+      border-radius: 6px;
     }
 
     .cheat-card small {
       display: block;
       font-family: Cinzel, serif;
       color: var(--muted);
-      font-size: .72rem;
-      letter-spacing: .12em;
+      font-size: .68rem;
+      letter-spacing: .06em;
     }
 
     .cheat-card strong {
       display: block;
       font-family: ui-monospace, Consolas, monospace;
-      color: #f2d688;
-      font-size: 1.35rem;
+      color: #ffe093;
+      font-size: 1.28rem;
       margin-top: 2px;
+    }
+
+    /* Schnellnavigation & Steuerung für Handy / Tablet / Smart-Display */
+    .nav-bar {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      margin-bottom: 18px;
+      align-items: center;
+      justify-content: space-between;
+    }
+
+    .quick-jumps {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 6px;
+    }
+
+    .jump-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-height: 40px;
+      padding: 6px 12px;
+      background: #17141d;
+      color: #f3ead8;
+      text-decoration: none;
+      border: 1px solid var(--line);
+      border-radius: 6px;
+      font-family: Cinzel, serif;
+      font-size: .78rem;
+      font-weight: 700;
+    }
+
+    .jump-pill:hover, .jump-pill:active {
+      border-color: var(--gold);
+      background: #2b151c;
     }
 
     .controls {
       display: flex;
       flex-wrap: wrap;
-      gap: 10px;
-      margin-bottom: 22px;
-      justify-content: flex-end;
+      gap: 8px;
     }
 
     .btn {
       cursor: pointer;
-      padding: 8px 14px;
-      background: #18141b;
+      min-height: 40px;
+      padding: 8px 13px;
+      background: #1a1620;
       color: var(--gold);
       border: 1px solid var(--line);
+      border-radius: 6px;
       font-family: Cinzel, serif;
-      font-size: .78rem;
+      font-size: .76rem;
       font-weight: 700;
-      letter-spacing: .06em;
-      transition: .2s ease;
+      letter-spacing: .04em;
     }
 
-    .btn:hover {
+    .btn:hover, .btn:active {
       border-color: var(--gold);
-      background: #24161c;
+      background: #2b151c;
     }
 
     .station {
-      margin: 0 0 24px;
+      margin: 0 0 20px;
       border: 1px solid var(--line);
-      background: linear-gradient(145deg, rgba(20, 18, 23, .97), rgba(9, 9, 12, .97));
-      box-shadow: 0 12px 26px #000;
+      background: #111016;
+      border-radius: 6px;
+      overflow: hidden;
     }
 
     .station[open] {
-      border-color: #9a6d31;
-      box-shadow: 0 0 0 1px rgba(210, 167, 90, .08), 0 15px 34px #000, 0 0 24px rgba(177, 15, 32, .13);
+      border-color: #a87938;
+      box-shadow: 0 10px 26px rgba(0, 0, 0, .75);
     }
 
     .station summary {
@@ -247,65 +258,72 @@
       display: grid;
       grid-template-columns: auto 1fr auto auto;
       align-items: center;
-      gap: 14px;
-      padding: 18px 20px;
-      background: linear-gradient(90deg, rgba(81, 8, 17, .55), rgba(18, 15, 20, .82));
+      gap: 12px;
+      min-height: 64px;
+      padding: 14px 16px;
+      background: linear-gradient(90deg, rgba(92, 10, 20, .62), rgba(20, 17, 24, .9));
       user-select: none;
     }
 
     .station summary::-webkit-details-marker { display: none; }
 
     .number {
-      width: 47px;
-      height: 47px;
+      width: 44px;
+      height: 44px;
       display: grid;
       place-items: center;
-      border: 1px solid #ae7f39;
+      border: 1px solid #b8873e;
       color: var(--gold);
       font-family: Cinzel, serif;
-      background: #0a090b;
+      font-weight: 700;
+      background: #0a090d;
+      border-radius: 4px;
     }
 
     .station-title small {
       display: block;
-      color: #bb8037;
-      letter-spacing: .2em;
+      color: #d49648;
+      letter-spacing: .14em;
       text-transform: uppercase;
       font-size: .68rem;
     }
 
     .station-title b {
       font-family: Cinzel, serif;
-      color: #e0bd78;
-      font-size: clamp(1rem, 3vw, 1.32rem);
+      color: #f0cf8b;
+      font-size: clamp(1rem, 3.4vw, 1.28rem);
+      line-height: 1.25;
+      display: block;
     }
 
     .result-pill {
-      padding: 4px 11px;
+      padding: 5px 10px;
       border: 1px solid #bd8c3f;
-      background: #09080a;
-      color: #f2d688;
+      background: #09080c;
+      color: #ffe093;
       font-family: ui-monospace, Consolas, monospace;
-      font-size: .85rem;
+      font-size: .84rem;
       font-weight: 700;
+      border-radius: 4px;
+      white-space: nowrap;
     }
 
     .chev {
-      color: #e31b32;
+      color: #ff2b44;
       font-size: 1.35rem;
-      text-shadow: var(--glow);
-      transition: .28s;
+      transition: .25s;
     }
 
     .station[open] .chev { transform: rotate(180deg); }
 
-    .content { padding: 22px; }
+    .content { padding: 18px; }
 
     .hint-box {
-      margin: 0 0 20px;
-      padding: 16px 18px;
+      margin: 0 0 18px;
+      padding: 14px 16px;
       border: 1px dashed var(--gold);
-      background: #13110d;
+      background: #16140f;
+      border-radius: 6px;
     }
 
     .hint-box h3 {
@@ -313,9 +331,6 @@
       font-family: Cinzel, serif;
       color: var(--gold);
       font-size: .96rem;
-      display: flex;
-      align-items: center;
-      gap: 8px;
     }
 
     .hint-tier {
@@ -324,7 +339,7 @@
       align-items: flex-start;
       gap: 12px;
       padding: 10px 0;
-      border-top: 1px solid rgba(210, 167, 90, .16);
+      border-top: 1px solid rgba(224, 180, 99, .18);
     }
 
     .hint-tier:first-of-type { border-top: 0; padding-top: 2px; }
@@ -336,123 +351,143 @@
       font-weight: 700;
       padding: 2px 7px;
       margin-right: 6px;
-      border-radius: 3px;
-      background: #3d1218;
-      color: #f3c4c9;
-      border: 1px solid #8a2430;
+      border-radius: 4px;
+      background: #47141b;
+      color: #ffd0d5;
+      border: 1px solid #9c2836;
     }
 
     .copy-btn {
       flex-shrink: 0;
       cursor: pointer;
-      padding: 5px 10px;
-      background: #1d1a14;
-      color: #e8cfa0;
-      border: 1px solid rgba(210, 167, 90, .4);
+      min-height: 38px;
+      padding: 6px 12px;
+      background: #211d16;
+      color: #f2d8a7;
+      border: 1px solid rgba(224, 180, 99, .45);
       font-family: ui-monospace, Consolas, monospace;
-      font-size: .74rem;
-      border-radius: 4px;
+      font-size: .78rem;
+      border-radius: 5px;
     }
 
-    .copy-btn:hover { background: #2c2519; }
+    .copy-btn:hover, .copy-btn:active { background: #332a1d; }
 
     .solution-box {
-      padding: 18px 20px;
+      padding: 16px 18px;
       border-left: 4px solid var(--red);
-      background: linear-gradient(90deg, rgba(82, 9, 17, .28), rgba(20, 16, 20, .85));
+      background: #16131a;
+      border-radius: 0 6px 6px 0;
     }
 
     .solution-box h3 {
       margin: 0 0 10px;
       font-family: Cinzel, serif;
       color: #fff;
-      font-size: 1.05rem;
+      font-size: 1.04rem;
+    }
+
+    .solution-box p, .solution-box li {
+      font-size: .98rem;
     }
 
     .math-block {
       margin: 12px 0;
-      padding: 12px 15px;
-      background: #070709;
-      border: 1px solid rgba(210, 167, 90, .28);
+      padding: 13px 14px;
+      background: #08080b;
+      border: 1px solid rgba(224, 180, 99, .32);
+      border-radius: 5px;
       font-family: ui-monospace, Consolas, monospace;
-      color: #f2d688;
+      color: #ffe093;
       font-size: .92rem;
+      line-height: 1.65;
       overflow-x: auto;
     }
 
     .fun-fact {
       margin-top: 14px;
-      padding: 12px 15px;
-      background: rgba(210, 167, 90, .08);
-      border: 1px solid rgba(210, 167, 90, .28);
-      color: #e8d8b9;
+      padding: 13px 15px;
+      background: rgba(224, 180, 99, .1);
+      border: 1px solid rgba(224, 180, 99, .32);
+      border-radius: 5px;
+      color: #f3e5c8;
       font-size: .95rem;
+    }
+
+    .table-scroll {
+      width: 100%;
+      overflow-x: auto;
+      margin: 12px 0;
+      -webkit-overflow-scrolling: touch;
     }
 
     .letter-table {
       width: 100%;
+      min-width: 380px;
       border-collapse: collapse;
-      margin: 12px 0;
       font-family: ui-monospace, Consolas, monospace;
-      font-size: .85rem;
+      font-size: .86rem;
       text-align: center;
     }
 
     .letter-table td {
-      border: 1px solid rgba(210, 167, 90, .25);
-      padding: 5px 3px;
+      border: 1px solid rgba(224, 180, 99, .3);
+      padding: 6px 4px;
     }
 
     .letter-table tr:first-child td {
-      background: rgba(177, 15, 32, .28);
+      background: rgba(177, 15, 32, .34);
       color: #fff;
       font-weight: 700;
     }
 
     .letter-table tr:last-child td {
-      color: #f2d688;
+      color: #ffe093;
     }
 
     .coords {
-      margin: 16px 0;
-      padding: 20px;
+      margin: 16px 0 4px;
+      padding: 18px 14px;
       text-align: center;
       border: 1px solid #bd8c3f;
-      background: #050507;
-      color: #f2d688;
-      font: 700 clamp(.98rem, 2.8vw, 1.28rem)/1.8 ui-monospace, Consolas, monospace;
-      box-shadow: inset 0 0 26px rgba(177, 15, 32, .22), var(--glow);
+      border-radius: 6px;
+      background: #060609;
+      color: #ffe093;
+      font: 700 clamp(1rem, 3.4vw, 1.32rem)/1.75 ui-monospace, Consolas, monospace;
+      box-shadow: inset 0 0 22px rgba(177, 15, 32, .22), var(--glow);
+    }
+
+    /* Kompakt-Modus (blendet Hint-Kästen aus, ideal für kleine Smart-Displays) */
+    body.compact-mode .hint-box,
+    body.compact-mode .owner-briefing {
+      display: none;
     }
 
     .footer {
       text-align: center;
-      padding: 22px;
+      padding: 18px;
       border-top: 1px solid var(--line);
       font-family: Cinzel, serif;
-      color: #a89982;
-      letter-spacing: .14em;
-      font-size: .75rem;
+      color: #b8aa92;
+      letter-spacing: .12em;
+      font-size: .74rem;
     }
 
-    @media(max-width: 650px) {
+    @media(max-width: 680px) {
       .wrap { width: 100%; margin: 0; border-left: 0; border-right: 0; }
-      .station summary { grid-template-columns: auto 1fr auto; padding: 14px 12px; gap: 10px; }
+      .station summary { grid-template-columns: auto 1fr auto; padding: 12px; gap: 10px; }
       .result-pill { display: none; }
-      .content { padding: 15px; }
+      .content { padding: 14px; }
       .hint-tier { flex-direction: column; }
+      .copy-btn { width: 100%; text-align: center; }
     }
   </style>
 </head>
 <body>
-  <div class="noise"></div>
-  <div class="fog a"></div>
-  <div class="fog b"></div>
-
   <div class="wrap">
     <header class="hero">
       <div>
-        <div class="badge-vip">🔒 Nur für Christian · Owner-Souffleur-Zentrale</div>
-        <h1 class="title">HEADBANGERS<span>BACKSTAGE-LÖSUNGSBUCH 🤘</span></h1>
+        <div class="badge-vip">🔒 Owner-Backstage · GCBY17R</div>
+        <h1 class="title">HEADBANGERS<span>LÖSUNGSBUCH &amp; HINTS 🤘</span></h1>
         <div class="sigil"></div>
       </div>
     </header>
@@ -460,29 +495,40 @@
     <main>
       <section class="owner-briefing">
         <h2>Moin Christian, Willkommen im Backstage-Bereich!</h2>
-        <p>Falls mal wieder ein Cacher verzweifelt vor einer Station steht, mit den Zahlen jongliert oder dir eine Nachricht mit <em>„Hilfe, ich stehe im Wald und sehe den Pennywise vor lauter Bäumen nicht!“</em> schickt: Hier liegt dein kompletter Spickzettel. Zu jeder Station findest du abgestufte Schubs-Tipps zum Direkt-Kopieren sowie die komplette Herleitung bis zur Final-Dose.</p>
+        <p>Falls mal wieder ein Cacher verzweifelt vor einer Station steht oder dir eine Nachricht schickt: Hier liegt dein kompletter Spickzettel. Zu jeder Station gibt es abgestufte Schubs-Tipps zum Direkt-Kopieren sowie die komplette Herleitung bis zur Final-Dose.</p>
       </section>
 
       <!-- Schneller Variablen-Spickzettel -->
-      <div class="cheat-grid">
+      <div class="cheat-grid" aria-label="Variablen-Übersicht">
         <div class="cheat-card"><small>Wortwert (A)</small><strong>188</strong></div>
         <div class="cheat-card"><small>Häufigster (B)</small><strong>5</strong></div>
         <div class="cheat-card"><small>Derry-QS (C)</small><strong>15</strong></div>
         <div class="cheat-card"><small>Einfahrt (D)</small><strong>44</strong></div>
         <div class="cheat-card"><small>Goldrausch (E)</small><strong>49</strong></div>
-        <div class="cheat-card"><small>M-Box 1 (F)</small><strong>8</strong></div>
-        <div class="cheat-card"><small>M-Box 2 (G)</small><strong>1</strong></div>
+        <div class="cheat-card"><small>Album (F)</small><strong>8</strong></div>
+        <div class="cheat-card"><small>Track (G)</small><strong>1</strong></div>
         <div class="cheat-card"><small>w3w-Haus (H)</small><strong>93</strong></div>
         <div class="cheat-card"><small>3 Flüsse (I)</small><strong>5</strong></div>
       </div>
 
-      <div class="controls">
-        <button class="btn" onclick="toggleAll(true)">Alle Stationen aufklappen</button>
-        <button class="btn" onclick="toggleAll(false)">Alle zuklappen</button>
+      <div class="nav-bar">
+        <nav class="quick-jumps" aria-label="Stationen-Schnellwahl">
+          <a class="jump-pill" href="#s1">01</a>
+          <a class="jump-pill" href="#s2">02</a>
+          <a class="jump-pill" href="#s3">03</a>
+          <a class="jump-pill" href="#s4">04</a>
+          <a class="jump-pill" href="#s5">05</a>
+          <a class="jump-pill" href="#s6">Final</a>
+        </nav>
+        <div class="controls">
+          <button class="btn" id="compactBtn" onclick="toggleCompact()">Nur Lösungen</button>
+          <button class="btn" onclick="toggleAll(true)">Alle auf</button>
+          <button class="btn" onclick="toggleAll(false)">Alle zu</button>
+        </div>
       </div>
 
       <!-- STATION 01 -->
-      <details class="station" open>
+      <details class="station" id="s1" open>
         <summary>
           <span class="number">01</span>
           <span class="station-title">
@@ -496,35 +542,30 @@
           <div class="hint-box">
             <h3>🎤 Christians Souffleur-Kasten</h3>
             <div class="hint-tier">
-              <div><span class="hint-tag">Schubser 1</span> „Schau dich an den Startkoordinaten mal nicht nur auf Augenhöhe um – manchmal hilft ein Blick in Richtung Himmel oder an die Wände nach einem klassischen Büro- oder Behördenbegriff.“</div>
-              <button class="copy-btn" onclick="copyText(this, 'Schau dich an den Startkoordinaten mal nicht nur auf Augenhöhe um – manchmal hilft ein Blick nach einem klassischen Büro- oder Behördenbegriff rund um den Feierabend.')">Kopieren</button>
+              <div><span class="hint-tag">Schubser 1</span> „Schau dich an den Startkoordinaten mal nicht nur auf Augenhöhe um – der Hinweis auf die Tageszeit, ab der laut alter Dienstanweisung gefeiert werden darf, hat 15 Buchstaben.“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Schau dich an den Startkoordinaten mal um – der Hinweis auf die Tageszeit, ab der laut alter Dienstanweisung gefeiert werden darf, hat 15 Buchstaben.')">Kopieren</button>
             </div>
             <div class="hint-tier">
-              <div><span class="hint-tag">Schubser 2</span> „Wenn der Chef offiziell den Feierabend einläutet, ist Schluss mit der Arbeit und der Kühlschrank darf auf. Das gesuchte Wort hat 15 Buchstaben und beginnt mit D.“</div>
-              <button class="copy-btn" onclick="copyText(this, 'Wenn der Chef offiziell den Feierabend einläutet, ist Schluss mit der Arbeit und der Kühlschrank darf auf. Das gesuchte Wort hat 15 Buchstaben und beginnt mit D.')">Kopieren</button>
+              <div><span class="hint-tag">Schubser 2</span> „Wenn die Sonne untergeht, darf offiziell der Alkohol ausgeschenkt werden – und wenn man Durst hat, stellt man dieses Naturereignis einfach kurzerhand selbst fest! Das Wort lautet SONNENUNTERGANG.“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Wenn die Sonne untergeht, darf offiziell ausgeschenkt werden – und bei Durst stellt man das einfach selbst fest! Das gesuchte Wort ist SONNENUNTERGANG (15 Buchstaben).')">Kopieren</button>
             </div>
           </div>
 
           <div class="solution-box">
-            <h3>📖 Auflösung & Herleitung</h3>
-            <p>Die alte Dienstanweisung lautet: <em>„Vor <strong>Dienstschluss</strong> darf kein Alkohol ausgeschenkt werden.“</em> Und die pragmatische Beamten- bzw. Büro-Lösung bestand damals darin, bei Durst einfach kurzerhand offiziell den <strong>Dienstschluss</strong> festzustellen! Prost! 🍻</p>
-            <p><strong>Gesuchtes Wort:</strong> <code>DIENSTSCHLUSS</code> (15 Buchstaben – Hinweis vor Ort bei N 52° 30.513' E 13° 25.695').</p>
-            
-            <table class="letter-table">
-              <tr><td>D</td><td>I</td><td>E</td><td>N</td><td>S</td><td>T</td><td>S</td><td>C</td><td>H</td><td>L</td><td>U</td><td>S</td><td>S</td></tr>
-              <tr><td>4</td><td>9</td><td>5</td><td>14</td><td>19</td><td>20</td><td>19</td><td>3</td><td>8</td><td>12</td><td>21</td><td>19</td><td>19</td></tr>
-            </table>
-            <p><em>Hinweis zur Zählweise im Listing:</em> Je nach lokaler Schreibweise/Schautafel vor Ort ergibt der dortige Hinweis den Buchstabenwert-Summenwert <strong>A = 188</strong> (15 Buchstaben: <code>19 15 14 14 5 14 21 14 20 5 18 7 1 14 7</code> &rarr; <strong>SONNENUNTERGANG</strong>!).</p>
+            <h3>📖 Auflösung &amp; Herleitung</h3>
+            <p>Die alte Dienstanweisung lautete: <em>„Vor <strong>Sonnenuntergang</strong> darf kein Alkohol ausgeschenkt werden.“</em> Und die pragmatische Lösung bestand dann darin, bei Durst einfach kurzerhand offiziell den <strong>Sonnenuntergang</strong> festzustellen! Prost! 🍻</p>
+            <p><strong>Gesuchtes Wort:</strong> <code>SONNENUNTERGANG</code> (15 Buchstaben – Hinweis vor Ort bei <code>N 52° 30.513' E 13° 25.695'</code>).</p>
 
-            <div class="fun-fact">
-              <strong>⚠️ Achtung, wichtiger Owner-Check:</strong> In deinen Notizen steht für Station 01 das 15-buchstabige Wort <strong>SONNENUNTERGANG</strong>!
-              <br><code>S(19)+O(15)+N(14)+N(14)+E(5)+N(14)+U(21)+N(14)+T(20)+E(5)+R(18)+G(7)+A(1)+N(14)+G(7) = 188</code>!
-              <br>• <strong>A = 188</strong> (Wortwert von SONNENUNTERGANG)
-              <br>• <strong>B = 5</strong> (Der Buchstabe <strong>N</strong> kommt exakt <strong>5-mal</strong> in SONNENUNTERGANG vor!)
-              <br><em>(„Vor Sonnenuntergang darf kein Alkohol ausgeschenkt werden“ – einfach Sonnenuntergang feststellen, Problem gelöst! 😂)</em>
+            <div class="table-scroll">
+              <table class="letter-table">
+                <tr><td>S</td><td>O</td><td>N</td><td>N</td><td>E</td><td>N</td><td>U</td><td>N</td><td>T</td><td>E</td><td>R</td><td>G</td><td>A</td><td>N</td><td>G</td></tr>
+                <tr><td>19</td><td>15</td><td>14</td><td>14</td><td>5</td><td>14</td><td>21</td><td>14</td><td>20</td><td>5</td><td>18</td><td>7</td><td>1</td><td>14</td><td>7</td></tr>
+              </table>
             </div>
 
             <div class="math-block">
+              • <strong>A (Wortwert):</strong> 19+15+14+14+5+14+21+14+20+5+18+7+1+14+7 = <strong>188</strong><br>
+              • <strong>B (Häufigster Buchstabe):</strong> Das <strong>N</strong> kommt exakt <strong>5</strong>-mal vor &rarr; <strong>B = 5</strong><br><br>
               <strong>Peilung zur Station 02 (Das schwebende Fahrrad):</strong><br>
               • Entfernung: A + B × 10 + 2 = 188 + 50 + 2 = <strong>240 Meter</strong><br>
               • Winkel:     A + B × 18,4   = 188 + 92     = <strong>280 Grad</strong><br>
@@ -535,7 +576,7 @@
       </details>
 
       <!-- STATION 02 -->
-      <details class="station">
+      <details class="station" id="s2" open>
         <summary>
           <span class="number">02</span>
           <span class="station-title">
@@ -553,26 +594,26 @@
               <button class="copy-btn" onclick="copyText(this, 'Der kleine Junge im gelben Regenmantel hieß George, genannt Georgie. Und mach dir keinen Kopf, ob du das Jahr aus dem Buch (1986) oder aus der Geschichte (1957) nimmst – beide Rechenwege führen zur selben Quersumme!')">Kopieren</button>
             </div>
             <div class="hint-tier">
-              <div><span class="hint-tag">Schubser 2 (für D)</span> „In der Geschichte von Stephen King heißt Bills Fahrrad ‚Silver‘ (auf Deutsch ‚Einflussreich‘). An deinen Zielkoordinaten hängt so ein Drahtesel hoch über der Einfahrt. Schau dort direkt nach der zweistelligen Hausnummer.“</div>
+              <div><span class="hint-tag">Schubser 2 (für D)</span> „In Stephen Kings ES heißt Bills Fahrrad ‚Silver‘ (auf Deutsch ‚Einflussreich‘). An deinen Zielkoordinaten schwebt so ein Drahtesel hoch über einer Einfahrt. Schau dort direkt nach der zweistelligen Hausnummer.“</div>
               <button class="copy-btn" onclick="copyText(this, 'In Stephen Kings ES heißt Bills Fahrrad Silver (auf Deutsch Einflussreich). An deinen Zielkoordinaten schwebt ein Fahrrad hoch über einer Einfahrt – direkt dort steht die gesuchte zweistellige Hausnummer.')">Kopieren</button>
             </div>
           </div>
 
           <div class="solution-box">
-            <h3>📖 Auflösung & Herleitung</h3>
+            <h3>📖 Auflösung &amp; Herleitung</h3>
             <p><strong>Teil C – Der kleine Junge aus Derry:</strong><br>
             Im Oktober 1957 schickt Bill Denbrough seinen kleinen Bruder mit einem Papierboot in den Regen – und der Clown Pennywise schlägt zu. Der Junge heißt mit offiziellem Taufnamen <strong>George</strong> (6 Buchstaben) bzw. mit Rufnamen <strong>Georgie</strong> (7 Buchstaben).</p>
 
             <div class="fun-fact">
               <strong>🤡 Der geniale Pennywise-Zufall bei C:</strong><br>
               Die Formulierung <em>„Erscheinungsjahr des ersten dokumentierten Opfers in Derry im Jahre 1957“</em> lässt zwei völlig logische Deutungen zu:<br>
-              • <strong>Weg 1 (In-Universe-Jahr & Taufname):</strong> Das Opfer trat <strong>1957</strong> in Erscheinung × 6 Buchstaben (<code>George</code>) = <code>11.742</code> &rarr; Quersumme: <code>1 + 1 + 7 + 4 + 2 = <strong>15</strong></code><br>
-              • <strong>Weg 2 (Buch-Erscheinungsjahr & Rufname):</strong> Der Roman <em>ES</em> erschien <strong>1986</strong> × 7 Buchstaben (<code>Georgie</code>) = <code>13.902</code> &rarr; Quersumme: <code>1 + 3 + 9 + 0 + 2 = <strong>15</strong></code><br>
+              • <strong>Weg 1 (In-Universe-Jahr &amp; Taufname):</strong> Das Opfer trat <strong>1957</strong> in Erscheinung × 6 Buchstaben (<code>George</code>) = <code>11.742</code> &rarr; Quersumme: <code>1 + 1 + 7 + 4 + 2 = <strong>15</strong></code><br>
+              • <strong>Weg 2 (Buch-Erscheinungsjahr &amp; Rufname):</strong> Der Roman <em>ES</em> erschien <strong>1986</strong> × 7 Buchstaben (<code>Georgie</code>) = <code>13.902</code> &rarr; Quersumme: <code>1 + 3 + 9 + 0 + 2 = <strong>15</strong></code><br>
               Egal wie der Cacher rechnet: Es kommt immer <strong>C = 15</strong> heraus!
             </div>
 
             <p><strong>Teil D – Bills Fahrrad „Einflussreich“:</strong><br>
-            Die Peilung von Station 01 (240 m, 280°) führt direkt zu einer Einfahrt in Berlin (<code>N 52° 30.536' E 013° 25.486'</code>), über der tatsächlich ein Fahrrad als Dekoration bzw. Wegweiser in der Luft schwebt. Direkt an dieser Einfahrt prangt die Hausnummer <strong>44</strong>.</p>
+            Die Peilung von Station 01 (240 m, 280°) führt direkt zu einer Einfahrt in Berlin (<code>N 52° 30.536' E 013° 25.486'</code>), über der tatsächlich ein Fahrrad hoch über den Köpfen der Passanten schwebt. Direkt an dieser Einfahrt steht die Hausnummer <strong>44</strong>.</p>
             <div class="math-block">
               • <strong>C = 15</strong><br>
               • <strong>D = 44</strong>
@@ -582,11 +623,11 @@
       </details>
 
       <!-- STATION 03 -->
-      <details class="station">
+      <details class="station" id="s3" open>
         <summary>
           <span class="number">03</span>
           <span class="station-title">
-            <small>Station 03 · Virtuell & Mini-Game</small>
+            <small>Station 03 · Virtuell &amp; Motörhead-Hommage</small>
             <b>Ganz schön sportlich...</b>
           </span>
           <span class="result-pill">E = 49 · F = 8 · G = 1</span>
@@ -596,33 +637,37 @@
           <div class="hint-box">
             <h3>🎤 Christians Souffleur-Kasten</h3>
             <div class="hint-tier">
-              <div><span class="hint-tag">Schubser 1 (für E)</span> „1849 strömten die Goldsucher nach Kalifornien (deshalb heißt das Football-Team dort auch ‚49ers‘). Aber was hat das mit Heavy Metal zu tun? Denk an die kultigste Metal-Kneipe in Berlin-Prenzlauer Berg!“</div>
-              <button class="copy-btn" onclick="copyText(this, '1849 strömten die Goldsucher nach Kalifornien (daher die San Francisco 49ers). Jetzt schlag die Brücke nach Berlin-Prenzlauer Berg zu einer legendären Rock- und Metal-Kneipe!')">Kopieren</button>
+              <div><span class="hint-tag">Schubser 1 (für E)</span> „1849 strömten die Goldsucher nach Kalifornien (daher die ‚49ers‘). Aber was hat das mit Heavy Metal in Berlin zu tun? Denk an die kultige Rock- und Metal-Kneipe in Prenzlauer Berg!“</div>
+              <button class="copy-btn" onclick="copyText(this, '1849 strömten die Goldsucher nach Kalifornien (daher die 49ers). Jetzt schlag die Brücke nach Berlin-Prenzlauer Berg zu der kultigen Rock- und Metal-Kneipe mit genau dieser Zahl im Namen!')">Kopieren</button>
             </div>
             <div class="hint-tier">
-              <div><span class="hint-tag">Schubser 2 (für F & G)</span> „Klick im Text auf das verlinkte Wort ‚Album‘! Die Verstorbene Legende ist natürlich Lemmy Kilmister von Motörhead – und auf der verlinkten Seite brauchst du etwas Ausdauer.“</div>
-              <button class="copy-btn" onclick="copyText(this, 'Klick im Listing auf das Wort Album! Das Zitat stammt von Lemmy Kilmister (Motörhead) – dahinter versteckt sich ein kleines Geduldsspiel, das dir F und G verrät.')">Kopieren</button>
+              <div><span class="hint-tag">Schubser 2 (für F &amp; G)</span> „Klick im Text auf das Wort ‚Album‘! Die Legende ist Lemmy Kilmister (Motörhead) und das Lied im Player ist ‚Rock ’n’ Roll‘. Gesucht sind die Nummer des Studioalbums in der Motörhead-Diskografie (F) und die Tracknummer des Liedes darauf (G).“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Klick im Listing auf das Wort Album! Die Legende ist Lemmy Kilmister (Motörhead) und der Song heißt Rock ’n’ Roll. F ist das wievielte Studioalbum von Motörhead es ist, und G ist die Tracknummer des Songs auf diesem Album!')">Kopieren</button>
             </div>
           </div>
 
           <div class="solution-box">
-            <h3>📖 Auflösung & Herleitung</h3>
+            <h3>📖 Auflösung &amp; Herleitung</h3>
             <p><strong>Teil E – Der kalifornische Goldrausch:</strong><br>
-            Im Jahr 18<strong>49</strong> begann der große kalifornische Goldrausch – die Glücksritter nannte man die <em>Forty-Niners</em> (daher auch das NFL-Team <em>San Francisco 49ers</em>). Die direkte Verbindung zu Headbangers musikalischer Leidenschaft in Berlin ist der legendäre Rock- und Heavy-Metal-Club <strong>„PAUKE / Halford / 49ers“</strong> bzw. die Kult-Kneipe <strong>„49ers“</strong> (oder die Zahl 49 der Goldsucher & Metal-Szene). Somit ist <strong>E = 49</strong>.</p>
+            Im Jahr 18<strong>49</strong> begann der kalifornische Goldrausch – die Glücksritter nannte man die <em>Forty-Niners</em> (daher auch das Football-Team <em>San Francisco 49ers</em>, weshalb im Text extra ausgeschlossen wird, dass es um Rückennummern oder Super-Bowl-Siege geht). Die Verbindung zu Headbangers Leidenschaft ist die legendäre Berliner Rock- und Metal-Kneipe <strong>„49ers“</strong> in Prenzlauer Berg. Somit ist <strong>E = 49</strong>.</p>
 
-            <p><strong>Teil F & G – Lemmys Album-Link:</strong><br>
-            Hinter dem Link <a href="https://sprockyland.github.io/Headbanger/mbox.html" target="_blank" rel="noopener noreferrer">sprockyland.github.io/Headbanger/mbox.html</a> verbirgt sich eine Hommage an den unvergessenen <strong>Lemmy Kilmister</strong> (Motörhead). Wer dort die nötige Ausdauer beweist, erhält die beiden Bonus-Variablen für die Finalformel:</p>
+            <p><strong>Teil F &amp; G – Lemmys Album &amp; „Rock ’n’ Roll“:</strong><br>
+            Das Zitat <em>„Klar erkennen mich viele Leute, aber mir wäre es fast lieber, wenn sie alle auch das neue Album kaufen würden“</em> stammt vom unvergessenen <strong>Lemmy Kilmister</strong> (Motörhead). Hinter dem Link <a href="https://sprockyland.github.io/Headbanger/mbox.html" target="_blank" rel="noopener noreferrer">mbox.html</a> läuft der Song <strong>„Rock ’n’ Roll“</strong> (und man braucht etwas Ausdauer beim Zuhören/Klicken 😉):</p>
+            <ul>
+              <li><strong>F = 8:</strong> <em>Rock ’n’ Roll</em> (1987) ist das <strong>8. Studioalbum</strong> von Motörhead.</li>
+              <li><strong>G = 1:</strong> Der Titeltrack <em>„Rock ’n’ Roll“</em> ist gleich das <strong>1. Lied (Track 1)</strong> auf diesem Album.</li>
+            </ul>
             <div class="math-block">
-              • <strong>E = 49</strong><br>
-              • <strong>F = 8</strong><br>
-              • <strong>G = 1</strong>
+              • <strong>E = 49</strong> (Goldrausch 1849 / Metal-Kneipe 49ers)<br>
+              • <strong>F = 8</strong> (8. Studioalbum von Motörhead: „Rock ’n’ Roll“)<br>
+              • <strong>G = 1</strong> (1. Lied auf dem Album: „Rock ’n’ Roll“)
             </div>
           </div>
         </div>
       </details>
 
       <!-- STATION 04 -->
-      <details class="station">
+      <details class="station" id="s4" open>
         <summary>
           <span class="number">04</span>
           <span class="station-title">
@@ -636,7 +681,7 @@
           <div class="hint-box">
             <h3>🎤 Christians Souffleur-Kasten</h3>
             <div class="hint-tier">
-              <div><span class="hint-tag">Schubser 1</span> „Die drei gesuchten Wörter mit je 7 Buchstaben bilden eine Adresse für den Kartendienst what3words (wort1.wort2.wort3). Es geht um Pfälzer Wein, eine Reaktion des Richters und den Richter selbst.“</div>
+              <div><span class="hint-tag">Schubser 1</span> „Die drei gesuchten Wörter mit je 7 Buchstaben bilden eine Adresse für den Kartendienst what3words (wort1.wort2.wort3). Es geht um Pfälzer Wein, eine Reaktion im Gerichtssaal und die Person auf der Richterbank.“</div>
               <button class="copy-btn" onclick="copyText(this, 'Die drei gesuchten Wörter mit je 7 Buchstaben ergeben zusammen eine what3words-Adresse (wort1.wort2.wort3). Es geht um Pfälzer Weinbeeren, was dem Richter ins Auge sprang und die Person auf der Richterbank.')">Kopieren</button>
             </div>
             <div class="hint-tier">
@@ -646,7 +691,7 @@
           </div>
 
           <div class="solution-box">
-            <h3>📖 Auflösung & Herleitung</h3>
+            <h3>📖 Auflösung &amp; Herleitung</h3>
             <p>Hier wird auf deine juristischen Wurzeln und deine Pfälzer Heimat Bellheim angespielt! Die drei gesuchten 7-buchstabigen Wörter ergeben eine <strong>what3words</strong>-Koordinate:</p>
             <ul>
               <li><strong>4a (Weinbau-Paragraf):</strong> Was hängt beim Winzer in Reihen voller Süße und Säure? &rarr; <strong><code>trauben</code></strong> (7 Buchstaben)</li>
@@ -663,7 +708,7 @@
       </details>
 
       <!-- STATION 05 -->
-      <details class="station">
+      <details class="station" id="s5" open>
         <summary>
           <span class="number">05</span>
           <span class="station-title">
@@ -687,12 +732,14 @@
           </div>
 
           <div class="solution-box">
-            <h3>📖 Auflösung & Herleitung</h3>
+            <h3>📖 Auflösung &amp; Herleitung</h3>
             <p>Die berühmte Dreiflüssestadt (Donau, Inn und Ilz), in der du studiert und deine große Liebe kennengelernt hast – und nach der die <em>Passauer Straße</em> in Berlin benannt ist –, lautet natürlich <strong>Passau</strong>.</p>
-            <table class="letter-table">
-              <tr><td>P</td><td>A</td><td>S</td><td>S</td><td>A</td><td>U</td></tr>
-              <tr><td>16</td><td>1</td><td>19</td><td>19</td><td>1</td><td>21</td></tr>
-            </table>
+            <div class="table-scroll">
+              <table class="letter-table">
+                <tr><td>P</td><td>A</td><td>S</td><td>S</td><td>A</td><td>U</td></tr>
+                <tr><td>16</td><td>1</td><td>19</td><td>19</td><td>1</td><td>21</td></tr>
+              </table>
+            </div>
             <div class="math-block">
               • Wortwert (Σ): 16 + 1 + 19 + 19 + 1 + 21 = <strong>77</strong><br>
               • 1. Quersumme: 7 + 7 = <strong>14</strong><br>
@@ -704,7 +751,7 @@
       </details>
 
       <!-- STATION 06 (FINAL) -->
-      <details class="station" open>
+      <details class="station" id="s6" open>
         <summary>
           <span class="number">☠</span>
           <span class="station-title">
@@ -718,7 +765,7 @@
           <div class="hint-box">
             <h3>🎤 Christians Souffleur-Kasten (wenn der Geochecker rot zeigt)</h3>
             <div class="hint-tier">
-              <div><span class="hint-tag">Rechen-Check</span> „Prüf mal Punkt-vor-Strich und die Klammern! Besonders bei Ost: (E-D)*F/2 steht vor dem Punkt, und dahinter kommt A+B+D+2*E-F+G+H+I.“</div>
+              <div><span class="hint-tag">Rechen-Check</span> „Prüf mal Punkt-vor-Strich und die Klammern! Bei Nord ergibt C*2 = 30 und die Nachkommastelle 062. Bei Ost ergibt (E-D)*F/2 = 20 und die Nachkommastelle 426.“</div>
               <button class="copy-btn" onclick="copyText(this, 'Prüf mal Punkt-vor-Strich und die Klammern! Bei Nord ergibt C*2 = 30 und die Nachkommastelle 062. Bei Ost ergibt (E-D)*F/2 = 20 und die Nachkommastelle 426.')">Kopieren</button>
             </div>
           </div>
@@ -765,6 +812,11 @@
   <script>
     function toggleAll(openState) {
       document.querySelectorAll('details.station').forEach(d => d.open = openState);
+    }
+
+    function toggleCompact() {
+      const isCompact = document.body.classList.toggle('compact-mode');
+      document.getElementById('compactBtn').textContent = isCompact ? 'Mit Hints' : 'Nur Lösungen';
     }
 
     function copyText(btn, text) {
