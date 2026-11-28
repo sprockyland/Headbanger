@@ -103,7 +103,7 @@
 
     .brand-title {
       font-family: 'Metal Mania', Cinzel, serif;
-      font-size: clamp(1.25rem, 4vw, 1.65rem);
+      font-size: clamp(1.2rem, 3.8vw, 1.65rem);
       color: var(--gold);
       letter-spacing: 1px;
       line-height: 1;
@@ -113,6 +113,34 @@
       font-size: 0.72rem;
       color: var(--muted);
       letter-spacing: 0.4px;
+    }
+
+    .topbar-right {
+      display: flex;
+      align-items: center;
+      gap: 8px;
+      flex-wrap: wrap;
+    }
+
+    .quick-cache-btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 5px;
+      padding: 6px 11px;
+      border-radius: 999px;
+      background: linear-gradient(135deg, #8b0e1a, #54060d);
+      border: 1px solid var(--gold);
+      color: #ffe39e;
+      text-decoration: none;
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+      transition: 0.2s;
+    }
+
+    .quick-cache-btn:hover {
+      filter: brightness(1.18);
+      transform: translateY(-1px);
     }
 
     .live-pill {
@@ -143,14 +171,14 @@
       50% { opacity: 0.45; transform: scale(0.8); }
     }
 
-    /* Tab-Leiste */
+    /* Tab-Leiste (5 Bereiche) */
     .tab-nav {
       max-width: 1240px;
       margin: 14px auto 0;
       padding: 0 12px;
       display: grid;
-      grid-template-columns: repeat(4, minmax(0, 1fr));
-      gap: 8px;
+      grid-template-columns: repeat(5, minmax(0, 1fr));
+      gap: 7px;
     }
 
     .tab-btn {
@@ -158,11 +186,11 @@
       background: var(--surface);
       border: 1px solid var(--border-soft);
       border-radius: 14px;
-      padding: 11px 8px;
+      padding: 10px 6px;
       color: var(--muted);
       font-family: 'Outfit', sans-serif;
       font-weight: 700;
-      font-size: clamp(0.76rem, 2.3vw, 0.92rem);
+      font-size: clamp(0.7rem, 2.1vw, 0.88rem);
       display: flex;
       flex-direction: column;
       align-items: center;
@@ -170,13 +198,14 @@
       gap: 4px;
       transition: all 0.2s ease;
       text-align: center;
+      line-height: 1.2;
     }
 
-    @media (min-width: 720px) {
+    @media (min-width: 820px) {
       .tab-btn {
         flex-direction: row;
-        gap: 8px;
-        padding: 13px 14px;
+        gap: 7px;
+        padding: 13px 12px;
       }
     }
 
@@ -725,7 +754,7 @@
     .btn-dl:hover { background: #c41426; box-shadow: 0 0 14px rgba(217, 27, 46, 0.45); }
 
     /* =========================================================
-       TAB 4: DIPLOM & LOGBUCH-WALL (hd-diplom.html?owner=1)
+       TAB 4 & TAB 5: IFRAMES (DIPLOM & CACHECOPIE)
        ========================================================= */
     .iframe-toolbar {
       display: flex;
@@ -847,7 +876,7 @@
 </head>
 <body>
 
-  <!-- OBERE KOPFLEISTE -->
+  <!-- OBERE KOPFLEISTE MIT SCHNELL-BUTTON ZUR CACHE-ANSICHT -->
   <header class="topbar">
     <div class="topbar-inner">
       <div class="brand">
@@ -857,30 +886,39 @@
           <div class="brand-sub">GCBY17R · Christian aka Headbanger · Live-Steuerung</div>
         </div>
       </div>
-      <div class="live-pill">
-        <span class="live-dot"></span>
-        <span id="connStatus">LIVE VERBUNDEN</span>
+      <div class="topbar-right">
+        <a href="cachecopie.html" target="_blank" rel="noopener noreferrer" class="quick-cache-btn">
+          🗺️ Cache-Ansicht
+        </a>
+        <div class="live-pill">
+          <span class="live-dot"></span>
+          <span id="connStatus">LIVE VERBUNDEN</span>
+        </div>
       </div>
     </div>
   </header>
 
-  <!-- 4 HAUPT-TABS -->
+  <!-- 5 HAUPT-TABS -->
   <nav class="tab-nav" aria-label="Owner-Bereiche">
     <button class="tab-btn active" data-tab="tab-radar" onclick="switchTab('tab-radar', this)">
       <span class="tab-icon">📡</span>
-      <span>Live-Radar &amp; DB</span>
+      <span>Live-Radar</span>
     </button>
     <button class="tab-btn" data-tab="tab-backstage" onclick="switchTab('tab-backstage', this)">
       <span class="tab-icon">📖</span>
-      <span>Lösungsbuch</span>
+      <span>Lösungen</span>
     </button>
     <button class="tab-btn" data-tab="tab-repair" onclick="switchTab('tab-repair', this)">
       <span class="tab-icon">🛠️</span>
-      <span>Reparatur-Center</span>
+      <span>Reparatur</span>
     </button>
-    <button class="tab-btn" data-tab="tab-listing" onclick="switchTab('tab-listing', this)">
+    <button class="tab-btn" data-tab="tab-diplom" onclick="switchTab('tab-diplom', this)">
       <span class="tab-icon">🎓</span>
-      <span>Diplom &amp; Logbuch</span>
+      <span>Logbuch</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-cache" onclick="switchTab('tab-cache', this)">
+      <span class="tab-icon">🗺️</span>
+      <span>Cache-Kopie</span>
     </button>
   </nav>
 
@@ -1252,7 +1290,7 @@
     <!-- =====================================================
          TAB 4: DIPLOM & LOGBUCH-WALL (OHNE STATISTIK-ZÄHLUNG)
          ===================================================== -->
-    <section id="tab-listing" class="tab-panel">
+    <section id="tab-diplom" class="tab-panel">
       <div class="card">
         <div class="iframe-toolbar">
           <div>
@@ -1266,6 +1304,26 @@
           </a>
         </div>
         <iframe src="hd-diplom.html?owner=1" class="cache-frame" title="Headbanger Diplom & Logbuch"></iframe>
+      </div>
+    </section>
+
+    <!-- =====================================================
+         TAB 5: CACHE-KOPIE ANSICHT (cachecopie.html)
+         ===================================================== -->
+    <section id="tab-cache" class="tab-panel">
+      <div class="card">
+        <div class="iframe-toolbar">
+          <div>
+            <div style="font-weight:800; font-size:1.05rem;">🗺️ Cache-Listing Ansicht (Kopie ohne Zähler)</div>
+            <div style="font-size:0.8rem; color:var(--muted);">
+              Ansicht von <code>cachecopie.html</code> – vollständig ohne Statistik-Zählung
+            </div>
+          </div>
+          <a href="cachecopie.html" target="_blank" rel="noopener noreferrer" class="btn-ext">
+            ↗ In neuem Tab öffnen
+          </a>
+        </div>
+        <iframe src="cachecopie.html" class="cache-frame" title="Headbanger Cache-Kopie"></iframe>
       </div>
     </section>
 
