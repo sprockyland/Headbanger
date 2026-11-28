@@ -725,7 +725,7 @@
     .btn-dl:hover { background: #c41426; box-shadow: 0 0 14px rgba(217, 27, 46, 0.45); }
 
     /* =========================================================
-       TAB 4: CACHER-HILFESEITE (cachecopie.html)
+       TAB 4: DIPLOM & LOGBUCH-WALL (hd-diplom.html?owner=1)
        ========================================================= */
     .iframe-toolbar {
       display: flex;
@@ -879,8 +879,8 @@
       <span>Reparatur-Center</span>
     </button>
     <button class="tab-btn" data-tab="tab-listing" onclick="switchTab('tab-listing', this)">
-      <span class="tab-icon">🗺️</span>
-      <span>Cacher-Listing</span>
+      <span class="tab-icon">🎓</span>
+      <span>Diplom &amp; Logbuch</span>
     </button>
   </nav>
 
@@ -1250,20 +1250,22 @@
     </section>
 
     <!-- =====================================================
-         TAB 4: CACHER-HILFESEITE / LISTING (cachecopie.html)
+         TAB 4: DIPLOM & LOGBUCH-WALL (OHNE STATISTIK-ZÄHLUNG)
          ===================================================== -->
     <section id="tab-listing" class="tab-panel">
       <div class="card">
         <div class="iframe-toolbar">
           <div>
-            <div style="font-weight:800; font-size:1.05rem;">🗺️ Cacher-Listing &amp; Rätsel-Ansicht</div>
-            <div style="font-size:0.8rem; color:var(--muted);">Exakt die Oberfläche, die die Cacher unterwegs sehen (<code>cachecopie.html</code>)</div>
+            <div style="font-weight:800; font-size:1.05rem;">🎓 Diplom-Übersicht &amp; Logbuch-Wall</div>
+            <div style="font-size:0.8rem; color:var(--muted);">
+              Live-Ansicht von <code>hd-diplom.html</code> inklusive Gästebuch – im Owner-Modus (wird <strong>nicht</strong> in der Statistik gezählt)
+            </div>
           </div>
-          <a href="cachecopie.html" target="_blank" rel="noopener noreferrer" class="btn-ext">
+          <a href="hd-diplom.html?owner=1" target="_blank" rel="noopener noreferrer" class="btn-ext">
             ↗ In neuem Tab öffnen
           </a>
         </div>
-        <iframe src="cachecopie.html" class="cache-frame" title="Cacher-Ansicht GCBY17R"></iframe>
+        <iframe src="hd-diplom.html?owner=1" class="cache-frame" title="Headbanger Diplom & Logbuch"></iframe>
       </div>
     </section>
 
@@ -1462,7 +1464,7 @@
     let maxCnt = 1;
     gesamterVerlauf = [];
 
-    const cacherMap = new Map(); // rawId -> { rawId, displayName, events: [] }
+    const cacherMap = new Map();
 
     let latestTele = {
       cacher: "", ort: "Berlin (DE)", device: "", os: "",
