@@ -393,6 +393,11 @@
       overflow: hidden;
     }
 
+    details.cacher-box.vip-box {
+      border-color: rgba(230, 184, 92, 0.42);
+      background: rgba(230, 184, 92, 0.05);
+    }
+
     details.cacher-box summary {
       cursor: pointer;
       padding: 10px;
@@ -434,6 +439,19 @@
       margin-bottom: 8px;
       padding-bottom: 8px;
       border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .vip-protected-badge {
+      display: inline-flex;
+      align-items: center;
+      gap: 4px;
+      background: rgba(230, 184, 92, 0.14);
+      border: 1px solid rgba(230, 184, 92, 0.45);
+      color: var(--gold);
+      padding: 4px 9px;
+      border-radius: 8px;
+      font-size: 0.73rem;
+      font-weight: 700;
     }
 
     .btn-del-cacher {
@@ -1007,7 +1025,7 @@
 
             <div style="font-weight:800; font-size:0.92rem;">⏱️ TOUR-ZEITEN &amp; EINZELNE CACHER LÖSCHEN</div>
             <div style="font-size:0.75rem; color:var(--muted); margin-bottom:10px;">
-              Aufklappen für Etappenzeiten oder zum gezielten Entfernen einzelner Abbrecher/Test-IDs
+              Aufklappen für Etappenzeiten oder zum Entfernen von Abbrechern/Test-IDs (👑 Christian ist dauerhaft geschützt)
             </div>
             <div id="cacherTimesList"></div>
 
@@ -1341,17 +1359,31 @@
     </div>
   </div>
 
-  <!-- LÖSCH-DIALOG FÜR EINZELNEN CACHER -->
+  <!-- 2-STUFIGER LÖSCH-DIALOG FÜR EINZELNEN CACHER (NICHT FÜR CHRISTIAN) -->
   <div class="overlay" id="deleteSingleModal">
     <div class="modal-box">
-      <div style="font-size:2.4rem; margin-bottom:6px;">🗑️</div>
-      <div class="modal-title">CACHER AUS DB ENTFERNEN?</div>
-      <p class="modal-text" id="singleCacherText">
-        Möchtest du wirklich alle Einträge dieses Cachers löschen?
-      </p>
-      <div class="modal-btns">
-        <button class="m-btn m-cancel" onclick="closeModal('deleteSingleModal')">Abbrechen</button>
-        <button class="m-btn m-danger" id="confirmSingleDeleteBtn">Cacher löschen</button>
+      <div id="singleStep1">
+        <div style="font-size:2.4rem; margin-bottom:6px;">🗑️</div>
+        <div class="modal-title">CACHER AUS DB ENTFERNEN?</div>
+        <p class="modal-text" id="singleCacherText">
+          Möchtest du wirklich alle Einträge dieses Cachers löschen?
+        </p>
+        <div class="modal-btns">
+          <button class="m-btn m-cancel" onclick="closeModal('deleteSingleModal')">Abbrechen</button>
+          <button class="m-btn m-warn" onclick="goToSingleConfirmStep()">Ja, weiter</button>
+        </div>
+      </div>
+
+      <div id="singleStep2" style="display:none;">
+        <div style="font-size:2.4rem; margin-bottom:6px;">🚨</div>
+        <div class="modal-title" style="color:#ff4769;">WIRKLICH ENDGÜLTIG LÖSCHEN?</div>
+        <p class="modal-text" id="singleCacherConfirmText">
+          Dieser Vorgang kann nicht rückgängig gemacht werden!
+        </p>
+        <div class="modal-btns">
+          <button class="m-btn m-cancel" onclick="closeModal('deleteSingleModal')">Nein, behalten</button>
+          <button class="m-btn m-danger" id="confirmSingleDeleteBtn">Ja, unwiderruflich löschen</button>
+        </div>
       </div>
     </div>
   </div>
@@ -1390,6 +1422,7 @@
      FIREBASE & KONFIGURATION
      ========================================================= */
   const LOESCH_PASSWORT = "7691";
+  const PROTECTED_VIP_ID = "Cacher-5PID"; // Christian darf niemals gelöscht werden
   const RAW_ADMIN_BASE = "https://raw.githubusercontent.com/sprockyland/Headbanger/admin/";
 
   firebase.initializeApp({
@@ -1546,7 +1579,7 @@
         Object.entries(node.logs).forEach(([logKey, log]) => {
           if (!log || typeof log !== "object") return;
           let rawId = log.besucherId || "";
-          if (!rawId && k.includes("Christian")) rawId = "Cacher-5PID";
+          if (!rawId && k.includes("Christian")) rawId = PROTECTED_VIP_ID;
           const normRawId = rawId || "__UNBEKANNT__";
           const displayId = BEKANNTE_CACHER[rawId] || (rawId || "Unbekannt");
 
@@ -1649,8 +1682,8 @@
     });
 
     cacherList.sort((a, b) => {
-      if (a.rawId === "Cacher-5PID") return -1;
-      if (b.rawId === "Cacher-5PID") return 1;
+      if (a.rawId === PROTECTED_VIP_ID) return -1;
+      if (b.rawId === PROTECTED_VIP_ID) return 1;
       return b.lastTs - a.lastTs;
     });
 
@@ -1661,6 +1694,7 @@
       const diplomEv = evs.find(e => e.seite === "Diplom Seite");
       const endTs = diplomEv ? diplomEv.ts : evs[evs.length - 1].ts;
       const totalStr = formatDuration(endTs - startTs);
+      const isChristian = (c.rawId === PROTECTED_VIP_ID);
 
       const stepsHtml = evs.map((st, idx) => {
         const deltaStr = idx === 0 ? "START" : "+" + formatDuration(st.ts - startTs);
@@ -1677,8 +1711,15 @@
       const safeRawAttr = escapeHtml(c.rawId);
       const safeNameAttr = escapeHtml(c.displayName);
 
+      // Christian darf unter keinen Umständen gelöscht werden
+      const toolbarActionHtml = isChristian
+        ? `<span class="vip-protected-badge">🔒 VIP-Eintrag geschützt (nicht löschbar)</span>`
+        : `<button class="btn-del-cacher" data-raw="${safeRawAttr}" data-name="${safeNameAttr}" onclick="promptDeleteSingleCacher(this)">
+             🗑️ Cacher aus DB löschen
+           </button>`;
+
       return `
-        <details class="cacher-box">
+        <details class="cacher-box ${isChristian ? 'vip-box' : ''}">
           <summary>
             <span class="summary-left"><strong>${safeNameAttr}</strong></span>
             <span style="white-space:nowrap;">
@@ -1691,9 +1732,7 @@
           <div class="cacher-detail-body">
             <div class="cacher-toolbar">
               <span style="font-size:0.73rem; color:var(--muted);">ID: ${safeRawAttr === "__UNBEKANNT__" ? "Ohne ID" : safeRawAttr}</span>
-              <button class="btn-del-cacher" data-raw="${safeRawAttr}" data-name="${safeNameAttr}" onclick="promptDeleteSingleCacher(this)">
-                🗑️ Cacher aus DB löschen
-              </button>
+              ${toolbarActionHtml}
             </div>
             ${stepsHtml}
           </div>
@@ -1735,18 +1774,46 @@
   });
 
   /* =========================================================
-     EINZELNEN CACHER AUS FIREBASE LÖSCHEN
+     2-STUFIGES LÖSCHEN EINES EINZELNEN CACHERS (CHRISTIAN BLOCKIERT)
      ========================================================= */
   function promptDeleteSingleCacher(btn) {
-    pendingDeleteRawId = btn.getAttribute("data-raw");
-    pendingDeleteDisplayName = btn.getAttribute("data-name");
+    const rawId = btn.getAttribute("data-raw");
+    const displayName = btn.getAttribute("data-name");
+
+    // Harter Code-Schutz: Christian (Cacher-5PID) niemals löschen
+    if (rawId === PROTECTED_VIP_ID) {
+      alert("🔒 VIP-Schutz: Christians Einträge können nicht gelöscht werden!");
+      return;
+    }
+
+    pendingDeleteRawId = rawId;
+    pendingDeleteDisplayName = displayName;
+
+    document.getElementById("singleStep1").style.display = "block";
+    document.getElementById("singleStep2").style.display = "none";
+
     document.getElementById("singleCacherText").innerHTML =
-      `Möchtest du alle Log-Einträge von <strong>${escapeHtml(pendingDeleteDisplayName)}</strong> wirklich aus der Datenbank entfernen?<br><br><small style="color:#a49eb3;">Die Aufruf-Zähler der Stationen werden dabei automatisch korrigiert.</small>`;
+      `Möchtest du wirklich alle Log-Einträge von <strong>${escapeHtml(pendingDeleteDisplayName)}</strong> aus der Datenbank entfernen?<br><br><small style="color:#a49eb3;">Die Aufruf-Zähler der Stationen werden dabei automatisch bereinigt.</small>`;
+
     document.getElementById("deleteSingleModal").classList.add("active");
   }
 
+  function goToSingleConfirmStep() {
+    if (!pendingDeleteRawId || pendingDeleteRawId === PROTECTED_VIP_ID) {
+      closeModal("deleteSingleModal");
+      return;
+    }
+    document.getElementById("singleStep1").style.display = "none";
+    document.getElementById("singleStep2").style.display = "block";
+    document.getElementById("singleCacherConfirmText").innerHTML =
+      `Bist du dir absolut sicher, dass du <strong>${escapeHtml(pendingDeleteDisplayName)}</strong> unwiderruflich löschen möchtest?<br><br><small style="color:#ffb3bd;">Alle gespeicherten Stationen &amp; Zeiten dieses Cachers sind danach dauerhaft weg!</small>`;
+  }
+
   document.getElementById("confirmSingleDeleteBtn").addEventListener("click", async () => {
-    if (!pendingDeleteRawId) return;
+    if (!pendingDeleteRawId || pendingDeleteRawId === PROTECTED_VIP_ID) {
+      closeModal("deleteSingleModal");
+      return;
+    }
     const targetRaw = pendingDeleteRawId;
     closeModal("deleteSingleModal");
 
@@ -1761,10 +1828,10 @@
 
         Object.entries(logs).forEach(([logKey, log]) => {
           let logRaw = (log && log.besucherId) ? log.besucherId : "";
-          if (!logRaw && seitenKey.includes("Christian")) logRaw = "Cacher-5PID";
+          if (!logRaw && seitenKey.includes("Christian")) logRaw = PROTECTED_VIP_ID;
           const normLogRaw = logRaw || "__UNBEKANNT__";
 
-          if (normLogRaw === targetRaw) {
+          if (normLogRaw === targetRaw && normLogRaw !== PROTECTED_VIP_ID) {
             updates[`statistik/${seitenKey}/logs/${logKey}`] = null;
             removedInNode++;
           } else {
