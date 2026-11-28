@@ -1,0 +1,1911 @@
+<!DOCTYPE html>
+<html lang="de">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0, maximum-scale=5.0, viewport-fit=cover">
+  <meta name="theme-color" content="#09080f">
+  <title>🤘 Headbanger Owner-Zentrale · GCBY17R</title>
+
+  <!-- PWA / Startbildschirm-Shortcut mit logo-cache.png -->
+  <link rel="manifest" href="manifest-owner.json">
+  <link rel="icon" type="image/png" sizes="512x512" href="logo-cache.png">
+  <link rel="apple-touch-icon" sizes="180x180" href="logo-cache.png">
+  <meta name="apple-mobile-web-app-capable" content="yes">
+  <meta name="apple-mobile-web-app-status-bar-style" content="black-translucent">
+  <meta name="apple-mobile-web-app-title" content="GCBY17R Owner">
+  <meta name="mobile-web-app-capable" content="yes">
+
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Cinzel:wght@600;700;800&family=Metal+Mania&family=Outfit:wght@400;600;700;800&family=Roboto+Slab:wght@400;600;700&display=swap" rel="stylesheet">
+
+  <!-- Firebase SDKs -->
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
+  <script src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
+
+  <style>
+    :root {
+      --bg: #09080f;
+      --surface: #13111c;
+      --surface-2: #191625;
+      --border: rgba(224, 180, 99, 0.24);
+      --border-soft: rgba(255, 255, 255, 0.08);
+      --gold: #e6b85c;
+      --gold-bright: #ffea00;
+      --red: #d91b2e;
+      --red-dark: #6b0813;
+      --cyan: #00f0ff;
+      --green: #00e676;
+      --orange: #ff8c00;
+      --text: #f2eee6;
+      --muted: #a49eb3;
+    }
+
+    * { box-sizing: border-box; margin: 0; padding: 0; }
+
+    html, body {
+      width: 100%;
+      max-width: 100%;
+      overflow-x: hidden;
+      scroll-behavior: smooth;
+    }
+
+    body {
+      font-family: 'Outfit', -apple-system, BlinkMacSystemFont, sans-serif;
+      background:
+        radial-gradient(circle at 50% -10%, rgba(155, 14, 28, 0.28), transparent 48%),
+        radial-gradient(circle at 85% 20%, rgba(230, 184, 92, 0.07), transparent 40%),
+        var(--bg);
+      color: var(--text);
+      line-height: 1.5;
+      min-height: 100vh;
+      padding-bottom: 64px;
+    }
+
+    /* =========================================================
+       TOP BAR & NAVIGATION (STICKY FÜR PC & SMARTPHONE)
+       ========================================================= */
+    .topbar {
+      position: sticky;
+      top: 0;
+      z-index: 100;
+      background: rgba(11, 10, 18, 0.92);
+      backdrop-filter: blur(12px);
+      border-bottom: 1px solid var(--border);
+      padding: 10px 14px;
+    }
+
+    .topbar-inner {
+      max-width: 1240px;
+      margin: 0 auto;
+      display: flex;
+      flex-wrap: wrap;
+      align-items: center;
+      justify-content: space-between;
+      gap: 10px;
+    }
+
+    .brand {
+      display: flex;
+      align-items: center;
+      gap: 10px;
+      min-width: 0;
+    }
+
+    .brand img {
+      width: 38px;
+      height: 38px;
+      border-radius: 10px;
+      border: 1px solid var(--gold);
+      object-fit: cover;
+      flex-shrink: 0;
+    }
+
+    .brand-title {
+      font-family: 'Metal Mania', Cinzel, serif;
+      font-size: clamp(1.25rem, 4vw, 1.65rem);
+      color: var(--gold);
+      letter-spacing: 1px;
+      line-height: 1;
+    }
+
+    .brand-sub {
+      font-size: 0.72rem;
+      color: var(--muted);
+      letter-spacing: 0.4px;
+    }
+
+    .live-pill {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 5px 11px;
+      border-radius: 999px;
+      background: rgba(0, 230, 118, 0.12);
+      border: 1px solid rgba(0, 230, 118, 0.4);
+      color: var(--green);
+      font-size: 0.75rem;
+      font-weight: 700;
+      white-space: nowrap;
+    }
+
+    .live-dot {
+      width: 8px;
+      height: 8px;
+      border-radius: 50%;
+      background: var(--green);
+      box-shadow: 0 0 8px var(--green);
+      animation: pulse 1.6s infinite;
+    }
+
+    @keyframes pulse {
+      0%, 100% { opacity: 1; transform: scale(1); }
+      50% { opacity: 0.45; transform: scale(0.8); }
+    }
+
+    /* Tab-Leiste */
+    .tab-nav {
+      max-width: 1240px;
+      margin: 14px auto 0;
+      padding: 0 12px;
+      display: grid;
+      grid-template-columns: repeat(4, minmax(0, 1fr));
+      gap: 8px;
+    }
+
+    .tab-btn {
+      cursor: pointer;
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 14px;
+      padding: 11px 8px;
+      color: var(--muted);
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: clamp(0.76rem, 2.3vw, 0.92rem);
+      display: flex;
+      flex-direction: column;
+      align-items: center;
+      justify-content: center;
+      gap: 4px;
+      transition: all 0.2s ease;
+      text-align: center;
+    }
+
+    @media (min-width: 720px) {
+      .tab-btn {
+        flex-direction: row;
+        gap: 8px;
+        padding: 13px 14px;
+      }
+    }
+
+    .tab-btn:hover {
+      border-color: var(--gold);
+      color: #fff;
+    }
+
+    .tab-btn.active {
+      background: linear-gradient(145deg, rgba(138, 12, 26, 0.55), rgba(27, 22, 38, 0.96));
+      border-color: var(--gold);
+      color: #ffe39e;
+      box-shadow: 0 6px 20px rgba(217, 27, 46, 0.22);
+    }
+
+    .tab-icon { font-size: 1.15rem; }
+
+    /* Haupt-Container & Sektionen */
+    .main-wrap {
+      max-width: 1240px;
+      margin: 16px auto 0;
+      padding: 0 12px;
+    }
+
+    .tab-panel { display: none; }
+    .tab-panel.active { display: block; animation: fadeIn 0.22s ease; }
+
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(4px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+
+    /* =========================================================
+       KARTEN- & GRID-SYSTEM
+       ========================================================= */
+    .radar-grid {
+      display: grid;
+      grid-template-columns: minmax(320px, 440px) minmax(0, 1fr);
+      gap: 18px;
+      align-items: start;
+    }
+
+    .col-stack {
+      display: flex;
+      flex-direction: column;
+      gap: 18px;
+      min-width: 0;
+    }
+
+    @media (max-width: 920px) {
+      .radar-grid {
+        grid-template-columns: minmax(0, 1fr);
+        gap: 14px;
+      }
+      .col-stack { gap: 14px; }
+    }
+
+    .card {
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-radius: 18px;
+      padding: 18px 15px;
+      box-shadow: 0 12px 30px rgba(0, 0, 0, 0.42);
+      min-width: 0;
+      overflow: hidden;
+    }
+
+    .card.gold-border {
+      border-color: rgba(230, 184, 92, 0.32);
+      background: linear-gradient(160deg, #1c1529 0%, #12101a 100%);
+    }
+
+    .card-head {
+      font-size: 1.02rem;
+      font-weight: 800;
+      letter-spacing: 0.4px;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding-bottom: 10px;
+      margin-bottom: 10px;
+      border-bottom: 1px solid var(--border-soft);
+    }
+
+    .divider {
+      height: 1px;
+      background: linear-gradient(90deg, transparent, rgba(255, 255, 255, 0.2), transparent);
+      margin: 14px 0;
+    }
+
+    /* KPIs & Fortschritt */
+    .kpi-grid {
+      display: grid;
+      grid-template-columns: repeat(3, minmax(0, 1fr));
+      gap: 7px;
+      margin-bottom: 14px;
+    }
+
+    .kpi-box {
+      background: rgba(255, 255, 255, 0.035);
+      border-radius: 12px;
+      padding: 10px 4px;
+      text-align: center;
+    }
+
+    .kpi-lbl { font-size: 0.72rem; color: var(--muted); font-weight: 600; }
+    .kpi-val { font-size: clamp(1.05rem, 4vw, 1.3rem); font-weight: 800; color: #fff; margin-top: 2px; }
+
+    .progress-label { font-size: 0.86rem; font-weight: 700; text-align: center; margin-bottom: 8px; }
+
+    .progress-blocks {
+      display: flex;
+      gap: 4px;
+      width: 100%;
+      margin-bottom: 14px;
+    }
+
+    .p-block {
+      flex: 1 1 0;
+      height: 15px;
+      border-radius: 4px;
+      background: #242133;
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      transition: 0.3s;
+    }
+
+    .p-block.active {
+      background: linear-gradient(180deg, #ff3b52, #c90e24);
+      box-shadow: 0 0 8px rgba(255, 35, 56, 0.5);
+      border-color: #ff6b7c;
+    }
+
+    .live-alert {
+      background: rgba(0, 230, 118, 0.11);
+      border: 1px solid rgba(0, 230, 118, 0.42);
+      border-left: 4px solid var(--green);
+      border-radius: 12px;
+      padding: 11px 12px;
+      overflow-wrap: anywhere;
+    }
+
+    .live-alert.info {
+      background: rgba(0, 240, 255, 0.08);
+      border-color: rgba(0, 240, 255, 0.35);
+      border-left-color: var(--cyan);
+    }
+
+    .alert-title { font-weight: 700; font-size: 0.9rem; color: #fff; margin-bottom: 3px; }
+    .alert-meta { font-size: 0.78rem; color: #d6f5e5; }
+
+    /* Etappen-Zeilen */
+    .stage-row {
+      display: grid;
+      grid-template-columns: 24px minmax(0, 1fr) auto;
+      gap: 8px;
+      padding: 8px 2px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      align-items: start;
+    }
+    .stage-row:last-child { border-bottom: none; padding-bottom: 0; }
+    .stage-icon { font-size: 1rem; }
+    .stage-name { font-size: 0.88rem; color: #d6d3e2; }
+    .stage-name.done { font-weight: 700; color: #fff; }
+    .stage-sub { font-size: 0.74rem; color: var(--muted); }
+    .stage-status { text-align: right; white-space: nowrap; }
+    .badge-cnt { font-size: 0.84rem; font-weight: 700; }
+    .badge-cnt.zero { color: #67647d; font-weight: 400; }
+    .badge-time { font-size: 0.7rem; color: var(--muted); }
+
+    /* Telemetrie & Cacher-Verwaltung */
+    .tele-grid {
+      display: grid;
+      grid-template-columns: repeat(2, minmax(0, 1fr));
+      gap: 10px 8px;
+    }
+    .tele-lbl { font-size: 0.68rem; color: var(--muted); text-transform: uppercase; }
+    .tele-val { font-size: 0.86rem; font-weight: 700; color: #fff; margin-top: 2px; overflow-wrap: break-word; }
+
+    details.cacher-box {
+      background: rgba(255, 255, 255, 0.03);
+      border: 1px solid rgba(255, 255, 255, 0.08);
+      border-radius: 12px;
+      margin-bottom: 8px;
+      overflow: hidden;
+    }
+
+    details.cacher-box summary {
+      cursor: pointer;
+      padding: 10px;
+      font-size: 0.86rem;
+      list-style: none;
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+    }
+    details.cacher-box summary::-webkit-details-marker { display: none; }
+
+    .summary-left {
+      min-width: 0;
+      overflow: hidden;
+      text-overflow: ellipsis;
+      white-space: nowrap;
+    }
+    .summary-left::before {
+      content: "▶ ";
+      font-size: 0.7rem;
+      color: var(--cyan);
+      display: inline-block;
+      transition: 0.2s;
+      margin-right: 4px;
+    }
+    details.cacher-box[open] .summary-left::before { transform: rotate(90deg); }
+
+    .cacher-detail-body {
+      padding: 8px 10px 10px 14px;
+      border-top: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .cacher-toolbar {
+      display: flex;
+      justify-content: space-between;
+      align-items: center;
+      gap: 8px;
+      margin-bottom: 8px;
+      padding-bottom: 8px;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.06);
+    }
+
+    .btn-del-cacher {
+      cursor: pointer;
+      background: rgba(217, 27, 46, 0.16);
+      border: 1px solid rgba(217, 27, 46, 0.55);
+      color: #ff7a88;
+      padding: 5px 10px;
+      border-radius: 8px;
+      font-family: 'Outfit', sans-serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+      transition: 0.2s;
+    }
+    .btn-del-cacher:hover {
+      background: var(--red);
+      color: #fff;
+    }
+
+    .step-item {
+      display: flex;
+      justify-content: space-between;
+      gap: 6px;
+      padding: 4px 0;
+      font-size: 0.78rem;
+      border-bottom: 1px dashed rgba(255, 255, 255, 0.05);
+    }
+    .step-item:last-child { border-bottom: none; }
+    .step-time-small { color: #7e7a94; font-size: 0.7rem; }
+    .step-delta { font-weight: 700; white-space: nowrap; color: #c4c0d4; }
+    .step-delta.start { color: var(--cyan); }
+    .step-delta.diplom { color: var(--gold-bright); }
+
+    /* Balkendiagramm & Timeline */
+    .bar-row {
+      display: flex;
+      align-items: center;
+      justify-content: space-between;
+      gap: 8px;
+      padding: 4px 0;
+      font-size: 0.8rem;
+    }
+    .bar-name { min-width: 0; overflow: hidden; text-overflow: ellipsis; white-space: nowrap; }
+    .bar-right { display: flex; align-items: center; gap: 6px; flex-shrink: 0; }
+    .mini-squares { display: flex; gap: 2px; }
+    .sq { width: 8px; height: 8px; border-radius: 2px; background: #29253b; }
+    .sq.on { background: var(--orange); box-shadow: 0 0 5px rgba(255, 140, 0, 0.5); }
+    .bar-cnt { width: 26px; text-align: right; font-weight: 700; }
+
+    .tl-row {
+      display: grid;
+      grid-template-columns: 72px minmax(0, 1fr);
+      gap: 6px;
+      padding: 6px 0;
+      border-bottom: 1px solid rgba(255, 255, 255, 0.04);
+      font-size: 0.82rem;
+    }
+    .tl-row:last-child { border-bottom: none; }
+    .tl-time { color: var(--muted); font-size: 0.73rem; }
+    .tl-who { font-size: 0.72rem; color: var(--muted); }
+
+    /* Admin Action Buttons */
+    .admin-actions {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 10px;
+      margin-top: 16px;
+    }
+
+    .btn-action {
+      flex: 1 1 180px;
+      cursor: pointer;
+      padding: 11px 14px;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.85rem;
+      text-align: center;
+      transition: 0.2s;
+    }
+
+    .btn-csv {
+      background: rgba(0, 230, 118, 0.14);
+      border: 1px solid var(--green);
+      color: var(--green);
+    }
+    .btn-csv:hover { background: var(--green); color: #09080f; }
+
+    .btn-reset-all {
+      background: rgba(255, 140, 0, 0.14);
+      border: 1px solid var(--orange);
+      color: var(--orange);
+    }
+    .btn-reset-all:hover { background: var(--orange); color: #09080f; }
+
+    /* =========================================================
+       TAB 2: BACKSTAGE LÖSUNGSBUCH & SOUFFLEUR
+       ========================================================= */
+    .cheat-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fit, minmax(84px, 1fr));
+      gap: 8px;
+      margin-bottom: 16px;
+    }
+    .cheat-card {
+      padding: 9px 6px;
+      text-align: center;
+      border: 1px solid var(--border);
+      background: #14121d;
+      border-radius: 10px;
+    }
+    .cheat-card small { display: block; font-family: Cinzel, serif; color: var(--muted); font-size: 0.65rem; }
+    .cheat-card strong { display: block; font-family: ui-monospace, Consolas, monospace; color: #ffe093; font-size: 1.2rem; }
+
+    .bs-controls {
+      display: flex;
+      flex-wrap: wrap;
+      gap: 8px;
+      justify-content: space-between;
+      align-items: center;
+      margin-bottom: 16px;
+    }
+    .jump-pills { display: flex; flex-wrap: wrap; gap: 6px; }
+    .jump-pill {
+      display: inline-flex;
+      align-items: center;
+      justify-content: center;
+      min-width: 38px;
+      height: 36px;
+      padding: 0 10px;
+      background: var(--surface-2);
+      color: var(--text);
+      text-decoration: none;
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: Cinzel, serif;
+      font-size: 0.78rem;
+      font-weight: 700;
+    }
+    .jump-pill:hover { border-color: var(--gold); color: var(--gold); }
+
+    .bs-btn {
+      cursor: pointer;
+      height: 36px;
+      padding: 0 12px;
+      background: var(--surface-2);
+      color: var(--gold);
+      border: 1px solid var(--border);
+      border-radius: 8px;
+      font-family: Cinzel, serif;
+      font-size: 0.75rem;
+      font-weight: 700;
+    }
+    .bs-btn:hover { border-color: var(--gold); background: #261620; }
+
+    details.station-bs {
+      margin-bottom: 14px;
+      border: 1px solid var(--border);
+      background: #111018;
+      border-radius: 14px;
+      overflow: hidden;
+    }
+    details.station-bs summary {
+      list-style: none;
+      cursor: pointer;
+      display: grid;
+      grid-template-columns: auto 1fr auto auto;
+      align-items: center;
+      gap: 10px;
+      padding: 13px 14px;
+      background: linear-gradient(90deg, rgba(107, 8, 19, 0.58), rgba(22, 19, 31, 0.92));
+    }
+    details.station-bs summary::-webkit-details-marker { display: none; }
+
+    .bs-num {
+      width: 40px;
+      height: 40px;
+      display: grid;
+      place-items: center;
+      border: 1px solid var(--gold);
+      color: var(--gold);
+      font-family: Cinzel, serif;
+      font-weight: 700;
+      background: #0b0a10;
+      border-radius: 8px;
+    }
+    .bs-st-title small { display: block; color: #d89b4e; font-size: 0.68rem; text-transform: uppercase; letter-spacing: 0.1em; }
+    .bs-st-title b { font-family: Cinzel, serif; color: #f5d896; font-size: clamp(0.96rem, 3vw, 1.2rem); }
+    .bs-pill {
+      padding: 4px 9px;
+      border: 1px solid var(--gold);
+      background: #0a090e;
+      color: #ffe093;
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.8rem;
+      font-weight: 700;
+      border-radius: 6px;
+      white-space: nowrap;
+    }
+    @media (max-width: 640px) {
+      details.station-bs summary { grid-template-columns: auto 1fr auto; }
+      .bs-pill { display: none; }
+    }
+
+    .bs-body { padding: 15px; font-family: "Roboto Slab", Georgia, serif; font-size: 0.95rem; line-height: 1.65; }
+    .hint-box {
+      margin-bottom: 14px;
+      padding: 12px 14px;
+      border: 1px dashed var(--gold);
+      background: #171510;
+      border-radius: 10px;
+    }
+    .hint-box h4 { font-family: Cinzel, serif; color: var(--gold); margin-bottom: 8px; font-size: 0.92rem; }
+    .hint-tier {
+      display: flex;
+      justify-content: space-between;
+      align-items: flex-start;
+      gap: 10px;
+      padding: 8px 0;
+      border-top: 1px solid rgba(230, 184, 92, 0.16);
+    }
+    .hint-tier:first-of-type { border-top: 0; padding-top: 0; }
+    .hint-tag {
+      display: inline-block;
+      font-family: Cinzel, serif;
+      font-size: 0.68rem;
+      font-weight: 700;
+      padding: 2px 6px;
+      margin-right: 6px;
+      border-radius: 4px;
+      background: #4e141c;
+      color: #ffd5da;
+      border: 1px solid #9e2836;
+    }
+    .copy-btn {
+      flex-shrink: 0;
+      cursor: pointer;
+      padding: 6px 11px;
+      background: #241f17;
+      color: #f4dca9;
+      border: 1px solid rgba(230, 184, 92, 0.45);
+      font-family: ui-monospace, Consolas, monospace;
+      font-size: 0.76rem;
+      border-radius: 6px;
+    }
+    @media (max-width: 640px) {
+      .hint-tier { flex-direction: column; }
+      .copy-btn { width: 100%; }
+    }
+
+    .sol-box {
+      padding: 14px;
+      border-left: 4px solid var(--red);
+      background: #17141f;
+      border-radius: 0 10px 10px 0;
+    }
+    .sol-box h4 { font-family: Cinzel, serif; color: #fff; margin-bottom: 8px; }
+    .math-block {
+      margin: 10px 0;
+      padding: 11px 12px;
+      background: #08080c;
+      border: 1px solid rgba(230, 184, 92, 0.28);
+      border-radius: 8px;
+      font-family: ui-monospace, Consolas, monospace;
+      color: #ffe093;
+      font-size: 0.86rem;
+      overflow-x: auto;
+    }
+    .coords-final {
+      margin-top: 12px;
+      padding: 14px;
+      text-align: center;
+      border: 1px solid var(--gold);
+      border-radius: 8px;
+      background: #07060a;
+      color: #ffe093;
+      font: 700 clamp(0.98rem, 3.2vw, 1.25rem)/1.6 ui-monospace, Consolas, monospace;
+    }
+    body.compact-mode .hint-box { display: none; }
+
+    /* =========================================================
+       TAB 3: REPARATUR & DOWNLOADS (AUS BRANCH: admin)
+       ========================================================= */
+    .repair-grid {
+      display: grid;
+      grid-template-columns: repeat(auto-fill, minmax(290px, 1fr));
+      gap: 12px;
+    }
+    .repair-item {
+      background: var(--surface);
+      border: 1px solid var(--border-soft);
+      border-left: 4px solid var(--red);
+      border-radius: 14px;
+      padding: 16px;
+      display: flex;
+      flex-direction: column;
+      justify-content: space-between;
+      gap: 12px;
+    }
+    .repair-top { display: flex; gap: 12px; align-items: flex-start; }
+    .repair-ico { font-size: 1.8rem; line-height: 1; }
+    .repair-name { font-weight: 800; font-size: 0.98rem; color: #fff; word-break: break-word; }
+    .repair-type { font-size: 0.72rem; color: var(--gold); text-transform: uppercase; letter-spacing: 0.5px; }
+    .repair-desc { font-size: 0.84rem; color: var(--muted); line-height: 1.45; }
+    .btn-dl {
+      width: 100%;
+      cursor: pointer;
+      padding: 10px 14px;
+      border-radius: 10px;
+      border: 1px solid #c92626;
+      background: linear-gradient(135deg, #8b0e1a, #54060d);
+      color: #fff;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.84rem;
+      transition: 0.2s;
+    }
+    .btn-dl:hover { background: #c41426; box-shadow: 0 0 14px rgba(217, 27, 46, 0.45); }
+
+    /* =========================================================
+       TAB 4: CACHER-HILFESEITE (cachecopie.html)
+       ========================================================= */
+    .iframe-toolbar {
+      display: flex;
+      flex-wrap: wrap;
+      justify-content: space-between;
+      align-items: center;
+      gap: 10px;
+      margin-bottom: 12px;
+    }
+    .btn-ext {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 9px 15px;
+      border-radius: 10px;
+      background: linear-gradient(135deg, #8b0e1a, #54060d);
+      border: 1px solid var(--gold);
+      color: #ffe39e;
+      text-decoration: none;
+      font-weight: 700;
+      font-size: 0.84rem;
+    }
+    .cache-frame {
+      width: 100%;
+      height: 76vh;
+      min-height: 520px;
+      border: 1px solid var(--border);
+      border-radius: 14px;
+      background: #050507;
+    }
+
+    /* =========================================================
+       MODALS (DOWNLOAD-ZEREMONIE & LÖSCH-SCHUTZ)
+       ========================================================= */
+    .overlay {
+      position: fixed;
+      inset: 0;
+      background: rgba(5, 4, 10, 0.88);
+      backdrop-filter: blur(6px);
+      display: none;
+      align-items: center;
+      justify-content: center;
+      padding: 16px;
+      z-index: 9999;
+    }
+    .overlay.active { display: flex; }
+
+    .modal-box {
+      background: #171324;
+      border: 2px solid var(--gold);
+      border-radius: 20px;
+      max-width: 430px;
+      width: 100%;
+      padding: 24px 20px;
+      text-align: center;
+      box-shadow: 0 20px 50px rgba(0, 0, 0, 0.85);
+    }
+    .modal-title {
+      font-family: 'Bebas Neue', sans-serif;
+      font-size: 1.85rem;
+      color: var(--gold-bright);
+      letter-spacing: 1px;
+      margin-bottom: 8px;
+    }
+    .modal-text { font-size: 0.92rem; color: #dcd8e8; margin-bottom: 16px; }
+    .modal-input {
+      width: 100%;
+      padding: 12px;
+      border-radius: 12px;
+      border: 1.5px solid var(--cyan);
+      background: #0b0912;
+      color: var(--gold-bright);
+      font-size: 1.2rem;
+      font-weight: 800;
+      text-align: center;
+      letter-spacing: 6px;
+      margin-bottom: 10px;
+      outline: none;
+    }
+    .modal-err { color: #ff4769; font-size: 0.84rem; font-weight: 700; min-height: 20px; margin-bottom: 10px; }
+    .modal-btns { display: flex; gap: 10px; }
+    .m-btn {
+      flex: 1;
+      padding: 11px;
+      border-radius: 12px;
+      font-family: 'Outfit', sans-serif;
+      font-weight: 700;
+      font-size: 0.9rem;
+      cursor: pointer;
+      border: none;
+    }
+    .m-cancel { background: transparent; border: 1px solid #6e6a85; color: #d5d1e2; }
+    .m-warn { background: var(--orange); color: #09080f; }
+    .m-danger { background: var(--red); color: #fff; }
+
+    .headbang-anim {
+      font-size: 72px;
+      display: inline-block;
+      animation: bang 0.22s infinite alternate;
+    }
+    @keyframes bang {
+      from { transform: rotate(-10deg) translateY(-4px); }
+      to { transform: rotate(10deg) translateY(8px); }
+    }
+    .dl-bar-bg {
+      width: 100%;
+      height: 8px;
+      background: #252136;
+      border-radius: 999px;
+      overflow: hidden;
+      margin-top: 16px;
+    }
+    .dl-bar-fill {
+      width: 0%;
+      height: 100%;
+      background: linear-gradient(90deg, #8b0e1a, #ff2338);
+    }
+  </style>
+</head>
+<body>
+
+  <!-- OBERE KOPFLEISTE -->
+  <header class="topbar">
+    <div class="topbar-inner">
+      <div class="brand">
+        <img src="logo-cache.png" alt="GCBY17R Logo" onerror="this.style.display='none'">
+        <div>
+          <div class="brand-title">HEADBANGER OWNER-ZENTRALE</div>
+          <div class="brand-sub">GCBY17R · Christian aka Headbanger · Live-Steuerung</div>
+        </div>
+      </div>
+      <div class="live-pill">
+        <span class="live-dot"></span>
+        <span id="connStatus">LIVE VERBUNDEN</span>
+      </div>
+    </div>
+  </header>
+
+  <!-- 4 HAUPT-TABS -->
+  <nav class="tab-nav" aria-label="Owner-Bereiche">
+    <button class="tab-btn active" data-tab="tab-radar" onclick="switchTab('tab-radar', this)">
+      <span class="tab-icon">📡</span>
+      <span>Live-Radar &amp; DB</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-backstage" onclick="switchTab('tab-backstage', this)">
+      <span class="tab-icon">📖</span>
+      <span>Lösungsbuch</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-repair" onclick="switchTab('tab-repair', this)">
+      <span class="tab-icon">🛠️</span>
+      <span>Reparatur-Center</span>
+    </button>
+    <button class="tab-btn" data-tab="tab-listing" onclick="switchTab('tab-listing', this)">
+      <span class="tab-icon">🗺️</span>
+      <span>Cacher-Listing</span>
+    </button>
+  </nav>
+
+  <main class="main-wrap">
+
+    <!-- =====================================================
+         TAB 1: LIVE-RADAR, ETAPPEN & DATENBANK-VERWALTUNG
+         ===================================================== -->
+    <section id="tab-radar" class="tab-panel active">
+      <div class="radar-grid">
+
+        <!-- LINKE SPALTE -->
+        <div class="col-stack">
+          <div class="card gold-border">
+            <div class="card-head">
+              <span>🤘 TOUR-STATUS &amp; LIVE-ALARM</span>
+            </div>
+
+            <div class="kpi-grid">
+              <div class="kpi-box">
+                <div class="kpi-lbl">⚡ Aktionen</div>
+                <div class="kpi-val" id="kpiTotal">0</div>
+              </div>
+              <div class="kpi-box">
+                <div class="kpi-lbl">🗺️ Stationen</div>
+                <div class="kpi-val" id="kpiStations">0 / 6</div>
+              </div>
+              <div class="kpi-box">
+                <div class="kpi-lbl">🎯 Status</div>
+                <div class="kpi-val" id="kpiStatus">⏳ BEREIT</div>
+              </div>
+            </div>
+
+            <div class="progress-label" id="progressLabel">Tour-Fortschritt (0%):</div>
+            <div class="progress-blocks" id="progressBlocks">
+              <div class="p-block"></div><div class="p-block"></div>
+              <div class="p-block"></div><div class="p-block"></div>
+              <div class="p-block"></div><div class="p-block"></div>
+              <div class="p-block"></div><div class="p-block"></div>
+              <div class="p-block"></div><div class="p-block"></div>
+              <div class="p-block"></div><div class="p-block"></div>
+            </div>
+
+            <div id="latestAlertBox" class="live-alert info">
+              <div class="alert-title">⏳ Verbinde mit Firebase...</div>
+              <div class="alert-meta">Lade Live-Daten für GCBY17R</div>
+            </div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span>🚪 EINSTIEG &amp; START</span></div>
+            <div id="listIntro"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span>📡 TELEMETRIE &amp; CACHER-VERWALTUNG</span></div>
+
+            <div class="tele-grid">
+              <div>
+                <div class="tele-lbl">👤 Letzter Cacher</div>
+                <div class="tele-val" id="teleCacher">-</div>
+              </div>
+              <div>
+                <div class="tele-lbl">📍 Standort / Zeitzone</div>
+                <div class="tele-val" id="teleOrt">Berlin (DE)</div>
+              </div>
+              <div>
+                <div class="tele-lbl">📱 System &amp; Browser</div>
+                <div class="tele-val" id="teleOs">-</div>
+              </div>
+              <div>
+                <div class="tele-lbl">⚙️ Hardware &amp; Display</div>
+                <div class="tele-val" id="teleHw">-</div>
+              </div>
+              <div id="teleAkkuWrap" style="display:none;">
+                <div class="tele-lbl">🔋 Akkustand</div>
+                <div class="tele-val" id="teleAkku">-</div>
+              </div>
+              <div id="teleNetWrap" style="display:none;">
+                <div class="tele-lbl">📶 Verbindung</div>
+                <div class="tele-val" id="teleNet">-</div>
+              </div>
+            </div>
+
+            <div class="divider"></div>
+
+            <div style="font-weight:800; font-size:0.92rem;">⏱️ TOUR-ZEITEN &amp; EINZELNE CACHER LÖSCHEN</div>
+            <div style="font-size:0.75rem; color:var(--muted); margin-bottom:10px;">
+              Aufklappen für Etappenzeiten oder zum gezielten Entfernen einzelner Abbrecher/Test-IDs
+            </div>
+            <div id="cacherTimesList"></div>
+
+            <div class="divider"></div>
+
+            <div style="font-weight:800; font-size:0.92rem; margin-bottom:8px;">📊 TOP-AKTIVITÄTEN</div>
+            <div id="topBarsList"></div>
+
+            <div class="divider"></div>
+
+            <div style="font-weight:800; font-size:0.92rem; margin-bottom:8px;">🕒 LETZTE EREIGNISSE (LIVE-LOG)</div>
+            <div id="timelineList"></div>
+
+            <div class="admin-actions">
+              <button class="btn-action btn-csv" onclick="exportCSV()">📥 CSV für Excel</button>
+              <button class="btn-action btn-reset-all" onclick="openDeleteAllModal()">🔒 Alle Einträge löschen</button>
+            </div>
+          </div>
+        </div>
+
+        <!-- RECHTE SPALTE -->
+        <div class="col-stack">
+          <div class="card">
+            <div class="card-head"><span>🗺️ EINZELNE STATIONEN (1 – 6)</span></div>
+            <div id="listStations"></div>
+          </div>
+
+          <div class="card">
+            <div class="card-head"><span>📻 MUSICBOX, DIPLOM &amp; GÄSTEBUCH</span></div>
+            <div id="listFinal"></div>
+          </div>
+        </div>
+
+      </div>
+    </section>
+
+    <!-- =====================================================
+         TAB 2: BACKSTAGE LÖSUNGSBUCH & SOUFFLEUR
+         ===================================================== -->
+    <section id="tab-backstage" class="tab-panel">
+      <div class="card gold-border" style="margin-bottom:16px;">
+        <div class="card-head"><span>🎤 CHRISTIANS SOUFFLEUR- &amp; LÖSUNGSBUCH</span></div>
+        <p style="font-size:0.9rem; color:#dfd9c8; margin-bottom:14px;">
+          Alle Variablen auf einen Blick, abgestufte Schubs-Tipps zum Direkt-Kopieren für WhatsApp/GC-Nachrichten sowie die komplette Herleitung bis zum Final.
+        </p>
+
+        <div class="cheat-grid">
+          <div class="cheat-card"><small>Wortwert (A)</small><strong>188</strong></div>
+          <div class="cheat-card"><small>Häufigster (B)</small><strong>5</strong></div>
+          <div class="cheat-card"><small>Derry-QS (C)</small><strong>15</strong></div>
+          <div class="cheat-card"><small>Einfahrt (D)</small><strong>44</strong></div>
+          <div class="cheat-card"><small>Goldrausch (E)</small><strong>49</strong></div>
+          <div class="cheat-card"><small>Album (F)</small><strong>8</strong></div>
+          <div class="cheat-card"><small>Track (G)</small><strong>1</strong></div>
+          <div class="cheat-card"><small>w3w-Haus (H)</small><strong>93</strong></div>
+          <div class="cheat-card"><small>3 Flüsse (I)</small><strong>5</strong></div>
+        </div>
+
+        <div class="bs-controls">
+          <div class="jump-pills">
+            <a class="jump-pill" href="#bs1">01</a>
+            <a class="jump-pill" href="#bs2">02</a>
+            <a class="jump-pill" href="#bs3">03</a>
+            <a class="jump-pill" href="#bs4">04</a>
+            <a class="jump-pill" href="#bs5">05</a>
+            <a class="jump-pill" href="#bs6">Final</a>
+          </div>
+          <div style="display:flex; gap:6px; flex-wrap:wrap;">
+            <button class="bs-btn" id="compactBtn" onclick="toggleCompact()">Nur Lösungen</button>
+            <button class="bs-btn" onclick="toggleAllStations(true)">Alle auf</button>
+            <button class="bs-btn" onclick="toggleAllStations(false)">Alle zu</button>
+          </div>
+        </div>
+      </div>
+
+      <!-- STATION 01 -->
+      <details class="station-bs" id="bs1" open>
+        <summary>
+          <span class="bs-num">01</span>
+          <span class="bs-st-title">
+            <small>Station 01 · Start: N 52° 30.513' E 13° 25.695'</small>
+            <b>Headbangers-Gesetz</b>
+          </span>
+          <span class="bs-pill">A = 188 · B = 5</span>
+          <span style="color:var(--gold);">⌄</span>
+        </summary>
+        <div class="bs-body">
+          <div class="hint-box">
+            <h4>🎤 Souffleur-Kasten</h4>
+            <div class="hint-tier">
+              <div><span class="hint-tag">Schubser 1</span> „Schau dich an den Startkoordinaten mal um – der Hinweis auf die Tageszeit, ab der laut alter Dienstanweisung gefeiert werden darf, hat 15 Buchstaben.“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Schau dich an den Startkoordinaten mal um – der Hinweis auf die Tageszeit, ab der laut alter Dienstanweisung gefeiert werden darf, hat 15 Buchstaben.')">Kopieren</button>
+            </div>
+            <div class="hint-tier">
+              <div><span class="hint-tag">Schubser 2</span> „Wenn die Sonne untergeht, darf offiziell ausgeschenkt werden – das gesuchte Wort ist SONNENUNTERGANG (15 Buchstaben).“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Wenn die Sonne untergeht, darf offiziell ausgeschenkt werden – das gesuchte Wort ist SONNENUNTERGANG (15 Buchstaben).')">Kopieren</button>
+            </div>
+          </div>
+          <div class="sol-box">
+            <h4>📖 Auflösung &amp; Peilung</h4>
+            <p>Gesuchtes Wort vor Ort: <strong>SONNENUNTERGANG</strong> (15 Buchstaben).</p>
+            <div class="math-block">
+              • <strong>A (Wortwert):</strong> 19+15+14+14+5+14+21+14+20+5+18+7+1+14+7 = <strong>188</strong><br>
+              • <strong>B (Häufigster Buchstabe):</strong> <strong>N</strong> kommt <strong>5</strong>-mal vor &rarr; <strong>B = 5</strong><br>
+              • <strong>Peilung Station 02:</strong> 240 Meter · 280 Grad &rarr; <strong>N 52° 30.536' E 013° 25.486'</strong>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- STATION 02 -->
+      <details class="station-bs" id="bs2">
+        <summary>
+          <span class="bs-num">02</span>
+          <span class="bs-st-title">
+            <small>Station 02 · N 52° 30.536' E 013° 25.486'</small>
+            <b>Das Erwachen von Derry</b>
+          </span>
+          <span class="bs-pill">C = 15 · D = 44</span>
+          <span style="color:var(--gold);">⌄</span>
+        </summary>
+        <div class="bs-body">
+          <div class="hint-box">
+            <h4>🎤 Souffleur-Kasten</h4>
+            <div class="hint-tier">
+              <div><span class="hint-tag">Schubser C</span> „Der Junge im gelben Regenmantel hieß George / Georgie. Sowohl 1957 × 6 als auch 1986 × 7 ergeben die Quersumme 15!“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Der Junge im gelben Regenmantel hieß George / Georgie. Sowohl 1957 × 6 als auch 1986 × 7 ergeben die Quersumme 15!')">Kopieren</button>
+            </div>
+            <div class="hint-tier">
+              <div><span class="hint-tag">Schubser D</span> „An den Zielkoordinaten schwebt ein Fahrrad hoch über einer Einfahrt – direkt dort steht die zweistellige Hausnummer.“</div>
+              <button class="copy-btn" onclick="copyText(this, 'An den Zielkoordinaten schwebt ein Fahrrad hoch über einer Einfahrt – direkt dort steht die zweistellige Hausnummer.')">Kopieren</button>
+            </div>
+          </div>
+          <div class="sol-box">
+            <h4>📖 Auflösung</h4>
+            <div class="math-block">
+              • <strong>C = 15</strong> (Quersumme aus 11.742 bzw. 13.902)<br>
+              • <strong>D = 44</strong> (Hausnummer an der Einfahrt mit dem schwebenden Fahrrad)
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- STATION 03 -->
+      <details class="station-bs" id="bs3">
+        <summary>
+          <span class="bs-num">03</span>
+          <span class="bs-st-title">
+            <small>Station 03 · Virtuell &amp; Motörhead</small>
+            <b>Ganz schön sportlich...</b>
+          </span>
+          <span class="bs-pill">E = 49 · F = 8 · G = 1</span>
+          <span style="color:var(--gold);">⌄</span>
+        </summary>
+        <div class="bs-body">
+          <div class="hint-box">
+            <h4>🎤 Souffleur-Kasten</h4>
+            <div class="hint-tier">
+              <div><span class="hint-tag">Schubser E</span> „Kalifornischer Goldrausch 1849 (Forty-Niners) &rarr; E = 49.“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Gesucht ist die zweistellige Zahl des Beginns des kalifornischen Goldrausches (1849 – die Forty-Niners)!')">Kopieren</button>
+            </div>
+            <div class="hint-tier">
+              <div><span class="hint-tag">Schubser F &amp; G</span> „Klick im Listing auf das Wort ‚Album‘! Lemmy Kilmister / Motörhead: ‚Rock ’n’ Roll‘ (1987) ist das 8. Studioalbum (F=8) und Track 1 (G=1).“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Klick im Listing auf das Wort Album! Es geht um Motörhead – Rock ’n’ Roll: F ist die Nummer des Studioalbums in der Diskografie, G ist die Tracknummer des Songs darauf.')">Kopieren</button>
+            </div>
+          </div>
+          <div class="sol-box">
+            <h4>📖 Auflösung</h4>
+            <div class="math-block">
+              • <strong>E = 49</strong> (Goldrausch 1849)<br>
+              • <strong>F = 8</strong> (8. Studioalbum von Motörhead: „Rock ’n’ Roll“)<br>
+              • <strong>G = 1</strong> (Track 1 auf dem Album)
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- STATION 04 -->
+      <details class="station-bs" id="bs4">
+        <summary>
+          <span class="bs-num">04</span>
+          <span class="bs-st-title">
+            <small>Station 04 · what3words</small>
+            <b>Des Anwalts drei Schriftsätze</b>
+          </span>
+          <span class="bs-pill">H = 93</span>
+          <span style="color:var(--gold);">⌄</span>
+        </summary>
+        <div class="bs-body">
+          <div class="hint-box">
+            <h4>🎤 Souffleur-Kasten</h4>
+            <div class="hint-tier">
+              <div><span class="hint-tag">Schubser 1</span> „Die drei 7-buchstabigen Wörter bilden eine what3words-Adresse: ///trauben.auffiel.richter“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Die drei gesuchten Wörter mit je 7 Buchstaben bilden eine what3words-Adresse (wort1.wort2.wort3): ///trauben.auffiel.richter')">Kopieren</button>
+            </div>
+            <div class="hint-tier">
+              <div><span class="hint-tag">Schubser 2</span> „Vorne am Platz vor dem Torbogen steht 92/93 – die richtige Hausnummer der Weinstube im Hinterhof ist 93!“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Vorne am Platz vor dem Torbogen steht 92/93 – geh ruhig durch den Torbogen in die Weinstube, die gesuchte Hausnummer ist 93!')">Kopieren</button>
+            </div>
+          </div>
+          <div class="sol-box">
+            <h4>📖 Auflösung</h4>
+            <div class="math-block">
+              • what3words: <strong>///trauben.auffiel.richter</strong><br>
+              • Hausnummer: <strong>H = 93</strong>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- STATION 05 -->
+      <details class="station-bs" id="bs5">
+        <summary>
+          <span class="bs-num">05</span>
+          <span class="bs-st-title">
+            <small>Station 05 · Virtuell</small>
+            <b>Zurück zu den Wurzeln!</b>
+          </span>
+          <span class="bs-pill">I = 5</span>
+          <span style="color:var(--gold);">⌄</span>
+        </summary>
+        <div class="bs-body">
+          <div class="hint-box">
+            <h4>🎤 Souffleur-Kasten</h4>
+            <div class="hint-tier">
+              <div><span class="hint-tag">Schubser</span> „Gesucht ist die Dreiflüssestadt Passau (Wortwert 77 &rarr; 7+7=14 &rarr; 1+4 = 5).“</div>
+              <button class="copy-btn" onclick="copyText(this, 'Gesucht ist die bayerische Dreiflüssestadt Passau. Bilde den Buchstabenwert (A=1..Z=26) und davon die einstellige Quersumme!')">Kopieren</button>
+            </div>
+          </div>
+          <div class="sol-box">
+            <h4>📖 Auflösung</h4>
+            <div class="math-block">
+              • PASSAU = 16 + 1 + 19 + 19 + 1 + 21 = 77 &rarr; 7+7 = 14 &rarr; 1+4 = <strong>5</strong> &rarr; <strong>I = 5</strong>
+            </div>
+          </div>
+        </div>
+      </details>
+
+      <!-- STATION 06 (FINAL) -->
+      <details class="station-bs" id="bs6" open>
+        <summary>
+          <span class="bs-num">☠</span>
+          <span class="bs-st-title">
+            <small>Das Final · GCBY17R</small>
+            <b>The Final Headbang – Koordinaten</b>
+          </span>
+          <span class="bs-pill">N 52° 30.062 E 013° 20.426</span>
+          <span style="color:var(--gold);">⌄</span>
+        </summary>
+        <div class="bs-body">
+          <div class="sol-box">
+            <h4>📖 Komplettrechnung mit A=188, B=5, C=15, D=44, E=49, F=8, G=1, H=93, I=5</h4>
+            <div class="math-block">
+              • <strong>NORD:</strong> C×2 = <strong>30</strong> | A - H - (D - C/B - F) = 188 - 93 - (44 - 3 - 8) = <strong>062</strong><br>
+              • <strong>OST:</strong>  (E-D)×F/2 = (49-44)×8/2 = <strong>20</strong> | 188+5+44+98-8+1+93+5 = <strong>426</strong>
+            </div>
+            <div class="coords-final">
+              FINAL-KOORDINATEN (GCBY17R):<br>
+              N 52° 30.062' &nbsp; E 013° 20.426'
+            </div>
+          </div>
+        </div>
+      </details>
+    </section>
+
+    <!-- =====================================================
+         TAB 3: REPARATUR-CENTER (DOWNLOADS AUS BRANCH: admin)
+         ===================================================== -->
+    <section id="tab-repair" class="tab-panel">
+      <div class="card gold-border" style="margin-bottom:16px;">
+        <div class="card-head"><span>🛠️ HEADBANGER CACHE REPAIR CENTER</span></div>
+        <p style="font-size:0.9rem; color:#dfd9c8;">
+          Alle Ersatzteile liegen sicher im GitHub-Branch <code>admin</code> bereit. Falls draußen ein Schild, Logbuch oder Dosen-Aufkleber beschädigt wird: Einfach herunterladen und ausdrucken.
+        </p>
+      </div>
+
+      <div id="repairFileList" class="repair-grid"></div>
+    </section>
+
+    <!-- =====================================================
+         TAB 4: CACHER-HILFESEITE / LISTING (cachecopie.html)
+         ===================================================== -->
+    <section id="tab-listing" class="tab-panel">
+      <div class="card">
+        <div class="iframe-toolbar">
+          <div>
+            <div style="font-weight:800; font-size:1.05rem;">🗺️ Cacher-Listing &amp; Rätsel-Ansicht</div>
+            <div style="font-size:0.8rem; color:var(--muted);">Exakt die Oberfläche, die die Cacher unterwegs sehen (<code>cachecopie.html</code>)</div>
+          </div>
+          <a href="cachecopie.html" target="_blank" rel="noopener noreferrer" class="btn-ext">
+            ↗ In neuem Tab öffnen
+          </a>
+        </div>
+        <iframe src="cachecopie.html" class="cache-frame" title="Cacher-Ansicht GCBY17R"></iframe>
+      </div>
+    </section>
+
+  </main>
+
+  <!-- DOWNLOAD-ZEREMONIE OVERLAY -->
+  <div class="overlay" id="downloadOverlay">
+    <div class="modal-box" style="border-color: var(--red);">
+      <div class="headbang-anim">🤘</div>
+      <div class="modal-title" style="color:#ff4558; margin-top:10px;">HEADBANGER REPAIR MODE</div>
+      <p class="modal-text" id="repairMessage">GitHub-Roadie holt die Ersatzteile aus dem Admin-Branch ...</p>
+      <div class="dl-bar-bg">
+        <div class="dl-bar-fill" id="progressBar"></div>
+      </div>
+    </div>
+  </div>
+
+  <!-- LÖSCH-DIALOG FÜR EINZELNEN CACHER -->
+  <div class="overlay" id="deleteSingleModal">
+    <div class="modal-box">
+      <div style="font-size:2.4rem; margin-bottom:6px;">🗑️</div>
+      <div class="modal-title">CACHER AUS DB ENTFERNEN?</div>
+      <p class="modal-text" id="singleCacherText">
+        Möchtest du wirklich alle Einträge dieses Cachers löschen?
+      </p>
+      <div class="modal-btns">
+        <button class="m-btn m-cancel" onclick="closeModal('deleteSingleModal')">Abbrechen</button>
+        <button class="m-btn m-danger" id="confirmSingleDeleteBtn">Cacher löschen</button>
+      </div>
+    </div>
+  </div>
+
+  <!-- 2-STUFIGER LÖSCH-DIALOG FÜR KOMPLETTE STATISTIK -->
+  <div class="overlay" id="deleteAllModal">
+    <div class="modal-box">
+      <div id="delAllStep1">
+        <div style="font-size:2.4rem; margin-bottom:6px;">⚠️</div>
+        <div class="modal-title">KOMPLETTE STATISTIK LÖSCHEN?</div>
+        <p class="modal-text">
+          Alle erfassten Aufrufe und Live-Logs werden unwiderruflich aus Firebase entfernt. Fortfahren?
+        </p>
+        <div class="modal-btns">
+          <button class="m-btn m-cancel" onclick="closeModal('deleteAllModal')">Nein, abbrechen</button>
+          <button class="m-btn m-warn" onclick="goToPasswordStep()">Ja, weiter</button>
+        </div>
+      </div>
+
+      <div id="delAllStep2" style="display:none;">
+        <div style="font-size:2.4rem; margin-bottom:6px;">🔐</div>
+        <div class="modal-title">LÖSCH-PASSWORT EINGEBEN</div>
+        <p class="modal-text">Bitte bestätige mit dem 4-stelligen Lösch-Passwort:</p>
+        <input type="password" id="deletePasswordInput" class="modal-input" inputmode="numeric" maxlength="10" placeholder="••••" onkeydown="if(event.key==='Enter') verifyAndDeleteAll()">
+        <div class="modal-err" id="deleteErrorMsg"></div>
+        <div class="modal-btns">
+          <button class="m-btn m-cancel" onclick="closeModal('deleteAllModal')">Abbrechen</button>
+          <button class="m-btn m-danger" onclick="verifyAndDeleteAll()">Endgültig löschen</button>
+        </div>
+      </div>
+    </div>
+  </div>
+
+<script>
+  /* =========================================================
+     FIREBASE & KONFIGURATION
+     ========================================================= */
+  const LOESCH_PASSWORT = "7691";
+  const RAW_ADMIN_BASE = "https://raw.githubusercontent.com/sprockyland/Headbanger/admin/";
+
+  firebase.initializeApp({
+    databaseURL: "https://headbangerdiplom-default-rtdb.europe-west1.firebasedatabase.app/"
+  });
+  const db = firebase.database();
+
+  const BEKANNTE_CACHER = {
+    "Cacher-5PID": "👑 Christian"
+  };
+
+  const INTRO_ITEMS = [
+    { badge: "👑", key: "Christian öffnet seine Startsite", sub: "VIP-Intro geöffnet" },
+    { badge: "▶️", key: "Christian startet den Cache", sub: "Start-Button geklickt" },
+    { badge: "🚀", key: "Einstieg Startseite", sub: "Weiterleitung" },
+    { badge: "📜", key: "Hauptseite Start", sub: "Listing / Cache-Oberfläche" },
+    { badge: "🏮", key: "LaternenCode erfasst", sub: "Buchstabensalat / QR" }
+  ];
+
+  const STATION_ITEMS = [
+    { badge: "1️⃣", key: "Station 1 check", sub: "Headbangers-Gesetz" },
+    { badge: "2️⃣", key: "Station 2 check", sub: "Erwachen von Derry" },
+    { badge: "3️⃣", key: "Station 3 check", sub: "Ganz schön sportlich" },
+    { badge: "4️⃣", key: "Station 4 check", sub: "Des Anwalts 3 Worte" },
+    { badge: "5️⃣", key: "Station 5 check", sub: "Zurück zu den Wurzeln" },
+    { badge: "☠️", key: "Station 6 check", sub: "Das Final erreicht" }
+  ];
+
+  const FINAL_ITEMS = [
+    { badge: "🎵", key: "MBox Seite", sub: "Jukebox geöffnet" },
+    { badge: "🔓", key: "MBox Code 49 check", sub: "Code 49 geknackt" },
+    { badge: "💡", key: "MBox Hinweis check", sub: "Hinweis F & G frei" },
+    { badge: "🎓", key: "Diplom Seite", sub: "Ehrenurkunde geöffnet" },
+    { badge: "🏅", key: "Urkunde geöffnet", sub: "URKUNDE.png aufgerufen" },
+    { badge: "✍️", key: "Gästebuch Eintrag", sub: "Rock-'n'-Roll-Gruß hinterlassen" }
+  ];
+
+  const ALL_KEYS = [
+    ...INTRO_ITEMS.map(i => i.key),
+    ...STATION_ITEMS.map(i => i.key),
+    ...FINAL_ITEMS.map(i => i.key)
+  ];
+
+  let gesamterVerlauf = [];
+  let aktuellerStatsSnapshot = {};
+  let pendingDeleteRawId = null;
+  let pendingDeleteDisplayName = "";
+
+  /* =========================================================
+     TAB-NAVIGATION
+     ========================================================= */
+  function switchTab(tabId, btnEl) {
+    document.querySelectorAll('.tab-panel').forEach(p => p.classList.remove('active'));
+    document.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+    document.getElementById(tabId).classList.add('active');
+    btnEl.classList.add('active');
+    window.scrollTo({ top: 0, behavior: 'smooth' });
+  }
+
+  /* =========================================================
+     HILFSFUNKTIONEN
+     ========================================================= */
+  function formatShortDateTime(raw) {
+    if (!raw) return "";
+    const parts = raw.split(", ");
+    return parts.length > 1 ? `${parts[0].slice(0, 6)} ${parts[1].slice(0, 5)}` : raw;
+  }
+
+  function formatDuration(diffMs) {
+    const diffSec = Math.max(0, Math.floor(diffMs / 1000));
+    const tage = Math.floor(diffSec / 86400);
+    const std = Math.floor((diffSec % 86400) / 3600);
+    const min = Math.floor((diffSec % 3600) / 60);
+    const sek = diffSec % 60;
+    if (tage > 0) return `${tage}T ${std}h ${min}m`;
+    if (std > 0) return `${std}h ${min}m`;
+    if (min > 0) return `${min}m ${sek}s`;
+    return `${sek}s`;
+  }
+
+  function escapeHtml(str) {
+    return String(str ?? "").replace(/[&<>"']/g, m => ({
+      "&": "&amp;", "<": "&lt;", ">": "&gt;", '"': "&quot;", "'": "&#39;"
+    }[m]));
+  }
+
+  function renderStageList(containerId, items, statsData) {
+    const container = document.getElementById(containerId);
+    container.innerHTML = items.map(item => {
+      const node = statsData[item.key] || {};
+      const cnt = Number(node.aufrufe || 0);
+      const logs = node.logs ? Object.values(node.logs) : [];
+      logs.sort((a, b) => (b.timestamp || 0) - (a.timestamp || 0));
+      const last = logs[0] || {};
+      const kurzZeit = formatShortDateTime(last.zeitpunkt || "");
+      const rawId = last.besucherId || "";
+      const who = BEKANNTE_CACHER[rawId] || rawId;
+
+      return `
+        <div class="stage-row">
+          <div class="stage-icon">${item.badge}</div>
+          <div>
+            <div class="stage-name ${cnt > 0 ? 'done' : ''}">${item.key}</div>
+            <div class="stage-sub">${item.sub}${who ? ' · ' + escapeHtml(who) : ''}</div>
+          </div>
+          <div class="stage-status">
+            ${cnt > 0
+              ? `<div class="badge-cnt">🟢 ${cnt}×</div>${kurzZeit ? `<div class="badge-time">${kurzZeit}</div>` : ''}`
+              : `<div class="badge-cnt zero">⚪ 0×</div>`
+            }
+          </div>
+        </div>
+      `;
+    }).join("");
+  }
+
+  /* =========================================================
+     FIREBASE LIVE-LISTENER
+     ========================================================= */
+  db.ref("statistik").on("value", (snapshot) => {
+    const data = snapshot.val() || {};
+    aktuellerStatsSnapshot = data;
+
+    renderStageList("listIntro", INTRO_ITEMS, data);
+    renderStageList("listStations", STATION_ITEMS, data);
+    renderStageList("listFinal", FINAL_ITEMS, data);
+
+    let totalActions = 0;
+    let stationsDone = 0;
+    let maxCnt = 1;
+    gesamterVerlauf = [];
+
+    const cacherMap = new Map(); // rawId -> { rawId, displayName, events: [] }
+
+    let latestTele = {
+      cacher: "", ort: "Berlin (DE)", device: "", os: "",
+      browser: "", hardware: "", display: "", akku: "", netzwerk: ""
+    };
+
+    STATION_ITEMS.forEach(st => {
+      if (data[st.key] && Number(data[st.key].aufrufe || 0) > 0) stationsDone++;
+    });
+
+    Object.keys(data).forEach(k => {
+      const node = data[k];
+      if (!node || typeof node !== "object") return;
+      const c = Number(node.aufrufe || 0);
+      if (ALL_KEYS.includes(k)) {
+        totalActions += c;
+        if (c > maxCnt) maxCnt = c;
+      }
+
+      if (node.logs && typeof node.logs === "object") {
+        Object.entries(node.logs).forEach(([logKey, log]) => {
+          if (!log || typeof log !== "object") return;
+          let rawId = log.besucherId || "";
+          if (!rawId && k.includes("Christian")) rawId = "Cacher-5PID";
+          const normRawId = rawId || "__UNBEKANNT__";
+          const displayId = BEKANNTE_CACHER[rawId] || (rawId || "Unbekannt");
+
+          const evObj = {
+            logKey,
+            seite: k,
+            ts: Number(log.timestamp || 0),
+            zeitpunkt: log.zeitpunkt || "-",
+            rawId: normRawId,
+            besucherId: displayId,
+            geraet: log.geraet || "-",
+            modell: log.modell || "",
+            os: log.os || "",
+            browser: log.browser || "",
+            aufloesung: log.aufloesung || "",
+            hardware: log.hardware || "",
+            akku: log.akku || "",
+            netzwerk: log.netzwerk || "",
+            ort: log.ort || "",
+            sprache: log.sprache || "",
+            alleSprachen: log.alleSprachen || "",
+            zeitzone: log.zeitzone || "",
+            referrer: log.referrer || ""
+          };
+
+          gesamterVerlauf.push(evObj);
+
+          if (!cacherMap.has(normRawId)) {
+            cacherMap.set(normRawId, {
+              rawId: normRawId,
+              displayName: displayId,
+              events: []
+            });
+          }
+          cacherMap.get(normRawId).events.push(evObj);
+
+          if (displayId && displayId !== "k.A." && displayId !== "Unbekannt") latestTele.cacher = displayId;
+          if (log.geraet && log.geraet !== "k.A.") latestTele.device = log.geraet;
+          if (log.os && log.os !== "k.A.") latestTele.os = log.os;
+          if (log.browser && log.browser !== "k.A.") latestTele.browser = log.browser;
+          if (log.ort && log.ort !== "k.A.") latestTele.ort = log.ort;
+          if (log.hardware && log.hardware !== "k.A.") latestTele.hardware = log.hardware;
+          if (log.aufloesung && log.aufloesung !== "k.A.") latestTele.display = log.aufloesung.split(" (")[0];
+          if (log.akku && log.akku !== "k.A.") latestTele.akku = log.akku;
+          if (log.netzwerk && log.netzwerk !== "k.A.") latestTele.netzwerk = log.netzwerk;
+        });
+      }
+    });
+
+    // KPIs & Fortschritt
+    document.getElementById("kpiTotal").textContent = totalActions;
+    document.getElementById("kpiStations").textContent = `${stationsDone} / 6`;
+    document.getElementById("kpiStatus").textContent =
+      stationsDone === 6 ? "🏆 FINAL!" : (totalActions > 0 ? "🔥 AKTIV" : "⏳ BEREIT");
+
+    const pct = Math.round((stationsDone / 6) * 100);
+    document.getElementById("progressLabel").textContent = `Tour-Fortschritt (${pct}%):`;
+    document.querySelectorAll("#progressBlocks .p-block").forEach((b, idx) => {
+      b.classList.toggle("active", idx < stationsDone * 2);
+    });
+
+    const newestFirst = [...gesamterVerlauf].sort((a, b) => b.ts - a.ts);
+
+    const alertBox = document.getElementById("latestAlertBox");
+    if (newestFirst.length > 0) {
+      const lastEv = newestFirst[0];
+      alertBox.className = "live-alert";
+      alertBox.innerHTML = `
+        <div class="alert-title">⚡ Letzte Aktion: ${escapeHtml(lastEv.seite)}</div>
+        <div class="alert-meta">🕒 ${escapeHtml(lastEv.zeitpunkt)} · 📱 ${escapeHtml(lastEv.geraet)} · 👤 <strong>${escapeHtml(lastEv.besucherId)}</strong></div>
+      `;
+    } else {
+      alertBox.className = "live-alert info";
+      alertBox.innerHTML = `
+        <div class="alert-title">⏳ Warte auf den Startschuss</div>
+        <div class="alert-meta">Noch keine Zugriffe registriert.</div>
+      `;
+    }
+
+    // Telemetrie
+    document.getElementById("teleCacher").textContent = latestTele.cacher || "Unbekannt";
+    document.getElementById("teleOrt").textContent = latestTele.ort || "Berlin (DE)";
+    document.getElementById("teleOs").textContent =
+      (latestTele.os || latestTele.device || "-") + (latestTele.browser ? ` · ${latestTele.browser}` : "");
+    document.getElementById("teleHw").textContent =
+      (latestTele.hardware || "Standard") + (latestTele.display ? ` · ${latestTele.display}` : "");
+
+    if (latestTele.akku || latestTele.netzwerk) {
+      document.getElementById("teleAkkuWrap").style.display = "block";
+      document.getElementById("teleNetWrap").style.display = "block";
+      document.getElementById("teleAkku").textContent = latestTele.akku || "k.A.";
+      document.getElementById("teleNet").textContent = latestTele.netzwerk || "Mobil / WLAN";
+    }
+
+    // Cacher-Liste sortieren (👑 Christian oben, danach nach letzter Aktivität)
+    const cacherList = Array.from(cacherMap.values()).map(c => {
+      c.events.sort((a, b) => a.ts - b.ts);
+      c.lastTs = c.events[c.events.length - 1]?.ts || 0;
+      return c;
+    });
+
+    cacherList.sort((a, b) => {
+      if (a.rawId === "Cacher-5PID") return -1;
+      if (b.rawId === "Cacher-5PID") return 1;
+      return b.lastTs - a.lastTs;
+    });
+
+    const timesContainer = document.getElementById("cacherTimesList");
+    timesContainer.innerHTML = cacherList.map(c => {
+      const evs = c.events;
+      const startTs = evs[0].ts;
+      const diplomEv = evs.find(e => e.seite === "Diplom Seite");
+      const endTs = diplomEv ? diplomEv.ts : evs[evs.length - 1].ts;
+      const totalStr = formatDuration(endTs - startTs);
+
+      const stepsHtml = evs.map((st, idx) => {
+        const deltaStr = idx === 0 ? "START" : "+" + formatDuration(st.ts - startTs);
+        const cls = idx === 0 ? "start" : (st.seite === "Diplom Seite" ? "diplom" : "");
+        const label = st.seite === "Diplom Seite" ? `🎓 <strong>${escapeHtml(st.seite)}</strong>` : `• ${escapeHtml(st.seite)}`;
+        return `
+          <div class="step-item">
+            <div>${label} <span class="step-time-small">(${formatShortDateTime(st.zeitpunkt)})</span></div>
+            <div class="step-delta ${cls}">${deltaStr}</div>
+          </div>
+        `;
+      }).join("");
+
+      const safeRawAttr = escapeHtml(c.rawId);
+      const safeNameAttr = escapeHtml(c.displayName);
+
+      return `
+        <details class="cacher-box">
+          <summary>
+            <span class="summary-left"><strong>${safeNameAttr}</strong></span>
+            <span style="white-space:nowrap;">
+              ${diplomEv
+                ? `🏆 <strong>${totalStr}</strong> <span style="font-size:0.72rem; color:#00e676;">(Diplom)</span>`
+                : `⏳ <strong>${totalStr}</strong> <span style="font-size:0.72rem; color:var(--muted);">(${evs.length})</span>`
+              }
+            </span>
+          </summary>
+          <div class="cacher-detail-body">
+            <div class="cacher-toolbar">
+              <span style="font-size:0.73rem; color:var(--muted);">ID: ${safeRawAttr === "__UNBEKANNT__" ? "Ohne ID" : safeRawAttr}</span>
+              <button class="btn-del-cacher" data-raw="${safeRawAttr}" data-name="${safeNameAttr}" onclick="promptDeleteSingleCacher(this)">
+                🗑️ Cacher aus DB löschen
+              </button>
+            </div>
+            ${stepsHtml}
+          </div>
+        </details>
+      `;
+    }).join("") || `<div style="font-size:0.82rem; color:var(--muted);">Noch keine Cacher-Einträge vorhanden.</div>`;
+
+    // Balkendiagramm
+    document.getElementById("topBarsList").innerHTML = ALL_KEYS.map(k => {
+      const cnt = data[k] ? Number(data[k].aufrufe || 0) : 0;
+      if (cnt <= 0) return "";
+      const activeSq = Math.ceil((cnt / maxCnt) * 8);
+      let sqHtml = "";
+      for (let i = 0; i < 8; i++) sqHtml += `<span class="sq ${i < activeSq ? 'on' : ''}"></span>`;
+      return `
+        <div class="bar-row">
+          <div class="bar-name">${k}</div>
+          <div class="bar-right">
+            <div class="mini-squares">${sqHtml}</div>
+            <div class="bar-cnt">${cnt}×</div>
+          </div>
+        </div>
+      `;
+    }).join("");
+
+    // Live-Timeline (letzte 15)
+    document.getElementById("timelineList").innerHTML = newestFirst.slice(0, 15).map((ev, idx) => `
+      <div class="tl-row">
+        <div class="tl-time">${formatShortDateTime(ev.zeitpunkt)}</div>
+        <div>
+          <div>${idx === 0 ? `🔥 <strong>${escapeHtml(ev.seite)}</strong>` : `• ${escapeHtml(ev.seite)}`}</div>
+          <div class="tl-who">↳ ${escapeHtml(ev.besucherId)} · ${escapeHtml(ev.geraet)}</div>
+        </div>
+      </div>
+    `).join("");
+  }, (err) => {
+    document.getElementById("connStatus").textContent = "OFFLINE / FEHLER";
+    console.error(err);
+  });
+
+  /* =========================================================
+     EINZELNEN CACHER AUS FIREBASE LÖSCHEN
+     ========================================================= */
+  function promptDeleteSingleCacher(btn) {
+    pendingDeleteRawId = btn.getAttribute("data-raw");
+    pendingDeleteDisplayName = btn.getAttribute("data-name");
+    document.getElementById("singleCacherText").innerHTML =
+      `Möchtest du alle Log-Einträge von <strong>${escapeHtml(pendingDeleteDisplayName)}</strong> wirklich aus der Datenbank entfernen?<br><br><small style="color:#a49eb3;">Die Aufruf-Zähler der Stationen werden dabei automatisch korrigiert.</small>`;
+    document.getElementById("deleteSingleModal").classList.add("active");
+  }
+
+  document.getElementById("confirmSingleDeleteBtn").addEventListener("click", async () => {
+    if (!pendingDeleteRawId) return;
+    const targetRaw = pendingDeleteRawId;
+    closeModal("deleteSingleModal");
+
+    try {
+      const updates = {};
+      Object.keys(aktuellerStatsSnapshot).forEach(seitenKey => {
+        const node = aktuellerStatsSnapshot[seitenKey];
+        if (!node || typeof node !== "object") return;
+        const logs = node.logs || {};
+        let remainingCount = 0;
+        let removedInNode = 0;
+
+        Object.entries(logs).forEach(([logKey, log]) => {
+          let logRaw = (log && log.besucherId) ? log.besucherId : "";
+          if (!logRaw && seitenKey.includes("Christian")) logRaw = "Cacher-5PID";
+          const normLogRaw = logRaw || "__UNBEKANNT__";
+
+          if (normLogRaw === targetRaw) {
+            updates[`statistik/${seitenKey}/logs/${logKey}`] = null;
+            removedInNode++;
+          } else {
+            remainingCount++;
+          }
+        });
+
+        if (removedInNode > 0) {
+          updates[`statistik/${seitenKey}/aufrufe`] = remainingCount;
+        }
+      });
+
+      if (Object.keys(updates).length > 0) {
+        await db.ref().update(updates);
+      }
+    } catch (e) {
+      alert("❌ Fehler beim Löschen des Cachers: " + e.message);
+    }
+  });
+
+  /* =========================================================
+     KOMPLETTE STATISTIK LÖSCHEN (2-STUFIG MIT PASSWORT 7691)
+     ========================================================= */
+  function openDeleteAllModal() {
+    document.getElementById("delAllStep1").style.display = "block";
+    document.getElementById("delAllStep2").style.display = "none";
+    document.getElementById("deletePasswordInput").value = "";
+    document.getElementById("deleteErrorMsg").textContent = "";
+    document.getElementById("deleteAllModal").classList.add("active");
+  }
+
+  function goToPasswordStep() {
+    document.getElementById("delAllStep1").style.display = "none";
+    document.getElementById("delAllStep2").style.display = "block";
+    const inp = document.getElementById("deletePasswordInput");
+    inp.value = "";
+    inp.focus();
+  }
+
+  function verifyAndDeleteAll() {
+    const pw = document.getElementById("deletePasswordInput").value.trim();
+    if (pw !== LOESCH_PASSWORT) {
+      document.getElementById("deleteErrorMsg").textContent = "⛔ Falsches Lösch-Passwort!";
+      document.getElementById("deletePasswordInput").value = "";
+      document.getElementById("deletePasswordInput").focus();
+      return;
+    }
+    closeModal("deleteAllModal");
+    db.ref("statistik").remove()
+      .then(() => alert("✅ Alle Statistik-Einträge wurden gelöscht."))
+      .catch(err => alert("❌ Fehler beim Löschen: " + err.message));
+  }
+
+  function closeModal(id) {
+    document.getElementById(id).classList.remove("active");
+  }
+
+  document.addEventListener("keydown", e => {
+    if (e.key === "Escape") {
+      closeModal("deleteSingleModal");
+      closeModal("deleteAllModal");
+    }
+  });
+
+  /* =========================================================
+     CSV-EXPORT FÜR EXCEL
+     ========================================================= */
+  function exportCSV() {
+    if (gesamterVerlauf.length === 0) {
+      alert("Noch keine Daten zum Exportieren vorhanden.");
+      return;
+    }
+    const header = [
+      "Datum & Uhrzeit", "Station / Seite", "Besucher-ID", "Gerät",
+      "Gerätemodell", "Betriebssystem", "Browser", "Bildschirmauflösung",
+      "Hardware", "Akku", "Netzwerk", "Ort", "Sprache", "Zeitzone", "Referrer"
+    ];
+    const esc = v => `"${String(v ?? "").replace(/"/g, '""')}"`;
+    const sorted = [...gesamterVerlauf].sort((a, b) => b.ts - a.ts);
+    const lines = [header.map(esc).join(";")];
+
+    sorted.forEach(e => {
+      lines.push([
+        e.zeitpunkt, e.seite, e.besucherId, e.geraet, e.modell,
+        e.os, e.browser, e.aufloesung, e.hardware, e.akku,
+        e.netzwerk, e.ort, e.sprache, e.zeitzone, e.referrer
+      ].map(esc).join(";"));
+    });
+
+    const text = lines.join("\r\n");
+    const bytes = new Uint8Array(text.length);
+    for (let i = 0; i < text.length; i++) {
+      const code = text.charCodeAt(i);
+      bytes[i] = code <= 255 ? code : 63;
+    }
+    const blob = new Blob([bytes], { type: "text/csv;charset=windows-1252;" });
+    const url = URL.createObjectURL(blob);
+    const a = document.createElement("a");
+    a.href = url;
+    a.download = `Headbanger_Statistik_${new Date().toISOString().slice(0, 10)}.csv`;
+    document.body.appendChild(a);
+    a.click();
+    a.remove();
+    URL.revokeObjectURL(url);
+  }
+
+  /* =========================================================
+     BACKSTAGE HELPER
+     ========================================================= */
+  function toggleAllStations(openState) {
+    document.querySelectorAll("details.station-bs").forEach(d => d.open = openState);
+  }
+
+  function toggleCompact() {
+    const isCompact = document.body.classList.toggle("compact-mode");
+    document.getElementById("compactBtn").textContent = isCompact ? "Mit Hints" : "Nur Lösungen";
+  }
+
+  function copyText(btn, text) {
+    navigator.clipboard.writeText(text).then(() => {
+      const orig = btn.textContent;
+      btn.textContent = "Kopiert! ✓";
+      btn.style.borderColor = "#00e676";
+      btn.style.color = "#00e676";
+      setTimeout(() => {
+        btn.textContent = orig;
+        btn.style.borderColor = "";
+        btn.style.color = "";
+      }, 1700);
+    });
+  }
+
+  /* =========================================================
+     REPARATUR-DATEIEN (AUS BRANCH: admin)
+     ========================================================= */
+  const REPAIR_FILES = [
+    { name: "DosenBild-IN.png", type: "PNG-Grafik", icon: "🥫", desc: "Das Innenleben der Final-Dose. Begrüßt den Cacher beim Öffnen des Deckels." },
+    { name: "DosenBild-OUT.png", type: "PNG-Grafik", icon: "🎸", desc: "Die Außenhaut der Final-Cache-Dose – das Bühnenoutfit des Finals." },
+    { name: "Eintrittskarte.jpg", type: "JPG-Grafik", icon: "🎫", desc: "Christians persönliche Eintrittskarte als Reserve-Druckvorlage." },
+    { name: "FINAL-Code.png", type: "PNG-Grafik", icon: "🔐", desc: "Der Final-Code für Plan B als digitale Notfallration." },
+    { name: "LaternenSchild.png", type: "PNG-Grafik", icon: "💡", desc: "Das Schild direkt am ver.di-Haus (Station 01)." },
+    { name: "LOGBUCH-DB.jpg", type: "JPG-Grafik", icon: "📕", desc: "Das Deckblatt für das Logbuch." },
+    { name: "LogBuch-Druck.jpg", type: "JPG-Grafik", icon: "📖", desc: "Rundum-sorglos-Paket fürs Logbuch: Deckblatt plus Blankoseiten." },
+    { name: "LogBuch-Druck-blanko.jpg", type: "JPG-Grafik", icon: "📝", desc: "Frische Blankoseiten zum Nachheften fürs Logbuch." },
+    { name: "URKUNDE2.png", type: "PNG-Grafik", icon: "🏆", desc: "Die digitale Ausgabe von Christians Ehrenurkunde." }
+  ];
+
+  const repairGrid = document.getElementById("repairFileList");
+  REPAIR_FILES.forEach(f => {
+    const el = document.createElement("div");
+    el.className = "repair-item";
+    el.innerHTML = `
+      <div class="repair-top">
+        <div class="repair-ico">${f.icon}</div>
+        <div>
+          <div class="repair-name">${f.name}</div>
+          <div class="repair-type">${f.type} · Branch: admin</div>
+        </div>
+      </div>
+      <div class="repair-desc">${f.desc}</div>
+      <button class="btn-dl" onclick="startRepairDownload('${f.name}')">⬇ REPARATURDATEI LADEN</button>
+    `;
+    repairGrid.appendChild(el);
+  });
+
+  function startRepairDownload(filename) {
+    const overlay = document.getElementById("downloadOverlay");
+    const msg = document.getElementById("repairMessage");
+    const bar = document.getElementById("progressBar");
+    overlay.classList.add("active");
+    bar.style.width = "0%";
+    msg.textContent = "GitHub-Roadie holt Ersatzteile aus dem admin-Branch ...";
+
+    const sprueche = [
+      "Defekte Bits werden aus dem Moshpit entfernt ...",
+      "Cache wird mit 120 Dezibel repariert ...",
+      "Final-Dose bekommt digitales Erste-Hilfe-Material ...",
+      "Logbuch-Roadies stehen bereit ..."
+    ];
+
+    let val = 0;
+    const t = setInterval(() => {
+      val = Math.min(100, val + Math.floor(Math.random() * 22) + 12);
+      bar.style.width = val + "%";
+      if (Math.random() > 0.5) msg.textContent = sprueche[Math.floor(Math.random() * sprueche.length)];
+      if (val >= 100) {
+        clearInterval(t);
+        msg.textContent = "🤘 REPARATURMATERIAL BEREIT. DOWNLOAD!";
+        setTimeout(() => {
+          const link = document.createElement("a");
+          link.href = RAW_ADMIN_BASE + encodeURIComponent(filename);
+          link.download = filename;
+          link.target = "_blank";
+          document.body.appendChild(link);
+          link.click();
+          link.remove();
+          overlay.classList.remove("active");
+        }, 550);
+      }
+    }, 140);
+  }
+</script>
+</body>
+</html>
