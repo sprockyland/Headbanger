@@ -1,49 +1,50 @@
-# 🤘 Headbanger Owner-Zentrale – GCBY17R
+# 🤘 Headbangers Rock ’n’ Rente – GCBY17R (System- & Backstage-Bereich)
 
-Willkommen im Backstage- und Verwaltungsbereich des Geocaches **„Headbangers Rock ’n’ Rente“ (GCBY17R)**.
+Willkommen im Projekt- und Verwaltungsbereich für den Mystery-Multi-Geocache **„Headbangers Rock ’n’ Rente“ (GCBY17R)** – gewidmet **Christian aka *Headbanger*** zu seinem wohlverdienten (Un)Ruhestand.
 
 > **Hinweis zum Einstieg:**  
-> Der reguläre Start für Cacher vor Ort läuft wie gewohnt über den **normalen Zugang** (das offizielle Geocaching-Listing bzw. den Einstiegs-QR-Code).  
-> Dieser Bereich hier ist ausschließlich als **Owner-Kommandozentrale** für Christian aka *Headbanger* gedacht.
+> Der reguläre Start für Cacher vor Ort läuft über den **normalen Zugang** (`index.html` bzw. das offizielle Geocaching-Listing).  
+> Die weiteren Dateien in diesem Bereich bilden das **Backstage-, Reparatur- und Live-Radar-System** rund um den Cache.
 
 ---
 
 ## 🎸 Was ist hier los & was findest du hier?
 
-Die **Owner-Zentrale (`owner-zentrale.html`)** bündelt alle Werkzeuge zur Überwachung, Pflege und Unterstützung des Caches an einem Ort – optimiert für Smartphone und Desktop:
+### 1. 🚪 Cacher-Zugang & Cache-Oberfläche
+* **`index.html` (Start- & Telemetrie-Weiche):**  
+  Der reguläre Einstiegspunkt für Cacher (über QR-Code oder Direktaufruf). Erzeugt eine anonyme Besucher-ID (`Cacher-XXXX`), erfasst technische Eckdaten (Gerätetyp, OS, Browser, Auflösung, Netzwerk/Akku, Geo-IP) in der Firebase-Realtime-Database und leitet automatisch zur Hauptseite weiter.
+* **`Headbangers_Cache.html` (Interaktives Cache-Listing):**  
+  Die eigentliche Tour-Oberfläche für unterwegs – inklusive interaktiver Stations-Checklisten (`01` bis `06` / Final), Fortschrittsbalken, Vollbild-Modus, Geochecker-Link und Live-Tracking der abgeschlossenen Stationen.
 
-### 1. 📡 Live-Radar & Datenbank-Verwaltung
-* **Echtzeit-Status:** Live-Anzeige aller Stationen (1–6), Einstiege, MusicBox-Aktionen und Diplom-Aufrufe direkt aus der Firebase-Datenbank.
-* **Tour-Zeiten & Cacher-Protokolle:** Detaillierte Übersicht, wer wann an welcher Station war und wie lange die Tour gedauert hat.
-* **Datenpflege & Schutz:** Einzelne Test- oder Abbrecher-Einträge lassen sich gezielt aus der Statistik bereinigen (mit doppelter Sicherheitsabfrage). **Christians eigene VIP-Logs (`Cacher-5PID`) sind dauerhaft vor dem Löschen geschützt.**
-* **CSV-Export:** Komplett-Export aller Telemetrie- und Verlaufsdaten für Excel.
+### 2. 📖 Backstage-Lösungsbuch (`backstage_2.html`)
+* **Variablen-Spickzettel:** Alle Lösungswerte (`A` bis `I`) auf einen Blick (`A=188`, `B=5`, `C=15`, `D=44`, `E=49`, `F=8`, `G=1`, `H=93`, `I=5`).
+* **Christians Souffleur-Kasten:** Abgestufte, vorgefertigte Schubs-Tipps pro Station mit **1-Klick-Kopierfunktion** für schnelle Hilfe per Nachricht.
+* **Komplette Herleitung & Hintergrundwissen:** Alle Buchstabenwerte, Peilungen, *what3words*-Koordinaten (`///trauben.auffiel.richter`), Backstage-Anekdoten sowie die schrittweise Final-Berechnung (`N 52° 30.062' E 013° 20.426'`).
+* **Smart-Display-Modus:** Umschalter für „Nur Lösungen“ (blendet Hints aus) sowie „Alle auf / Alle zu“.
 
-### 2. 📖 Souffleur- & Lösungsbuch
-* **Variablen-Spickzettel:** Alle gesuchten Werte (`A` bis `I`) sowie die Final-Koordinaten auf einen Blick.
-* **Abgestufte Hints (Kopier-Buttons):** Vorgefertigte Schubs-Tipps pro Station zum direkten Kopieren für WhatsApp- oder Geocaching-Nachrichten, falls draußen mal jemand festhängt.
-* **Komplette Herleitung:** Schritt-für-Schritt-Rechenweg bis zum Final.
+### 3. 🛠️ Cache Repair Center (`reparatur_2.html`)
+* **Notfallbesteck für den Außeneinsatz:** Direkter Download aller Druckvorlagen und Grafik-Assets aus dem `admin`-Branch, falls vor Ort etwas beschädigt wird oder verschwindet:
+  * **Station 01:** `LaternenSchild.png`
+  * **Final-Dose:** `DosenBild-IN.png`, `DosenBild-OUT.png`, `FINAL-Code.png`
+  * **Logbuch-Set:** `LOGBUCH-DB.jpg`, `LogBuch-Druck.jpg`, `LogBuch-Druck-blanko.jpg`
+  * **Erinnerungsstücke:** `Eintrittskarte.jpg`, `URKUNDE2.png`
+* Enthält außerdem einen Direktlink zum Backstage-Lösungsbuch.
 
-### 3. 🛠️ Reparatur-Center (Ersatzteile)
-* Direkter Download aller Druckvorlagen und Grafik-Assets aus dem `admin`-Branch, falls draußen ein Schild, Aufkleber oder das Logbuch erneuert werden muss:
-  * `LaternenSchild.png` (Station 01)
-  * `DosenBild-IN.png` & `DosenBild-OUT.png` (Final-Dose)
-  * `LOGBUCH-DB.jpg`, `LogBuch-Druck.jpg` & `LogBuch-Druck-blanko.jpg`
-  * `FINAL-Code.png`, `Eintrittskarte.jpg` & `URKUNDE2.png`
-
-### 4. 🎓 Logbuch-Wall & Diplom (`hd-diplom.html`)
-* Direkte Live-Ansicht der Ehrenurkunde und des digitalen Gästebuchs im **Owner-Modus (`?owner=1`)**, sodass eigene Kontrollbesuche **nicht** in der Besucher-Statistik mitgezählt werden.
-
-### 5. 🗺️ Cache-Kopie (`cachecopie.html`)
-* Vollständige Ansicht des Cache-Listings als Kopie (über den Tab oder den Schnell-Button oben rechts) – ebenfalls komplett ohne Statistik-Zähler.
+### 4. 📡 Live-Radar & Statistik-Auswertung
+* **`siteradar_2.html` (Echtzeit-Dashboard):**  
+  Übersichtliches Live-Radar für Desktop und Smartphone. Zeigt Gesamtaktionen, Stationsfortschritt, den aktuellen Status, aufklappbare **Tour-Zeiten pro Cacher** (inkl. VIP-Erkennung für `Cacher-5PID` / Christian), Top-Aktivitäten und eine Live-Timeline.
+* **`stat-headb-2026_2.html` (Admin-Statistik & Excel-Export):**  
+  PIN-geschützte Detail-Konsole mit allen erfassten Einzelevents, technischen Telemetrie-Details pro Aufruf, **CSV-Export für Excel** (Windows-1252-kodiert) sowie einer 2-stufig passwortgeschützten Löschfunktion zum Bereinigen der Datenbank.
 
 ---
 
-## 📁 Dateistruktur in diesem Bereich
+## 📁 Dateiübersicht
 
-| Datei | Funktion |
-| :--- | :--- |
-| `owner-zentrale.html` | Haupt-Dashboard mit Live-Radar, Lösungsbuch, Reparatur-Center, Logbuch & Cache-Kopie |
-| `cachecopie.html` | Listing-Kopie zum Nachlesen ohne Zählfunktion |
-| `hd-diplom.html` | Diplom- und Gästebuch-Ansicht (mit `?owner=1` zählfrei) |
-| `manifest-owner.json` | Web-App-Manifest für den Startbildschirm-Shortcut am Smartphone |
-| `logo-cache.png` | Cache-Logo & App-Icon |
+| Datei | Rolle / Bereich | Beschreibung |
+| :--- | :--- | :--- |
+| `index.html` | **Normaler Zugang** | Einstiegsseite mit Besucher-Tracking & automatischer Weiterleitung |
+| `Headbangers_Cache.html` | **Cacher-Tour** | Hauptseite mit allen 6 Stationen, Fortschrittsanzeige & Geochecker |
+| `backstage_2.html` | **Owner-Backstage** | Komplettes Lösungsbuch, Variablen-Spickzettel & Kopier-Hints |
+| `reparatur_2.html` | **Wartung & Ersatzteile** | Download-Center für Schilder, Dosen-Aufkleber, Logbücher & Urkunde |
+| `siteradar_2.html` | **Live-Monitoring** | Echtzeit-Radar mit Stationsstatus, Cacher-Tourzeiten & Timeline |
+| `stat-headb-2026_2.html` | **Admin-Konsole** | PIN-geschützte Gesamtstatistik, Detail-Logs & CSV-Export |
