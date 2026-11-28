@@ -24,11 +24,6 @@
 
     <!-- =========================================================
          SCHRIFTARTEN
-         Verbindung zu Google Fonts wird vorbereitet.
-         Verwendet werden:
-         - Cinzel
-         - Metal Mania
-         - Roboto Slab
          ========================================================= -->
 
     <link rel="preconnect" href="https://fonts.googleapis.com">
@@ -41,30 +36,11 @@
 
 
     <!-- =========================================================
-         FIREBASE
-         Firebase wird für das digitale Gästebuch und die
-         Live-Statistik verwendet.
-
-         firebase-app:
-         Stellt die grundlegende Firebase-Funktionalität bereit.
-
-         firebase-database:
-         Ermöglicht den Zugriff auf die Firebase Realtime Database.
-
-         "defer" sorgt dafür, dass die JavaScript-Dateien erst
-         ausgeführt werden, nachdem das HTML eingelesen wurde.
+         FIREBASE & EMAILJS
          ========================================================= -->
 
     <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-app-compat.js"></script>
     <script defer src="https://www.gstatic.com/firebasejs/9.22.0/firebase-database-compat.js"></script>
-
-
-    <!-- =========================================================
-         EMAILJS
-         Wird verwendet, um nach einem neuen Gästebucheintrag
-         eine E-Mail-Benachrichtigung zu verschicken.
-         ========================================================= -->
-
     <script defer src="https://cdn.jsdelivr.net/npm/@emailjs/browser@3/dist/email.min.js"></script>
 
 
@@ -72,9 +48,6 @@
 
         /* =========================================================
            ZENTRALE FARBEN UND EFFEKTE
-
-           CSS-Variablen für Farben und Effekte, die auf der
-           gesamten Webseite verwendet werden.
            ========================================================= */
 
         :root {
@@ -89,7 +62,6 @@
             --muted:#b5a58c;
             --line:rgba(213,170,94,.34);
 
-            /* Rötlicher Leuchteffekt */
             --glow:
                 0 0 12px rgba(213,20,41,.55),
                 0 0 30px rgba(178,14,33,.22);
@@ -120,8 +92,7 @@
 
 
         /* =========================================================
-           HINTERGRUND
-           Dunkler Verlauf mit rotem Lichtschein.
+           HINTERGRUND & ATMOSPHÄRE
            ========================================================= */
 
         body:before {
@@ -143,11 +114,6 @@
                 );
         }
 
-
-        /* =========================================================
-           RAUSCHTEXTUR
-           ========================================================= */
-
         .noise {
             position:fixed;
             inset:0;
@@ -159,11 +125,6 @@
                 "data:image/svg+xml,%3Csvg viewBox='0 0 180 180' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='n'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='.82' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23n)' opacity='.4'/%3E%3C/svg%3E"
             );
         }
-
-
-        /* =========================================================
-           NEBEL-EFFEKT IM HINTERGRUND
-           ========================================================= */
 
         .fog {
             position:fixed;
@@ -1037,7 +998,7 @@
 
                 </div>
 
-                <!-- Link zur Urkunde mit Klick-Statistik -->
+                <!-- Link zur Urkunde mit Klick-Statistik (im Owner-Modus deaktiviert) -->
                 <a
                     class="cta"
                     id="urkundeLink"
@@ -1258,6 +1219,10 @@
             const urkundeLink =
                 document.getElementById('urkundeLink');
 
+            /* Prüfen, ob die Seite aus der Owner-Zentrale (?owner=1) aufgerufen wird */
+            const istOwnerAnsicht =
+                new URLSearchParams(window.location.search).get('owner') === '1';
+
 
             const firebaseConfig = {
                 databaseURL:
@@ -1289,7 +1254,7 @@
                ===================================================== */
 
             function trackEvent(eventName) {
-                if (!database) return;
+                if (!database || istOwnerAnsicht) return;
 
                 const istHandy = /Mobi|Android|iPhone/i.test(navigator.userAgent)
                     ? 'Smartphone'
@@ -1332,11 +1297,13 @@
                 firebase.initializeApp(firebaseConfig);
                 database = firebase.database();
 
-                /* Seitenaufruf der Diplom-Seite in der Statistik zählen */
-                trackEvent('Diplom Seite');
+                /* Seitenaufruf der Diplom-Seite nur zählen, wenn es KEIN Owner-Aufruf ist */
+                if (!istOwnerAnsicht) {
+                    trackEvent('Diplom Seite');
+                }
 
-                /* Klick auf den Urkunden-Button ebenfalls erfassen */
-                if (urkundeLink) {
+                /* Klick auf den Urkunden-Button ebenfalls nur für echte Cacher erfassen */
+                if (urkundeLink && !istOwnerAnsicht) {
                     urkundeLink.addEventListener('click', function() {
                         trackEvent('Urkunde geöffnet');
                     });
@@ -1407,8 +1374,10 @@
                                         .TIMESTAMP
                             });
 
-                        /* Neuen Gästebucheintrag zusätzlich im Live-Radar vermerken */
-                        trackEvent('Gästebuch Eintrag');
+                        /* Neuen Gästebucheintrag zusätzlich im Live-Radar vermerken (außer im Owner-Modus) */
+                        if (!istOwnerAnsicht) {
+                            trackEvent('Gästebuch Eintrag');
+                        }
 
                         if (typeof emailjs !== 'undefined') {
 
