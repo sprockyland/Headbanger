@@ -1,0 +1,24 @@
+{
+  "name": "Headbanger Owner-Zentrale",
+  "short_name": "GCBY17R Owner",
+  "description": "Live-Radar, Lösungsbuch, Cache-Listing & Reparatur-Center für GCBY17R",
+  "start_url": "./owner-zentrale.html",
+  "display": "standalone",
+  "background_color": "#09080f",
+  "theme_color": "#09080f",
+  "orientation": "any",
+  "icons": [
+    {
+      "src": "logo-cache.png",
+      "sizes": "192x192",
+      "type": "image/png",
+      "purpose": "any maskable"
+    },
+    {
+      "src": "logo-cache.png",
+      "sizes": "512x512",
+      "type": "image/png",
+      "purpose": "any maskable"
+    }
+  ]
+}
