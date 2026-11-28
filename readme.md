@@ -1,16 +1,23 @@
+# 🛑 HALT! SPOILER-WARNUNG FÜR GEOCACHER!
+
+> **⚠️ NICHT WEITER RUMSCHNÜFFELN! ⚠️**  
+> Solltest du als Cacher zufällig über dieses GitHub-Repository gestolpert sein: **Mach hier sofort wieder zu!**  
+> Da GitHub öffentlich einsehbar ist, liegen hier auch Backstage-Dateien, Lösungen, Koordinaten-Herleitungen und Hinweise für den Cache-Owner. Wer hier weiterliest oder in den Dateien stöbert, **beschummelt sich nur selbst** und verdirbt sich den ganzen Rätsel- und Tour-Spaß!  
+> **Macht das nicht!** 🤘  
+>  
+> 👉 **Der normale, faire Start für Cacher geht über den regulären Zugang (`index.html` bzw. das offizielle Geocaching-Listing GCBY17R).**
+
+---
+
 # 🤘 Headbangers Rock ’n’ Rente – GCBY17R (System- & Backstage-Bereich)
 
-Willkommen im Projekt- und Verwaltungsbereich für den Mystery-Multi-Geocache **„Headbangers Rock ’n’ Rente“ (GCBY17R)** – gewidmet **Christian aka *Headbanger*** zu seinem wohlverdienten (Un)Ruhestand.
-
-> **Hinweis zum Einstieg:**  
-> Der reguläre Start für Cacher vor Ort läuft über den **normalen Zugang** (`index.html` bzw. das offizielle Geocaching-Listing).  
-> Die weiteren Dateien in diesem Bereich bilden das **Backstage-, Reparatur- und Live-Radar-System** rund um den Cache.
+Projekt-, System- und Verwaltungsbereich für den Mystery-Multi-Geocache **„Headbangers Rock ’n’ Rente“ (GCBY17R)** – gewidmet **Christian aka *Headbanger*** zu seinem wohlverdienten (Un)Ruhestand.
 
 ---
 
 ## 🎸 Was ist hier los & was findest du hier?
 
-### 1. 🚪 Cacher-Zugang & Cache-Oberfläche
+### 1. 🚪 Normaler Cacher-Zugang & Cache-Oberfläche
 * **`index.html` (Start- & Telemetrie-Weiche):**  
   Der reguläre Einstiegspunkt für Cacher (über QR-Code oder Direktaufruf). Erzeugt eine anonyme Besucher-ID (`Cacher-XXXX`), erfasst technische Eckdaten (Gerätetyp, OS, Browser, Auflösung, Netzwerk/Akku, Geo-IP) in der Firebase-Realtime-Database und leitet automatisch zur Hauptseite weiter.
 * **`Headbangers_Cache.html` (Interaktives Cache-Listing):**  
